@@ -14,7 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      crisis_alerts: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          created_at: string
+          id: string
+          matched_keywords: string[]
+          severity: string
+          submission_id: string | null
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          id?: string
+          matched_keywords?: string[]
+          severity?: string
+          submission_id?: string | null
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          id?: string
+          matched_keywords?: string[]
+          severity?: string
+          submission_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crisis_alerts_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "submissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      submissions: {
+        Row: {
+          category: string | null
+          contact_email: string | null
+          contact_name: string | null
+          content: string
+          created_at: string
+          id: string
+          is_anonymous: boolean
+          pastoral_response: string | null
+          responded_at: string | null
+          risk_flagged: boolean
+          risk_keywords: string[] | null
+          status: Database["public"]["Enums"]["submission_status"]
+          tracking_token: string
+          type: Database["public"]["Enums"]["submission_type"]
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          pastoral_response?: string | null
+          responded_at?: string | null
+          risk_flagged?: boolean
+          risk_keywords?: string[] | null
+          status?: Database["public"]["Enums"]["submission_status"]
+          tracking_token: string
+          type: Database["public"]["Enums"]["submission_type"]
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          pastoral_response?: string | null
+          responded_at?: string | null
+          risk_flagged?: boolean
+          risk_keywords?: string[] | null
+          status?: Database["public"]["Enums"]["submission_status"]
+          tracking_token?: string
+          type?: Database["public"]["Enums"]["submission_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +114,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      submission_status:
+        | "received"
+        | "in_review"
+        | "being_prayed_for"
+        | "pastor_assigned"
+        | "responded"
+        | "resolved"
+      submission_type: "confession" | "prayer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +248,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      submission_status: [
+        "received",
+        "in_review",
+        "being_prayed_for",
+        "pastor_assigned",
+        "responded",
+        "resolved",
+      ],
+      submission_type: ["confession", "prayer"],
+    },
   },
 } as const
