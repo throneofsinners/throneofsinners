@@ -31,6 +31,12 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <Link
+            to="/auth"
+            className="ml-1 rounded-md border border-border/60 px-3 py-2 text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:border-gold/40 hover:text-ivory"
+          >
+            Stewards
+          </Link>
         </nav>
       </div>
     </header>
