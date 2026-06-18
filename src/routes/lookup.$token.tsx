@@ -123,19 +123,22 @@ function LookupTokenPage() {
           </div>
 
           <div className="altar-card p-6">
-            <h2 className="font-serif text-xl text-ivory">Pastoral response</h2>
+            <h2 className="font-serif text-xl text-ivory">Pastoral responses</h2>
             <div className="gold-rule my-3" />
-            {state.row.pastoral_response ? (
-              <>
-                <p className="whitespace-pre-wrap font-serif text-lg leading-relaxed text-ivory">
-                  {state.row.pastoral_response}
-                </p>
-                {state.row.responded_at && (
-                  <p className="mt-4 text-xs text-muted-foreground">
-                    Responded {new Date(state.row.responded_at).toLocaleString()}
-                  </p>
-                )}
-              </>
+            {state.row.responses && state.row.responses.length > 0 ? (
+              <ul className="space-y-5">
+                {state.row.responses.map((r) => (
+                  <li key={r.id}>
+                    <p className="whitespace-pre-wrap font-serif text-lg leading-relaxed text-ivory">{r.body}</p>
+                    {r.scripture_reference && (
+                      <p className="mt-2 font-serif italic text-gold">— {r.scripture_reference}</p>
+                    )}
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      {r.author_display_name ?? "A pastor"} · {new Date(r.created_at).toLocaleString()}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             ) : (
               <p className="text-muted-foreground">
                 A pastor has not yet responded. You will see their reply here as
@@ -144,6 +147,7 @@ function LookupTokenPage() {
               </p>
             )}
           </div>
+
         </div>
       )}
     </PageShell>
