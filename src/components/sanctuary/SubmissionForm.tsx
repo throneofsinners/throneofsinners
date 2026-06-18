@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { createSubmission } from "@/lib/submissions.functions";
-import { TokenDisplay } from "./TokenDisplay";
+import { ThroneReveal } from "./ThroneReveal";
 import { Loader2 } from "lucide-react";
 
 type Props = {
@@ -69,33 +69,11 @@ export function SubmissionForm({
 
   if (result) {
     return (
-      <div className="space-y-6">
-        <div className="altar-card p-6 text-center">
-          <p className="font-serif text-2xl text-ivory">You have been heard.</p>
-          <div className="gold-rule my-4" />
-          <p className="text-sm text-muted-foreground">
-            Your {type === "confession" ? "confession" : "prayer request"} has
-            entered the sanctuary. A pastor will respond as soon as they are
-            able.
-          </p>
-        </div>
-        <TokenDisplay token={result.token} />
-        {result.flagged && (
-          <div
-            role="alert"
-            className="rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm text-ivory"
-          >
-            <p className="font-medium text-destructive-foreground">
-              We see you, and we want you safe.
-            </p>
-            <p className="mt-1 text-muted-foreground">
-              Your message has been routed for priority pastoral and safeguarding
-              review. If you are in immediate danger, please use the crisis
-              numbers at the top of the page now.
-            </p>
-          </div>
-        )}
-      </div>
+      <ThroneReveal
+        type={type}
+        token={result.token}
+        flagged={result.flagged}
+      />
     );
   }
 

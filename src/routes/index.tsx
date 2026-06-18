@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Flame, HandHeart, ScrollText, KeyRound } from "lucide-react";
+import { SanctuaryScene } from "@/components/sanctuary/SanctuaryScene";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,44 +25,46 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className="mx-auto max-w-6xl px-4">
-      {/* Hero */}
-      <section className="relative pt-16 pb-20 sm:pt-24 sm:pb-28 text-center">
-        <Flame
-          aria-hidden
-          className="mx-auto h-12 w-12 text-gold flicker drop-shadow-[0_0_24px_rgba(212,175,55,0.55)]"
-        />
-        <p className="mt-6 text-xs uppercase tracking-[0.4em] text-gold/80">
-          Enter the sanctuary
-        </p>
-        <h1 className="mx-auto mt-4 max-w-3xl font-serif text-5xl leading-[1.05] text-ivory sm:text-7xl">
-          <span className="gold-text">Approach the throne</span>
-          <br />
-          of grace.
-        </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          A confidential place to confess, to ask for prayer, and to be heard
-          by people who will care for you with reverence. Anonymously, if you
-          choose.
-        </p>
+      {/* Hero — the sanctuary */}
+      <section className="relative isolate -mx-4 overflow-hidden px-4">
+        <SanctuaryScene />
+        <div className="relative z-10 pt-20 pb-28 text-center sm:pt-32 sm:pb-36">
+          <Flame
+            aria-hidden
+            className="mx-auto h-12 w-12 text-gold flicker drop-shadow-[0_0_28px_rgba(212,175,55,0.65)]"
+          />
+          <p className="mt-6 text-[11px] uppercase tracking-[0.45em] text-gold/80">
+            Enter the place of grace
+          </p>
+          <h1 className="mx-auto mt-5 max-w-3xl font-serif text-5xl leading-[1.02] text-ivory sm:text-7xl">
+            <span className="gold-text">Approach the throne</span>
+            <br />
+            of grace.
+          </h1>
+          <p className="mx-auto mt-7 max-w-xl text-lg text-ivory/80">
+            Your burdens are safe here. Your voice is heard. Your healing
+            matters.
+          </p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            to="/confess"
-            className="candle-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-7 py-3 font-serif text-lg text-primary-foreground transition-transform hover:scale-[1.02] sm:w-auto"
-          >
-            Make a Confession
-          </Link>
-          <Link
-            to="/prayer"
-            className="inline-flex w-full items-center justify-center rounded-md border border-gold/40 bg-secondary/60 px-7 py-3 font-serif text-lg text-ivory transition-colors hover:bg-gold/10 sm:w-auto"
-          >
-            Request Prayer
-          </Link>
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              to="/confess"
+              className="candle-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-7 py-3 font-serif text-lg text-primary-foreground transition-transform hover:scale-[1.02] sm:w-auto"
+            >
+              Share Your Burden
+            </Link>
+            <Link
+              to="/prayer"
+              className="inline-flex w-full items-center justify-center rounded-md border border-gold/40 bg-secondary/40 px-7 py-3 font-serif text-lg text-ivory backdrop-blur-sm transition-colors hover:bg-gold/10 sm:w-auto"
+            >
+              Request Prayer
+            </Link>
+          </div>
+
+          <p className="mt-8 text-xs text-muted-foreground">
+            Encrypted · Anonymous by default · Pastor-reviewed
+          </p>
         </div>
-
-        <p className="mt-6 text-xs text-muted-foreground">
-          Encrypted · Anonymous by default · Pastor-reviewed
-        </p>
       </section>
 
       <div className="gold-rule mx-auto max-w-md" />

@@ -171,5 +171,25 @@
   0%   { transform: translateY(0) translateX(0); opacity: 0; }
   10%  { opacity: 0.6; }
   90%  { opacity: 0.4; }
-  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+  100% { transform: translateY(-100vh) translateX(var(--drift, 20px)); opacity: 0; }
 }
+
+@keyframes shaft-breathe {
+  0%, 100% { opacity: 0.85; filter: blur(8px); }
+  50%      { opacity: 1;    filter: blur(10px); }
+}
+
+@keyframes throne-fade {
+  0%   { opacity: 0; transform: translateY(8px); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(0);   filter: blur(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flicker,
+  [style*="dust-drift"],
+  [style*="shaft-breathe"],
+  [style*="throne-fade"] {
+    animation: none !important;
+  }
+}
+
