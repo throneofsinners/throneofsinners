@@ -19,12 +19,15 @@ type Props = {
   motes?: number;
   /** Visual intensity 0–1 of the heavenly light shafts. Default 1. */
   lightIntensity?: number;
+  /** Optional photographic background image URL to use instead of the CSS cathedral. */
+  imageUrl?: string;
 };
 
 export function SanctuaryScene({
   throne = true,
   motes = 28,
   lightIntensity = 1,
+  imageUrl,
 }: Props) {
   const dust = useMemo(
     () =>
