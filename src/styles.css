@@ -66,29 +66,29 @@
   --background: var(--obsidian);
   --foreground: var(--ivory);
 
-  --card: oklch(0.16 0.015 268);
+  --card: oklch(0.1 0.012 268);
   --card-foreground: var(--ivory);
 
-  --popover: oklch(0.16 0.015 268);
+  --popover: oklch(0.1 0.012 268);
   --popover-foreground: var(--ivory);
 
   --primary: var(--gold);
-  --primary-foreground: oklch(0.15 0.01 270);
+  --primary-foreground: oklch(0.08 0.01 270);
 
-  --secondary: oklch(0.22 0.02 265);
+  --secondary: oklch(0.14 0.018 265);
   --secondary-foreground: var(--ivory);
 
-  --muted: oklch(0.2 0.015 265);
-  --muted-foreground: oklch(0.72 0.02 80);
+  --muted: oklch(0.12 0.012 265);
+  --muted-foreground: oklch(0.65 0.02 80);
 
-  --accent: oklch(0.25 0.03 60);
+  --accent: oklch(0.18 0.025 60);
   --accent-foreground: var(--ivory);
 
-  --destructive: oklch(0.55 0.2 25);
+  --destructive: oklch(0.5 0.2 25);
   --destructive-foreground: var(--ivory);
 
-  --border: oklch(0.3 0.025 80 / 35%);
-  --input: oklch(0.22 0.02 265);
+  --border: oklch(0.28 0.025 80 / 28%);
+  --input: oklch(0.14 0.018 265);
   --ring: var(--gold);
 }
 
