@@ -48,95 +48,117 @@ export function SanctuaryScene({
       className="pointer-events-none absolute inset-0 overflow-hidden"
       style={{ contain: "strict" }}
     >
-      {/* Deep vault gradient */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(120% 70% at 50% 110%, color-mix(in oklab, var(--midnight) 80%, transparent) 0%, transparent 60%), radial-gradient(80% 50% at 50% -10%, color-mix(in oklab, var(--gold) 8%, transparent), transparent 70%)",
-        }}
-      />
-
-      {/* Engraved scripture pattern — extremely subtle */}
-      <div
-        className="absolute inset-0 opacity-[0.05] mix-blend-screen"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='220'><text x='0' y='40' font-family='Georgia, serif' font-style='italic' font-size='18' fill='%23D4AF37'>grace · mercy · peace · refuge · hope · light · </text><text x='40' y='110' font-family='Georgia, serif' font-style='italic' font-size='18' fill='%23D4AF37'>come boldly · be still · he hears · </text><text x='-20' y='180' font-family='Georgia, serif' font-style='italic' font-size='18' fill='%23D4AF37'>kyrie eleison · sanctus · </text></svg>\")",
-          backgroundSize: "520px 320px",
-        }}
-      />
-
-      {/* Stone floor */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-[28%]"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent, color-mix(in oklab, var(--bronze) 22%, var(--obsidian)) 80%)",
-          maskImage:
-            "linear-gradient(180deg, transparent, black 40%)",
-        }}
-      />
-
-      {/* Gold filigree on the floor — a single horizon line */}
-      <svg
-        className="absolute inset-x-0 bottom-[26%] mx-auto h-6 w-full opacity-60"
-        viewBox="0 0 1200 24"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <linearGradient id="filigree" x1="0" x2="1">
-            <stop offset="0" stopColor="var(--gold)" stopOpacity="0" />
-            <stop offset=".5" stopColor="var(--gold)" stopOpacity=".7" />
-            <stop offset="1" stopColor="var(--gold)" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M0 12 H1200"
-          stroke="url(#filigree)"
-          strokeWidth="1"
-        />
-        <g fill="none" stroke="url(#filigree)" strokeWidth="1">
-          {Array.from({ length: 13 }).map((_, i) => (
-            <path
-              key={i}
-              d={`M${60 + i * 90} 12 c 10 -8 30 -8 40 0 c -10 8 -30 8 -40 0 z`}
-            />
-          ))}
-        </g>
-      </svg>
-
-      {/* Pillars — left + right pairs, receding */}
-      <Pillar side="left" offset={4} height={92} width={7} />
-      <Pillar side="left" offset={14} height={80} width={5.5} dim />
-      <Pillar side="left" offset={22} height={70} width={4} dim />
-      <Pillar side="right" offset={4} height={92} width={7} />
-      <Pillar side="right" offset={14} height={80} width={5.5} dim />
-      <Pillar side="right" offset={22} height={70} width={4} dim />
-
-      {/* Heavenly light shafts from above */}
-      <div
-        className="absolute inset-x-0 top-0 h-full"
-        style={{ opacity: lightIntensity }}
-      >
-        <LightShaft x="38%" w="14%" tilt={-6} delay={0} />
-        <LightShaft x="50%" w="18%" tilt={0} delay={1.4} strong />
-        <LightShaft x="62%" w="12%" tilt={6} delay={2.6} />
-      </div>
-
-      {/* Distant throne glow */}
-      {throne && (
-        <div className="absolute inset-x-0 bottom-[26%] flex justify-center">
+      {imageUrl ? (
+        <>
+          {/* Photographic sanctuary background */}
+          <img
+            src={imageUrl}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: "50% 40%" }}
+          />
+          {/* Subtle top glow to blend into page */}
           <div
-            className="h-40 w-72 sm:h-56 sm:w-[28rem]"
+            className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse at 50% 100%, color-mix(in oklab, var(--gold) 55%, transparent) 0%, color-mix(in oklab, var(--gold) 18%, transparent) 35%, transparent 70%)",
-              filter: "blur(2px)",
-              animation: "candle-flicker 6.5s ease-in-out infinite",
+                "radial-gradient(80% 50% at 50% -10%, color-mix(in oklab, var(--gold) 10%, transparent), transparent 70%)",
             }}
           />
-        </div>
+        </>
+      ) : (
+        <>
+          {/* Deep vault gradient */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(120% 70% at 50% 110%, color-mix(in oklab, var(--midnight) 80%, transparent) 0%, transparent 60%), radial-gradient(80% 50% at 50% -10%, color-mix(in oklab, var(--gold) 8%, transparent), transparent 70%)",
+            }}
+          />
+
+          {/* Engraved scripture pattern — extremely subtle */}
+          <div
+            className="absolute inset-0 opacity-[0.05] mix-blend-screen"
+            style={{
+              backgroundImage:
+                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='220'><text x='0' y='40' font-family='Georgia, serif' font-style='italic' font-size='18' fill='%23D4AF37'>grace · mercy · peace · refuge · hope · light · </text><text x='40' y='110' font-family='Georgia, serif' font-style='italic' font-size='18' fill='%23D4AF37'>come boldly · be still · he hears · </text><text x='-20' y='180' font-family='Georgia, serif' font-style='italic' font-size='18' fill='%23D4AF37'>kyrie eleison · sanctus · </text></svg>\")",
+              backgroundSize: "520px 320px",
+            }}
+          />
+
+          {/* Stone floor */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-[28%]"
+            style={{
+              background:
+                "linear-gradient(180deg, transparent, color-mix(in oklab, var(--bronze) 22%, var(--obsidian)) 80%)",
+              maskImage:
+                "linear-gradient(180deg, transparent, black 40%)",
+            }}
+          />
+
+          {/* Gold filigree on the floor — a single horizon line */}
+          <svg
+            className="absolute inset-x-0 bottom-[26%] mx-auto h-6 w-full opacity-60"
+            viewBox="0 0 1200 24"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <linearGradient id="filigree" x1="0" x2="1">
+                <stop offset="0" stopColor="var(--gold)" stopOpacity="0" />
+                <stop offset=".5" stopColor="var(--gold)" stopOpacity=".7" />
+                <stop offset="1" stopColor="var(--gold)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0 12 H1200"
+              stroke="url(#filigree)"
+              strokeWidth="1"
+            />
+            <g fill="none" stroke="url(#filigree)" strokeWidth="1">
+              {Array.from({ length: 13 }).map((_, i) => (
+                <path
+                  key={i}
+                  d={`M${60 + i * 90} 12 c 10 -8 30 -8 40 0 c -10 8 -30 8 -40 0 z`}
+                />
+              ))}
+            </g>
+          </svg>
+
+          {/* Pillars — left + right pairs, receding */}
+          <Pillar side="left" offset={4} height={92} width={7} />
+          <Pillar side="left" offset={14} height={80} width={5.5} dim />
+          <Pillar side="left" offset={22} height={70} width={4} dim />
+          <Pillar side="right" offset={4} height={92} width={7} />
+          <Pillar side="right" offset={14} height={80} width={5.5} dim />
+          <Pillar side="right" offset={22} height={70} width={4} dim />
+
+          {/* Heavenly light shafts from above */}
+          <div
+            className="absolute inset-x-0 top-0 h-full"
+            style={{ opacity: lightIntensity }}
+          >
+            <LightShaft x="38%" w="14%" tilt={-6} delay={0} />
+            <LightShaft x="50%" w="18%" tilt={0} delay={1.4} strong />
+            <LightShaft x="62%" w="12%" tilt={6} delay={2.6} />
+          </div>
+
+          {/* Distant throne glow */}
+          {throne && (
+            <div className="absolute inset-x-0 bottom-[26%] flex justify-center">
+              <div
+                className="h-40 w-72 sm:h-56 sm:w-[28rem]"
+                style={{
+                  background:
+                    "radial-gradient(ellipse at 50% 100%, color-mix(in oklab, var(--gold) 55%, transparent) 0%, color-mix(in oklab, var(--gold) 18%, transparent) 35%, transparent 70%)",
+                  filter: "blur(2px)",
+                  animation: "candle-flicker 6.5s ease-in-out infinite",
+                }}
+              />
+            </div>
+          )}
+        </>
       )}
 
       {/* Floating dust motes */}
@@ -157,12 +179,13 @@ export function SanctuaryScene({
         />
       ))}
 
-      {/* Vignette */}
+      {/* Vignette — stronger when using a photo to guarantee text contrast */}
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "radial-gradient(120% 80% at 50% 40%, transparent 40%, color-mix(in oklab, var(--obsidian) 85%, transparent) 100%)",
+          background: imageUrl
+            ? "radial-gradient(120% 80% at 50% 40%, transparent 30%, color-mix(in oklab, var(--obsidian) 92%, transparent) 100%)"
+            : "radial-gradient(120% 80% at 50% 40%, transparent 40%, color-mix(in oklab, var(--obsidian) 85%, transparent) 100%)",
         }}
       />
     </div>
