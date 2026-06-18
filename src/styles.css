@@ -106,9 +106,9 @@
 
   body {
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, color-mix(in oklab, var(--gold) 10%, transparent), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 50% 110%, color-mix(in oklab, var(--bronze) 15%, transparent), transparent 60%),
-      linear-gradient(180deg, var(--obsidian), var(--midnight) 60%, var(--obsidian));
+      radial-gradient(ellipse 70% 45% at 50% -10%, color-mix(in oklab, var(--gold) 6%, transparent), transparent 65%),
+      radial-gradient(ellipse 55% 35% at 50% 110%, color-mix(in oklab, var(--bronze) 8%, transparent), transparent 65%),
+      linear-gradient(180deg, var(--obsidian), var(--midnight) 55%, var(--obsidian));
     background-attachment: fixed;
     min-height: 100dvh;
   }
