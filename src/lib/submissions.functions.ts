@@ -80,10 +80,19 @@ export const getSubmissionByToken = createServerFn({ method: "POST" })
     const { data: row, error } = await supabaseAdmin
       .from("submissions")
       .select(
-        "tracking_token, type, category, status, pastoral_response, responded_at, created_at"
+        "id, tracking_token, type, category, status, pastoral_response, responded_at, created_at"
       )
       .eq("tracking_token", data.token)
       .maybeSingle();
     if (error) throw new Error(error.message);
-    return row;
+    if (!row) return null;
+
+    const { data: responses } = await supabaseAdmin
+      .from("pastoral_responses")
+      .select("id, body, scripture_reference, author_display_name, created_at")
+      .eq("submission_id", row.id)
+      .eq("is_internal_note", false)
+      .order("created_at", { ascending: true });
+
+    return { ...row, responses: responses ?? [] };
   });
