@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "author", content: "The Throne Room" },
       { name: "theme-color", content: "#0A0A0A" },
-      { property: "og:title", content: "The Throne Room" },
+      { property: "og:title", content: "The Throne Room — A sanctuary for confession, prayer & pastoral care" },
       {
         property: "og:description",
         content:
@@ -91,6 +91,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "The Throne Room — A sanctuary for confession, prayer & pastoral care" },
+      { name: "description", content: "The Throne Room is a secure digital sanctuary for confession, prayer, counseling, and pastoral care." },
+      { property: "og:description", content: "The Throne Room is a secure digital sanctuary for confession, prayer, counseling, and pastoral care." },
+      { name: "twitter:description", content: "The Throne Room is a secure digital sanctuary for confession, prayer, counseling, and pastoral care." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/yz1NU0ZfgUfPqw1WMfgqq0EFx5g2/social-images/social-1781815462236-ChatGPT_Image_Jun_18,_2026,_09_03_39_PM.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/yz1NU0ZfgUfPqw1WMfgqq0EFx5g2/social-images/social-1781815462236-ChatGPT_Image_Jun_18,_2026,_09_03_39_PM.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
