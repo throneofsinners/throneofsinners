@@ -1,8 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { listSubmissions } from "@/lib/admin.functions";
+
 
 const STATUSES = ["all","received","in_review","being_prayed_for","pastor_assigned","responded","resolved"] as const;
 const TYPES = ["all","confession","prayer"] as const;
@@ -13,11 +14,13 @@ export const Route = createFileRoute("/_authenticated/inbox")({
 });
 
 function Inbox() {
+  const navigate = useNavigate();
   const listFn = useServerFn(listSubmissions);
   const [status, setStatus] = useState<(typeof STATUSES)[number]>("all");
   const [type, setType] = useState<(typeof TYPES)[number]>("all");
   const [riskOnly, setRiskOnly] = useState(false);
   const [q, setQ] = useState("");
+
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["inbox", status, type, riskOnly, q],
@@ -68,9 +71,13 @@ function Inbox() {
               <tr><td colSpan={5} className="px-3 py-6 text-muted-foreground">No submissions match.</td></tr>
             )}
             {data?.map((s) => (
-              <tr key={s.id} className={`border-t border-border/60 hover:bg-secondary/40 ${s.risk_flagged ? "bg-red-950/20" : ""}`}>
+              <tr
+                key={s.id}
+                onClick={() => navigate({ to: "/inbox/$id", params: { id: s.id } })}
+                className={`cursor-pointer border-t border-border/60 transition-colors hover:bg-secondary/40 ${s.risk_flagged ? "bg-red-950/20" : ""}`}
+              >
                 <td className="px-3 py-2">
-                  <Link to="/inbox/$id" params={{ id: s.id }} className="font-mono text-xs text-gold hover:underline">
+                  <Link to="/inbox/$id" params={{ id: s.id }} onClick={(e) => e.stopPropagation()} className="font-mono text-xs text-gold hover:underline">
                     {s.tracking_token}
                   </Link>
                 </td>

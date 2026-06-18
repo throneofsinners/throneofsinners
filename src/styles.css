@@ -56,39 +56,39 @@
 :root {
   --radius: 0.375rem;
 
-  --obsidian: oklch(0.12 0.005 270);
-  --midnight: oklch(0.18 0.025 265);
-  --gold: oklch(0.78 0.13 86);
-  --gold-soft: oklch(0.86 0.08 86);
+  --obsidian: oklch(0.07 0.004 270);
+  --midnight: oklch(0.11 0.018 265);
+  --gold: oklch(0.74 0.12 86);
+  --gold-soft: oklch(0.82 0.08 86);
   --bronze: oklch(0.5 0.07 60);
   --ivory: oklch(0.96 0.01 85);
 
   --background: var(--obsidian);
   --foreground: var(--ivory);
 
-  --card: oklch(0.16 0.015 268);
+  --card: oklch(0.1 0.012 268);
   --card-foreground: var(--ivory);
 
-  --popover: oklch(0.16 0.015 268);
+  --popover: oklch(0.1 0.012 268);
   --popover-foreground: var(--ivory);
 
   --primary: var(--gold);
-  --primary-foreground: oklch(0.15 0.01 270);
+  --primary-foreground: oklch(0.08 0.01 270);
 
-  --secondary: oklch(0.22 0.02 265);
+  --secondary: oklch(0.14 0.018 265);
   --secondary-foreground: var(--ivory);
 
-  --muted: oklch(0.2 0.015 265);
-  --muted-foreground: oklch(0.72 0.02 80);
+  --muted: oklch(0.12 0.012 265);
+  --muted-foreground: oklch(0.65 0.02 80);
 
-  --accent: oklch(0.25 0.03 60);
+  --accent: oklch(0.18 0.025 60);
   --accent-foreground: var(--ivory);
 
-  --destructive: oklch(0.55 0.2 25);
+  --destructive: oklch(0.5 0.2 25);
   --destructive-foreground: var(--ivory);
 
-  --border: oklch(0.3 0.025 80 / 35%);
-  --input: oklch(0.22 0.02 265);
+  --border: oklch(0.28 0.025 80 / 28%);
+  --input: oklch(0.14 0.018 265);
   --ring: var(--gold);
 }
 
@@ -106,9 +106,9 @@
 
   body {
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, color-mix(in oklab, var(--gold) 10%, transparent), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 50% 110%, color-mix(in oklab, var(--bronze) 15%, transparent), transparent 60%),
-      linear-gradient(180deg, var(--obsidian), var(--midnight) 60%, var(--obsidian));
+      radial-gradient(ellipse 70% 45% at 50% -10%, color-mix(in oklab, var(--gold) 6%, transparent), transparent 65%),
+      radial-gradient(ellipse 55% 35% at 50% 110%, color-mix(in oklab, var(--bronze) 8%, transparent), transparent 65%),
+      linear-gradient(180deg, var(--obsidian), var(--midnight) 55%, var(--obsidian));
     background-attachment: fixed;
     min-height: 100dvh;
   }
