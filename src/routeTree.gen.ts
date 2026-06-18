@@ -13,8 +13,17 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrayerRouteImport } from './routes/prayer'
 import { Route as LookupRouteImport } from './routes/lookup'
 import { Route as ConfessRouteImport } from './routes/confess'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LookupTokenRouteImport } from './routes/lookup.$token'
+import { Route as AuthenticatedInboxRouteImport } from './routes/_authenticated/inbox'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedChambersRouteImport } from './routes/_authenticated/chambers'
+import { Route as AuthenticatedInboxIdRouteImport } from './routes/_authenticated/inbox.$id'
+import { Route as AuthenticatedChambersIdRouteImport } from './routes/_authenticated/chambers.$id'
+import { Route as AuthenticatedAdminInvitesRouteImport } from './routes/_authenticated/admin.invites'
+import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -36,6 +45,15 @@ const ConfessRoute = ConfessRouteImport.update({
   path: '/confess',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -46,61 +64,149 @@ const LookupTokenRoute = LookupTokenRouteImport.update({
   path: '/$token',
   getParentRoute: () => LookupRoute,
 } as any)
+const AuthenticatedInboxRoute = AuthenticatedInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedChambersRoute = AuthenticatedChambersRouteImport.update({
+  id: '/chambers',
+  path: '/chambers',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedInboxIdRoute = AuthenticatedInboxIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedInboxRoute,
+} as any)
+const AuthenticatedChambersIdRoute = AuthenticatedChambersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedChambersRoute,
+} as any)
+const AuthenticatedAdminInvitesRoute =
+  AuthenticatedAdminInvitesRouteImport.update({
+    id: '/admin/invites',
+    path: '/admin/invites',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/confess': typeof ConfessRoute
   '/lookup': typeof LookupRouteWithChildren
   '/prayer': typeof PrayerRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/chambers': typeof AuthenticatedChambersRouteWithChildren
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/inbox': typeof AuthenticatedInboxRouteWithChildren
   '/lookup/$token': typeof LookupTokenRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/invites': typeof AuthenticatedAdminInvitesRoute
+  '/chambers/$id': typeof AuthenticatedChambersIdRoute
+  '/inbox/$id': typeof AuthenticatedInboxIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/confess': typeof ConfessRoute
   '/lookup': typeof LookupRouteWithChildren
   '/prayer': typeof PrayerRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/chambers': typeof AuthenticatedChambersRouteWithChildren
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/inbox': typeof AuthenticatedInboxRouteWithChildren
   '/lookup/$token': typeof LookupTokenRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/invites': typeof AuthenticatedAdminInvitesRoute
+  '/chambers/$id': typeof AuthenticatedChambersIdRoute
+  '/inbox/$id': typeof AuthenticatedInboxIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/confess': typeof ConfessRoute
   '/lookup': typeof LookupRouteWithChildren
   '/prayer': typeof PrayerRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/chambers': typeof AuthenticatedChambersRouteWithChildren
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/inbox': typeof AuthenticatedInboxRouteWithChildren
   '/lookup/$token': typeof LookupTokenRoute
+  '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/_authenticated/admin/invites': typeof AuthenticatedAdminInvitesRoute
+  '/_authenticated/chambers/$id': typeof AuthenticatedChambersIdRoute
+  '/_authenticated/inbox/$id': typeof AuthenticatedInboxIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/confess'
     | '/lookup'
     | '/prayer'
     | '/sitemap.xml'
+    | '/chambers'
+    | '/dashboard'
+    | '/inbox'
     | '/lookup/$token'
+    | '/admin/audit'
+    | '/admin/invites'
+    | '/chambers/$id'
+    | '/inbox/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/confess'
     | '/lookup'
     | '/prayer'
     | '/sitemap.xml'
+    | '/chambers'
+    | '/dashboard'
+    | '/inbox'
     | '/lookup/$token'
+    | '/admin/audit'
+    | '/admin/invites'
+    | '/chambers/$id'
+    | '/inbox/$id'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/confess'
     | '/lookup'
     | '/prayer'
     | '/sitemap.xml'
+    | '/_authenticated/chambers'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/inbox'
     | '/lookup/$token'
+    | '/_authenticated/admin/audit'
+    | '/_authenticated/admin/invites'
+    | '/_authenticated/chambers/$id'
+    | '/_authenticated/inbox/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   ConfessRoute: typeof ConfessRoute
   LookupRoute: typeof LookupRouteWithChildren
   PrayerRoute: typeof PrayerRoute
@@ -137,6 +243,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConfessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -151,8 +271,100 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LookupTokenRouteImport
       parentRoute: typeof LookupRoute
     }
+    '/_authenticated/inbox': {
+      id: '/_authenticated/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof AuthenticatedInboxRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/chambers': {
+      id: '/_authenticated/chambers'
+      path: '/chambers'
+      fullPath: '/chambers'
+      preLoaderRoute: typeof AuthenticatedChambersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inbox/$id': {
+      id: '/_authenticated/inbox/$id'
+      path: '/$id'
+      fullPath: '/inbox/$id'
+      preLoaderRoute: typeof AuthenticatedInboxIdRouteImport
+      parentRoute: typeof AuthenticatedInboxRoute
+    }
+    '/_authenticated/chambers/$id': {
+      id: '/_authenticated/chambers/$id'
+      path: '/$id'
+      fullPath: '/chambers/$id'
+      preLoaderRoute: typeof AuthenticatedChambersIdRouteImport
+      parentRoute: typeof AuthenticatedChambersRoute
+    }
+    '/_authenticated/admin/invites': {
+      id: '/_authenticated/admin/invites'
+      path: '/admin/invites'
+      fullPath: '/admin/invites'
+      preLoaderRoute: typeof AuthenticatedAdminInvitesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/audit': {
+      id: '/_authenticated/admin/audit'
+      path: '/admin/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
+
+interface AuthenticatedChambersRouteChildren {
+  AuthenticatedChambersIdRoute: typeof AuthenticatedChambersIdRoute
+}
+
+const AuthenticatedChambersRouteChildren: AuthenticatedChambersRouteChildren = {
+  AuthenticatedChambersIdRoute: AuthenticatedChambersIdRoute,
+}
+
+const AuthenticatedChambersRouteWithChildren =
+  AuthenticatedChambersRoute._addFileChildren(
+    AuthenticatedChambersRouteChildren,
+  )
+
+interface AuthenticatedInboxRouteChildren {
+  AuthenticatedInboxIdRoute: typeof AuthenticatedInboxIdRoute
+}
+
+const AuthenticatedInboxRouteChildren: AuthenticatedInboxRouteChildren = {
+  AuthenticatedInboxIdRoute: AuthenticatedInboxIdRoute,
+}
+
+const AuthenticatedInboxRouteWithChildren =
+  AuthenticatedInboxRoute._addFileChildren(AuthenticatedInboxRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedChambersRoute: typeof AuthenticatedChambersRouteWithChildren
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedInboxRoute: typeof AuthenticatedInboxRouteWithChildren
+  AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
+  AuthenticatedAdminInvitesRoute: typeof AuthenticatedAdminInvitesRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedChambersRoute: AuthenticatedChambersRouteWithChildren,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedInboxRoute: AuthenticatedInboxRouteWithChildren,
+  AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
+  AuthenticatedAdminInvitesRoute: AuthenticatedAdminInvitesRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface LookupRouteChildren {
   LookupTokenRoute: typeof LookupTokenRoute
@@ -167,6 +379,8 @@ const LookupRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   ConfessRoute: ConfessRoute,
   LookupRoute: LookupRouteWithChildren,
   PrayerRoute: PrayerRoute,
