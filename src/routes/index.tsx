@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Flame, HandHeart, ScrollText, KeyRound } from "lucide-react";
 import { SanctuaryScene } from "@/components/sanctuary/SanctuaryScene";
+import sanctuaryHero from "@/assets/sanctuary-hero.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
