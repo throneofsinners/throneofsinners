@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { listChambers, createChamber, joinChamber, getMyRoles } from "@/lib/chambers.functions";
+import { listChambers, createChamber, joinChamber } from "@/lib/chambers.functions";
 import { getMyRoles as getRoles } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/_authenticated/chambers")({
