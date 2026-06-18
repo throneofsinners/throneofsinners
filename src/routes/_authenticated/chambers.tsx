@@ -10,9 +10,6 @@ export const Route = createFileRoute("/_authenticated/chambers")({
   component: Chambers,
 });
 
-// reference imported but use admin.getMyRoles to avoid duplicating
-void getMyRoles;
-
 function Chambers() {
   const qc = useQueryClient();
   const listFn = useServerFn(listChambers);
