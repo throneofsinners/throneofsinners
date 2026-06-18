@@ -71,9 +71,13 @@ function Inbox() {
               <tr><td colSpan={5} className="px-3 py-6 text-muted-foreground">No submissions match.</td></tr>
             )}
             {data?.map((s) => (
-              <tr key={s.id} className={`border-t border-border/60 hover:bg-secondary/40 ${s.risk_flagged ? "bg-red-950/20" : ""}`}>
+              <tr
+                key={s.id}
+                onClick={() => navigate({ to: "/inbox/$id", params: { id: s.id } })}
+                className={`cursor-pointer border-t border-border/60 transition-colors hover:bg-secondary/40 ${s.risk_flagged ? "bg-red-950/20" : ""}`}
+              >
                 <td className="px-3 py-2">
-                  <Link to="/inbox/$id" params={{ id: s.id }} className="font-mono text-xs text-gold hover:underline">
+                  <Link to="/inbox/$id" params={{ id: s.id }} onClick={(e) => e.stopPropagation()} className="font-mono text-xs text-gold hover:underline">
                     {s.tracking_token}
                   </Link>
                 </td>
