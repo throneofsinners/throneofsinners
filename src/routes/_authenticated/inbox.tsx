@@ -14,11 +14,13 @@ export const Route = createFileRoute("/_authenticated/inbox")({
 });
 
 function Inbox() {
+  const navigate = useNavigate();
   const listFn = useServerFn(listSubmissions);
   const [status, setStatus] = useState<(typeof STATUSES)[number]>("all");
   const [type, setType] = useState<(typeof TYPES)[number]>("all");
   const [riskOnly, setRiskOnly] = useState(false);
   const [q, setQ] = useState("");
+
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["inbox", status, type, riskOnly, q],
