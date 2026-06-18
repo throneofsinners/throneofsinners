@@ -27,7 +27,7 @@ function Index() {
     <main className="mx-auto max-w-6xl px-4">
       {/* Hero — the sanctuary */}
       <section className="relative isolate -mx-4 overflow-hidden px-4">
-        <SanctuaryScene />
+        <SanctuaryScene imageUrl="/__l5e/assets-v1/7b657f21-206b-4532-a6e5-d354b8fdd753/sanctuary-hero.jpg" />
         <div className="relative z-10 pt-20 pb-28 text-center sm:pt-32 sm:pb-36">
           <Flame
             aria-hidden
