@@ -9,38 +9,134 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as PrayerRouteImport } from './routes/prayer'
+import { Route as LookupRouteImport } from './routes/lookup'
+import { Route as ConfessRouteImport } from './routes/confess'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LookupTokenRouteImport } from './routes/lookup.$token'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrayerRoute = PrayerRouteImport.update({
+  id: '/prayer',
+  path: '/prayer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LookupRoute = LookupRouteImport.update({
+  id: '/lookup',
+  path: '/lookup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfessRoute = ConfessRouteImport.update({
+  id: '/confess',
+  path: '/confess',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LookupTokenRoute = LookupTokenRouteImport.update({
+  id: '/$token',
+  path: '/$token',
+  getParentRoute: () => LookupRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/confess': typeof ConfessRoute
+  '/lookup': typeof LookupRouteWithChildren
+  '/prayer': typeof PrayerRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/lookup/$token': typeof LookupTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/confess': typeof ConfessRoute
+  '/lookup': typeof LookupRouteWithChildren
+  '/prayer': typeof PrayerRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/lookup/$token': typeof LookupTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/confess': typeof ConfessRoute
+  '/lookup': typeof LookupRouteWithChildren
+  '/prayer': typeof PrayerRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/lookup/$token': typeof LookupTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/confess'
+    | '/lookup'
+    | '/prayer'
+    | '/sitemap.xml'
+    | '/lookup/$token'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/confess'
+    | '/lookup'
+    | '/prayer'
+    | '/sitemap.xml'
+    | '/lookup/$token'
+  id:
+    | '__root__'
+    | '/'
+    | '/confess'
+    | '/lookup'
+    | '/prayer'
+    | '/sitemap.xml'
+    | '/lookup/$token'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConfessRoute: typeof ConfessRoute
+  LookupRoute: typeof LookupRouteWithChildren
+  PrayerRoute: typeof PrayerRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prayer': {
+      id: '/prayer'
+      path: '/prayer'
+      fullPath: '/prayer'
+      preLoaderRoute: typeof PrayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lookup': {
+      id: '/lookup'
+      path: '/lookup'
+      fullPath: '/lookup'
+      preLoaderRoute: typeof LookupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confess': {
+      id: '/confess'
+      path: '/confess'
+      fullPath: '/confess'
+      preLoaderRoute: typeof ConfessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +144,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lookup/$token': {
+      id: '/lookup/$token'
+      path: '/$token'
+      fullPath: '/lookup/$token'
+      preLoaderRoute: typeof LookupTokenRouteImport
+      parentRoute: typeof LookupRoute
+    }
   }
 }
 
+interface LookupRouteChildren {
+  LookupTokenRoute: typeof LookupTokenRoute
+}
+
+const LookupRouteChildren: LookupRouteChildren = {
+  LookupTokenRoute: LookupTokenRoute,
+}
+
+const LookupRouteWithChildren =
+  LookupRoute._addFileChildren(LookupRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConfessRoute: ConfessRoute,
+  LookupRoute: LookupRouteWithChildren,
+  PrayerRoute: PrayerRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
