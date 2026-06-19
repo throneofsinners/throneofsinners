@@ -49,9 +49,10 @@ export const getMyRoles = createServerFn({ method: "GET" })
 const inboxFilter = z.object({
   status: z.enum(["received","in_review","being_prayed_for","pastor_assigned","responded","resolved","all"]).default("all"),
   type: z.enum(["confession","prayer","all"]).default("all"),
+  category: z.string().trim().max(80).default("all"),
   risk_only: z.boolean().default(false),
   q: z.string().trim().max(200).optional().default(""),
-}).default({ status: "all", type: "all", risk_only: false, q: "" });
+}).default({ status: "all", type: "all", category: "all", risk_only: false, q: "" });
 
 export const listSubmissions = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -64,14 +65,36 @@ export const listSubmissions = createServerFn({ method: "POST" })
       .select("id, tracking_token, type, category, status, risk_flagged, contact_name, created_at, updated_at")
       .order("risk_flagged", { ascending: false })
       .order("created_at", { ascending: false })
-      .limit(100);
+      .limit(200);
     if (data.status !== "all") q = q.eq("status", data.status);
     if (data.type !== "all") q = q.eq("type", data.type);
+    if (data.category && data.category !== "all") q = q.eq("category", data.category);
     if (data.risk_only) q = q.eq("risk_flagged", true);
     if (data.q) q = q.ilike("content", `%${data.q}%`);
     const { data: rows, error } = await q;
     if (error) throw new Error(error.message);
     return rows ?? [];
+  });
+
+export const listCategories = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertPastor(context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data } = await supabaseAdmin
+      .from("submissions")
+      .select("category, type")
+      .not("category", "is", null)
+      .limit(1000);
+    const map = new Map<string, { value: string; type: string; count: number }>();
+    for (const r of data ?? []) {
+      if (!r.category) continue;
+      const key = `${r.type}:${r.category}`;
+      const existing = map.get(key);
+      if (existing) existing.count += 1;
+      else map.set(key, { value: r.category, type: r.type as string, count: 1 });
+    }
+    return Array.from(map.values()).sort((a,b) => b.count - a.count);
   });
 
 export const getSubmissionDetail = createServerFn({ method: "POST" })
