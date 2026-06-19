@@ -25,7 +25,14 @@ export const Route = createFileRoute("/giving")({
 
 const PRESETS = [10, 25, 50, 100, 250, 500] as const;
 
-const METHODS = [
+type GivingMethod = {
+  label: string;
+  value: string;
+  href: string | null;
+  note: string;
+};
+
+const METHODS: GivingMethod[] = [
   {
     label: "PayPal",
     value: "throneofsinners@gmail.com",
@@ -44,7 +51,7 @@ const METHODS = [
     href: null,
     note: "Use your bank's Zelle directory.",
   },
-] as const;
+];
 
 function GivingPage() {
   const [amount, setAmount] = useState<number | "">(50);
