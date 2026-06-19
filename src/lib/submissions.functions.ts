@@ -80,7 +80,7 @@ export const getSubmissionByToken = createServerFn({ method: "POST" })
     const { data: row, error } = await supabaseAdmin
       .from("submissions")
       .select(
-        "id, tracking_token, type, category, status, pastoral_response, responded_at, created_at"
+        "id, tracking_token, type, category, status, content, pastoral_response, responded_at, created_at"
       )
       .eq("tracking_token", data.token)
       .maybeSingle();
