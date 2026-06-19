@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrayerRouteImport } from './routes/prayer'
 import { Route as LookupRouteImport } from './routes/lookup'
+import { Route as GivingRouteImport } from './routes/giving'
 import { Route as ConfessRouteImport } from './routes/confess'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -38,6 +39,11 @@ const PrayerRoute = PrayerRouteImport.update({
 const LookupRoute = LookupRouteImport.update({
   id: '/lookup',
   path: '/lookup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GivingRoute = GivingRouteImport.update({
+  id: '/giving',
+  path: '/giving',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfessRoute = ConfessRouteImport.update({
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/confess': typeof ConfessRoute
+  '/giving': typeof GivingRoute
   '/lookup': typeof LookupRouteWithChildren
   '/prayer': typeof PrayerRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/confess': typeof ConfessRoute
+  '/giving': typeof GivingRoute
   '/lookup': typeof LookupRouteWithChildren
   '/prayer': typeof PrayerRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/confess': typeof ConfessRoute
+  '/giving': typeof GivingRoute
   '/lookup': typeof LookupRouteWithChildren
   '/prayer': typeof PrayerRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/confess'
+    | '/giving'
     | '/lookup'
     | '/prayer'
     | '/sitemap.xml'
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/confess'
+    | '/giving'
     | '/lookup'
     | '/prayer'
     | '/sitemap.xml'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/confess'
+    | '/giving'
     | '/lookup'
     | '/prayer'
     | '/sitemap.xml'
@@ -208,6 +220,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ConfessRoute: typeof ConfessRoute
+  GivingRoute: typeof GivingRoute
   LookupRoute: typeof LookupRouteWithChildren
   PrayerRoute: typeof PrayerRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -234,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/lookup'
       fullPath: '/lookup'
       preLoaderRoute: typeof LookupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/giving': {
+      id: '/giving'
+      path: '/giving'
+      fullPath: '/giving'
+      preLoaderRoute: typeof GivingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confess': {
@@ -382,6 +402,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ConfessRoute: ConfessRoute,
+  GivingRoute: GivingRoute,
   LookupRoute: LookupRouteWithChildren,
   PrayerRoute: PrayerRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

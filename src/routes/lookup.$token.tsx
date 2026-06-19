@@ -117,10 +117,14 @@ function LookupTokenPage() {
                 {STATUS_LABEL[state.row.status] ?? state.row.status}
               </span>
             </div>
+            <p className="mt-4 whitespace-pre-wrap font-serif text-lg leading-relaxed text-ivory">
+              {state.row.content}
+            </p>
             <p className="mt-4 text-xs text-muted-foreground">
               Submitted {new Date(state.row.created_at).toLocaleString()}
             </p>
           </div>
+
 
           <div className="altar-card p-6">
             <h2 className="font-serif text-xl text-ivory">Pastoral responses</h2>
