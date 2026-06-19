@@ -18,9 +18,9 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LookupTokenRouteImport } from './routes/lookup.$token'
-import { Route as AuthenticatedInboxRouteImport } from './routes/_authenticated/inbox'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedChambersRouteImport } from './routes/_authenticated/chambers'
+import { Route as AuthenticatedInboxIndexRouteImport } from './routes/_authenticated/inbox.index'
 import { Route as AuthenticatedInboxIdRouteImport } from './routes/_authenticated/inbox.$id'
 import { Route as AuthenticatedChambersIdRouteImport } from './routes/_authenticated/chambers.$id'
 import { Route as AuthenticatedAdminInvitesRouteImport } from './routes/_authenticated/admin.invites'
@@ -70,11 +70,6 @@ const LookupTokenRoute = LookupTokenRouteImport.update({
   path: '/$token',
   getParentRoute: () => LookupRoute,
 } as any)
-const AuthenticatedInboxRoute = AuthenticatedInboxRouteImport.update({
-  id: '/inbox',
-  path: '/inbox',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -85,10 +80,15 @@ const AuthenticatedChambersRoute = AuthenticatedChambersRouteImport.update({
   path: '/chambers',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedInboxIndexRoute = AuthenticatedInboxIndexRouteImport.update({
+  id: '/inbox/',
+  path: '/inbox/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedInboxIdRoute = AuthenticatedInboxIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AuthenticatedInboxRoute,
+  id: '/inbox/$id',
+  path: '/inbox/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedChambersIdRoute = AuthenticatedChambersIdRouteImport.update({
   id: '/$id',
@@ -117,12 +117,12 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/inbox': typeof AuthenticatedInboxRouteWithChildren
   '/lookup/$token': typeof LookupTokenRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
   '/inbox/$id': typeof AuthenticatedInboxIdRoute
+  '/inbox/': typeof AuthenticatedInboxIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -134,12 +134,12 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/inbox': typeof AuthenticatedInboxRouteWithChildren
   '/lookup/$token': typeof LookupTokenRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
   '/inbox/$id': typeof AuthenticatedInboxIdRoute
+  '/inbox': typeof AuthenticatedInboxIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -153,12 +153,12 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/inbox': typeof AuthenticatedInboxRouteWithChildren
   '/lookup/$token': typeof LookupTokenRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/invites': typeof AuthenticatedAdminInvitesRoute
   '/_authenticated/chambers/$id': typeof AuthenticatedChambersIdRoute
   '/_authenticated/inbox/$id': typeof AuthenticatedInboxIdRoute
+  '/_authenticated/inbox/': typeof AuthenticatedInboxIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -172,12 +172,12 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/chambers'
     | '/dashboard'
-    | '/inbox'
     | '/lookup/$token'
     | '/admin/audit'
     | '/admin/invites'
     | '/chambers/$id'
     | '/inbox/$id'
+    | '/inbox/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -189,12 +189,12 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/chambers'
     | '/dashboard'
-    | '/inbox'
     | '/lookup/$token'
     | '/admin/audit'
     | '/admin/invites'
     | '/chambers/$id'
     | '/inbox/$id'
+    | '/inbox'
   id:
     | '__root__'
     | '/'
@@ -207,12 +207,12 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/_authenticated/chambers'
     | '/_authenticated/dashboard'
-    | '/_authenticated/inbox'
     | '/lookup/$token'
     | '/_authenticated/admin/audit'
     | '/_authenticated/admin/invites'
     | '/_authenticated/chambers/$id'
     | '/_authenticated/inbox/$id'
+    | '/_authenticated/inbox/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -291,13 +291,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LookupTokenRouteImport
       parentRoute: typeof LookupRoute
     }
-    '/_authenticated/inbox': {
-      id: '/_authenticated/inbox'
-      path: '/inbox'
-      fullPath: '/inbox'
-      preLoaderRoute: typeof AuthenticatedInboxRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -312,12 +305,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChambersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/inbox/': {
+      id: '/_authenticated/inbox/'
+      path: '/inbox'
+      fullPath: '/inbox/'
+      preLoaderRoute: typeof AuthenticatedInboxIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inbox/$id': {
       id: '/_authenticated/inbox/$id'
-      path: '/$id'
+      path: '/inbox/$id'
       fullPath: '/inbox/$id'
       preLoaderRoute: typeof AuthenticatedInboxIdRouteImport
-      parentRoute: typeof AuthenticatedInboxRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/chambers/$id': {
       id: '/_authenticated/chambers/$id'
@@ -356,31 +356,22 @@ const AuthenticatedChambersRouteWithChildren =
     AuthenticatedChambersRouteChildren,
   )
 
-interface AuthenticatedInboxRouteChildren {
-  AuthenticatedInboxIdRoute: typeof AuthenticatedInboxIdRoute
-}
-
-const AuthenticatedInboxRouteChildren: AuthenticatedInboxRouteChildren = {
-  AuthenticatedInboxIdRoute: AuthenticatedInboxIdRoute,
-}
-
-const AuthenticatedInboxRouteWithChildren =
-  AuthenticatedInboxRoute._addFileChildren(AuthenticatedInboxRouteChildren)
-
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedChambersRoute: typeof AuthenticatedChambersRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedInboxRoute: typeof AuthenticatedInboxRouteWithChildren
   AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
   AuthenticatedAdminInvitesRoute: typeof AuthenticatedAdminInvitesRoute
+  AuthenticatedInboxIdRoute: typeof AuthenticatedInboxIdRoute
+  AuthenticatedInboxIndexRoute: typeof AuthenticatedInboxIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChambersRoute: AuthenticatedChambersRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedInboxRoute: AuthenticatedInboxRouteWithChildren,
   AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
   AuthenticatedAdminInvitesRoute: AuthenticatedAdminInvitesRoute,
+  AuthenticatedInboxIdRoute: AuthenticatedInboxIdRoute,
+  AuthenticatedInboxIndexRoute: AuthenticatedInboxIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

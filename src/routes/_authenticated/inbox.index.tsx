@@ -7,7 +7,7 @@ import { listSubmissions, listCategories } from "@/lib/admin.functions";
 const STATUSES = ["all","received","in_review","being_prayed_for","pastor_assigned","responded","resolved"] as const;
 const TYPES = ["all","confession","prayer"] as const;
 
-export const Route = createFileRoute("/_authenticated/inbox")({
+export const Route = createFileRoute("/_authenticated/inbox/")({
   head: () => ({ meta: [{ title: "Moderation Inbox" }, { name: "robots", content: "noindex" }] }),
   component: Inbox,
 });
