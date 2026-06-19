@@ -4,8 +4,10 @@ import { Flame } from "lucide-react";
 const nav = [
   { to: "/confess", label: "Confession" },
   { to: "/prayer", label: "Prayer" },
+  { to: "/giving", label: "Giving" },
   { to: "/lookup", label: "Check Status" },
 ] as const;
+
 
 export function SiteHeader() {
   return (
