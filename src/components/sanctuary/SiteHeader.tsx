@@ -1,45 +1,37 @@
 import { Link } from "@tanstack/react-router";
-import { Flame } from "lucide-react";
-
-const nav = [
-  { to: "/confess", label: "Confession" },
-  { to: "/prayer", label: "Prayer" },
-  { to: "/giving", label: "Giving" },
-  { to: "/lookup", label: "Check Status" },
-] as const;
-
+import { Crown } from "lucide-react";
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-border/60 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <Link to="/" className="group flex items-center gap-3">
-          <Flame
-            aria-hidden
-            className="h-6 w-6 text-gold flicker drop-shadow-[0_0_8px_rgba(212,175,55,0.45)]"
-          />
-          <span className="font-serif text-xl tracking-wide text-ivory">
-            The <span className="gold-text">Throne Room</span>
+    <header className="absolute inset-x-0 top-0 z-30">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-5">
+        <Link to="/" className="flex items-center gap-3">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gold bg-background/40 candle-flicker">
+            <Crown aria-hidden className="h-4 w-4 text-gold" />
+          </span>
+          <span className="flex flex-col leading-tight">
+            <span className="font-serif text-lg text-ivory">The Throne Room</span>
+            <span className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+              Sanctuary · Grace · Restoration
+            </span>
           </span>
         </Link>
-        <nav aria-label="Primary" className="flex items-center gap-1 sm:gap-2">
-          {nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-ivory focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-              activeProps={{ className: "text-ivory bg-secondary" }}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Link
-            to="/auth"
-            className="ml-1 rounded-md border border-border/60 px-3 py-2 text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:border-gold/40 hover:text-ivory"
-          >
-            Stewards
-          </Link>
+
+        <nav
+          aria-label="Primary"
+          className="hidden items-center gap-7 text-sm text-muted-foreground md:flex"
+        >
+          <a href="#sanctuary" className="transition-colors hover:text-gold">Sanctuary</a>
+          <a href="#chambers" className="transition-colors hover:text-gold">Chambers</a>
+          <a href="#covenant" className="transition-colors hover:text-gold">Our Covenant</a>
         </nav>
+
+        <Link
+          to="/confess"
+          className="inline-flex items-center justify-center rounded-md border border-gold bg-gradient-to-b from-gold/20 to-bronze/10 px-4 py-2 text-xs uppercase tracking-[0.18em] text-gold transition-colors hover:from-gold/30 hover:to-bronze/20"
+        >
+          Enter the Sanctuary
+        </Link>
       </div>
     </header>
   );
