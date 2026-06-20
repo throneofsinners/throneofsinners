@@ -71,8 +71,8 @@ export function ThroneReveal({ type, token, flagged }: Props) {
             </p>
             <p className="mt-1 text-muted-foreground">
               Your message has been routed for priority pastoral and
-              safeguarding review. If you are in immediate danger, please use
-              the crisis numbers at the top of the page now.
+              safeguarding review. A pastor will be reaching out as soon as
+              possible.
             </p>
           </div>
         )}
