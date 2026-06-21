@@ -137,6 +137,7 @@ type Chamber = {
   title: string;
   verse: string;
   body: string;
+  to: "/confess" | "/prayer" | "/counsel" | "/testimony" | "/restoration" | "/partners";
 };
 
 const CHAMBERS: Chamber[] = [
@@ -145,36 +146,42 @@ const CHAMBERS: Chamber[] = [
     title: "The Confession",
     verse: "1 John 1:9",
     body: "Lay it down in confidence. Submit anonymously and receive a sealed token to follow your pastoral response — no account required.",
+    to: "/confess",
   },
   {
     icon: HandHeart,
     title: "The Prayer Altar",
     verse: "James 5:16",
     body: "Bring petitions for health, family, finances, or your walk. Each request is received by a prayer team and shepherded to resolution.",
+    to: "/prayer",
   },
   {
     icon: MessagesSquare,
     title: "The Counsel",
     verse: "Proverbs 11:14",
     body: "Request marriage, family, grief, addiction or spiritual counseling. A pastor will be assigned and a meeting scheduled.",
+    to: "/counsel",
   },
   {
     icon: BookOpenText,
     title: "The Testimony",
     verse: "Revelation 12:11",
     body: "Share the story of your restoration. Every testimony is reviewed by pastoral leadership before it is offered as a light to others.",
+    to: "/testimony",
   },
   {
     icon: UsersRound,
     title: "Restoration Chambers",
     verse: "Galatians 6:1",
     body: "Pastor-led support communities for healing, recovery, marriage and faithfulness. Every chamber is shepherded — never unsupervised.",
+    to: "/restoration",
   },
   {
     icon: Flame,
     title: "Prayer Partners",
     verse: "Matthew 18:20",
     body: "Anonymous one-to-one prayer matching. Pastor-supervised, confidential, and built on mutual covenant.",
+    to: "/partners",
   },
 ];
 
@@ -208,9 +215,12 @@ function Chambers() {
 function ChamberCard({ chamber }: { chamber: Chamber }) {
   const Icon = chamber.icon;
   return (
-    <article className="group relative bg-card/85 p-8 transition-colors hover:bg-card">
+    <Link
+      to={chamber.to}
+      className="group relative block bg-card/85 p-8 transition-colors hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+    >
       <div className="flex items-start justify-between">
-        <div className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-gold bg-background/40 text-gold">
+        <div className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-gold bg-background/40 text-gold transition-transform group-hover:scale-105">
           <Icon aria-hidden className="h-5 w-5" />
         </div>
         <span className="text-[10px] uppercase tracking-[0.28em] text-gold">
@@ -221,13 +231,17 @@ function ChamberCard({ chamber }: { chamber: Chamber }) {
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
         {chamber.body}
       </p>
+      <p className="mt-5 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.28em] text-gold/80 transition-colors group-hover:text-gold">
+        Enter the chamber →
+      </p>
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent opacity-0 transition-opacity group-hover:opacity-100"
       />
-    </article>
+    </Link>
   );
 }
+
 
 /* ---------- COVENANT ---------- */
 type Promise = { icon: LucideIcon; title: string; body: string };
