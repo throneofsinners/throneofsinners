@@ -9,14 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TestimonyRouteImport } from './routes/testimony'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RestorationRouteImport } from './routes/restoration'
 import { Route as PrayerRouteImport } from './routes/prayer'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as LookupRouteImport } from './routes/lookup'
 import { Route as GivingRouteImport } from './routes/giving'
+import { Route as CounselRouteImport } from './routes/counsel'
 import { Route as ConfessRouteImport } from './routes/confess'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LookupIndexRouteImport } from './routes/lookup.index'
 import { Route as LookupTokenRouteImport } from './routes/lookup.$token'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedChambersRouteImport } from './routes/_authenticated/chambers'
@@ -26,14 +31,29 @@ import { Route as AuthenticatedChambersIdRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminInvitesRouteImport } from './routes/_authenticated/admin.invites'
 import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
 
+const TestimonyRoute = TestimonyRouteImport.update({
+  id: '/testimony',
+  path: '/testimony',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RestorationRoute = RestorationRouteImport.update({
+  id: '/restoration',
+  path: '/restoration',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrayerRoute = PrayerRouteImport.update({
   id: '/prayer',
   path: '/prayer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LookupRoute = LookupRouteImport.update({
@@ -44,6 +64,11 @@ const LookupRoute = LookupRouteImport.update({
 const GivingRoute = GivingRouteImport.update({
   id: '/giving',
   path: '/giving',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CounselRoute = CounselRouteImport.update({
+  id: '/counsel',
+  path: '/counsel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfessRoute = ConfessRouteImport.update({
@@ -64,6 +89,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LookupIndexRoute = LookupIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LookupRoute,
 } as any)
 const LookupTokenRoute = LookupTokenRouteImport.update({
   id: '/$token',
@@ -111,13 +141,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/confess': typeof ConfessRoute
+  '/counsel': typeof CounselRoute
   '/giving': typeof GivingRoute
   '/lookup': typeof LookupRouteWithChildren
+  '/partners': typeof PartnersRoute
   '/prayer': typeof PrayerRoute
+  '/restoration': typeof RestorationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/testimony': typeof TestimonyRoute
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lookup/$token': typeof LookupTokenRoute
+  '/lookup/': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
@@ -128,13 +163,17 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/confess': typeof ConfessRoute
+  '/counsel': typeof CounselRoute
   '/giving': typeof GivingRoute
-  '/lookup': typeof LookupRouteWithChildren
+  '/partners': typeof PartnersRoute
   '/prayer': typeof PrayerRoute
+  '/restoration': typeof RestorationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/testimony': typeof TestimonyRoute
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lookup/$token': typeof LookupTokenRoute
+  '/lookup': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
@@ -147,13 +186,18 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/confess': typeof ConfessRoute
+  '/counsel': typeof CounselRoute
   '/giving': typeof GivingRoute
   '/lookup': typeof LookupRouteWithChildren
+  '/partners': typeof PartnersRoute
   '/prayer': typeof PrayerRoute
+  '/restoration': typeof RestorationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/testimony': typeof TestimonyRoute
   '/_authenticated/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/lookup/$token': typeof LookupTokenRoute
+  '/lookup/': typeof LookupIndexRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/invites': typeof AuthenticatedAdminInvitesRoute
   '/_authenticated/chambers/$id': typeof AuthenticatedChambersIdRoute
@@ -166,13 +210,18 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/confess'
+    | '/counsel'
     | '/giving'
     | '/lookup'
+    | '/partners'
     | '/prayer'
+    | '/restoration'
     | '/sitemap.xml'
+    | '/testimony'
     | '/chambers'
     | '/dashboard'
     | '/lookup/$token'
+    | '/lookup/'
     | '/admin/audit'
     | '/admin/invites'
     | '/chambers/$id'
@@ -183,13 +232,17 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/confess'
+    | '/counsel'
     | '/giving'
-    | '/lookup'
+    | '/partners'
     | '/prayer'
+    | '/restoration'
     | '/sitemap.xml'
+    | '/testimony'
     | '/chambers'
     | '/dashboard'
     | '/lookup/$token'
+    | '/lookup'
     | '/admin/audit'
     | '/admin/invites'
     | '/chambers/$id'
@@ -201,13 +254,18 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/confess'
+    | '/counsel'
     | '/giving'
     | '/lookup'
+    | '/partners'
     | '/prayer'
+    | '/restoration'
     | '/sitemap.xml'
+    | '/testimony'
     | '/_authenticated/chambers'
     | '/_authenticated/dashboard'
     | '/lookup/$token'
+    | '/lookup/'
     | '/_authenticated/admin/audit'
     | '/_authenticated/admin/invites'
     | '/_authenticated/chambers/$id'
@@ -220,14 +278,25 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ConfessRoute: typeof ConfessRoute
+  CounselRoute: typeof CounselRoute
   GivingRoute: typeof GivingRoute
   LookupRoute: typeof LookupRouteWithChildren
+  PartnersRoute: typeof PartnersRoute
   PrayerRoute: typeof PrayerRoute
+  RestorationRoute: typeof RestorationRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TestimonyRoute: typeof TestimonyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/testimony': {
+      id: '/testimony'
+      path: '/testimony'
+      fullPath: '/testimony'
+      preLoaderRoute: typeof TestimonyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -235,11 +304,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/restoration': {
+      id: '/restoration'
+      path: '/restoration'
+      fullPath: '/restoration'
+      preLoaderRoute: typeof RestorationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/prayer': {
       id: '/prayer'
       path: '/prayer'
       fullPath: '/prayer'
       preLoaderRoute: typeof PrayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lookup': {
@@ -254,6 +337,13 @@ declare module '@tanstack/react-router' {
       path: '/giving'
       fullPath: '/giving'
       preLoaderRoute: typeof GivingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/counsel': {
+      id: '/counsel'
+      path: '/counsel'
+      fullPath: '/counsel'
+      preLoaderRoute: typeof CounselRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confess': {
@@ -283,6 +373,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/lookup/': {
+      id: '/lookup/'
+      path: '/'
+      fullPath: '/lookup/'
+      preLoaderRoute: typeof LookupIndexRouteImport
+      parentRoute: typeof LookupRoute
     }
     '/lookup/$token': {
       id: '/lookup/$token'
@@ -379,10 +476,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface LookupRouteChildren {
   LookupTokenRoute: typeof LookupTokenRoute
+  LookupIndexRoute: typeof LookupIndexRoute
 }
 
 const LookupRouteChildren: LookupRouteChildren = {
   LookupTokenRoute: LookupTokenRoute,
+  LookupIndexRoute: LookupIndexRoute,
 }
 
 const LookupRouteWithChildren =
@@ -393,10 +492,14 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ConfessRoute: ConfessRoute,
+  CounselRoute: CounselRoute,
   GivingRoute: GivingRoute,
   LookupRoute: LookupRouteWithChildren,
+  PartnersRoute: PartnersRoute,
   PrayerRoute: PrayerRoute,
+  RestorationRoute: RestorationRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TestimonyRoute: TestimonyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

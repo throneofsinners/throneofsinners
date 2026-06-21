@@ -11,7 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { CrisisBanner } from "../components/sanctuary/CrisisBanner";
+
 import { SiteHeader } from "../components/sanctuary/SiteHeader";
 import { SiteFooter } from "../components/sanctuary/SiteFooter";
 
@@ -136,7 +136,7 @@ function RootComponent() {
       >
         Skip to content
       </a>
-      <CrisisBanner />
+      
       <SiteHeader />
       <div id="main">
         <Outlet />

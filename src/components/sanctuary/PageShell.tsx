@@ -9,7 +9,7 @@ type Props = {
 
 export function PageShell({ eyebrow, title, subtitle, children }: Props) {
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-12 sm:py-20">
+    <main className="mx-auto w-full max-w-2xl px-4 pt-28 pb-12 sm:pt-32 sm:pb-20">
       <header className="text-center">
         {eyebrow && (
           <p className="text-xs uppercase tracking-[0.3em] text-gold/80">
