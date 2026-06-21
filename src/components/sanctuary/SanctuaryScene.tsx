@@ -52,7 +52,7 @@ export function SanctuaryScene({
         <>
           {/* Photographic sanctuary background */}
           <img
-            src={imageUrl}
+            src={/throne_hero.png}
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
             style={{ objectPosition: "50% 40%" }}
