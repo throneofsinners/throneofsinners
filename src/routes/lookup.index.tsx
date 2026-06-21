@@ -3,7 +3,7 @@ import { useState, type FormEvent } from "react";
 import { PageShell } from "@/components/sanctuary/PageShell";
 import { isValidToken, normalizeToken } from "@/lib/token";
 
-export const Route = createFileRoute("/lookup")({
+export const Route = createFileRoute("/lookup/")({
   head: () => ({
     meta: [
       { title: "Check Status — The Throne Room" },
