@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RestorationRouteImport } from './routes/restoration'
 import { Route as PrayerRouteImport } from './routes/prayer'
 import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as LookupRouteImport } from './routes/lookup'
 import { Route as GivingRouteImport } from './routes/giving'
 import { Route as CounselRouteImport } from './routes/counsel'
 import { Route as ConfessRouteImport } from './routes/confess'
@@ -55,6 +56,11 @@ const PartnersRoute = PartnersRouteImport.update({
   path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LookupRoute = LookupRouteImport.update({
+  id: '/lookup',
+  path: '/lookup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GivingRoute = GivingRouteImport.update({
   id: '/giving',
   path: '/giving',
@@ -85,14 +91,14 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const LookupIndexRoute = LookupIndexRouteImport.update({
-  id: '/lookup/',
-  path: '/lookup/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => LookupRoute,
 } as any)
 const LookupTokenRoute = LookupTokenRouteImport.update({
-  id: '/lookup/$token',
-  path: '/lookup/$token',
-  getParentRoute: () => rootRouteImport,
+  id: '/$token',
+  path: '/$token',
+  getParentRoute: () => LookupRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/confess': typeof ConfessRoute
   '/counsel': typeof CounselRoute
   '/giving': typeof GivingRoute
+  '/lookup': typeof LookupRouteWithChildren
   '/partners': typeof PartnersRoute
   '/prayer': typeof PrayerRoute
   '/restoration': typeof RestorationRoute
@@ -181,6 +188,7 @@ export interface FileRoutesById {
   '/confess': typeof ConfessRoute
   '/counsel': typeof CounselRoute
   '/giving': typeof GivingRoute
+  '/lookup': typeof LookupRouteWithChildren
   '/partners': typeof PartnersRoute
   '/prayer': typeof PrayerRoute
   '/restoration': typeof RestorationRoute
@@ -204,6 +212,7 @@ export interface FileRouteTypes {
     | '/confess'
     | '/counsel'
     | '/giving'
+    | '/lookup'
     | '/partners'
     | '/prayer'
     | '/restoration'
@@ -247,6 +256,7 @@ export interface FileRouteTypes {
     | '/confess'
     | '/counsel'
     | '/giving'
+    | '/lookup'
     | '/partners'
     | '/prayer'
     | '/restoration'
@@ -270,13 +280,12 @@ export interface RootRouteChildren {
   ConfessRoute: typeof ConfessRoute
   CounselRoute: typeof CounselRoute
   GivingRoute: typeof GivingRoute
+  LookupRoute: typeof LookupRouteWithChildren
   PartnersRoute: typeof PartnersRoute
   PrayerRoute: typeof PrayerRoute
   RestorationRoute: typeof RestorationRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestimonyRoute: typeof TestimonyRoute
-  LookupTokenRoute: typeof LookupTokenRoute
-  LookupIndexRoute: typeof LookupIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -314,6 +323,13 @@ declare module '@tanstack/react-router' {
       path: '/partners'
       fullPath: '/partners'
       preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lookup': {
+      id: '/lookup'
+      path: '/lookup'
+      fullPath: '/lookup'
+      preLoaderRoute: typeof LookupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/giving': {
@@ -360,17 +376,17 @@ declare module '@tanstack/react-router' {
     }
     '/lookup/': {
       id: '/lookup/'
-      path: '/lookup'
+      path: '/'
       fullPath: '/lookup/'
       preLoaderRoute: typeof LookupIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LookupRoute
     }
     '/lookup/$token': {
       id: '/lookup/$token'
-      path: '/lookup/$token'
+      path: '/$token'
       fullPath: '/lookup/$token'
       preLoaderRoute: typeof LookupTokenRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LookupRoute
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -458,6 +474,19 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface LookupRouteChildren {
+  LookupTokenRoute: typeof LookupTokenRoute
+  LookupIndexRoute: typeof LookupIndexRoute
+}
+
+const LookupRouteChildren: LookupRouteChildren = {
+  LookupTokenRoute: LookupTokenRoute,
+  LookupIndexRoute: LookupIndexRoute,
+}
+
+const LookupRouteWithChildren =
+  LookupRoute._addFileChildren(LookupRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -465,13 +494,12 @@ const rootRouteChildren: RootRouteChildren = {
   ConfessRoute: ConfessRoute,
   CounselRoute: CounselRoute,
   GivingRoute: GivingRoute,
+  LookupRoute: LookupRouteWithChildren,
   PartnersRoute: PartnersRoute,
   PrayerRoute: PrayerRoute,
   RestorationRoute: RestorationRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestimonyRoute: TestimonyRoute,
-  LookupTokenRoute: LookupTokenRoute,
-  LookupIndexRoute: LookupIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
