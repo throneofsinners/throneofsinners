@@ -21,6 +21,7 @@ import { Route as ConfessRouteImport } from './routes/confess'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LookupIndexRouteImport } from './routes/lookup.index'
 import { Route as LookupTokenRouteImport } from './routes/lookup.$token'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedChambersRouteImport } from './routes/_authenticated/chambers'
@@ -89,6 +90,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LookupIndexRoute = LookupIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LookupRoute,
+} as any)
 const LookupTokenRoute = LookupTokenRouteImport.update({
   id: '/$token',
   path: '/$token',
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lookup/$token': typeof LookupTokenRoute
+  '/lookup/': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
@@ -158,7 +165,6 @@ export interface FileRoutesByTo {
   '/confess': typeof ConfessRoute
   '/counsel': typeof CounselRoute
   '/giving': typeof GivingRoute
-  '/lookup': typeof LookupRouteWithChildren
   '/partners': typeof PartnersRoute
   '/prayer': typeof PrayerRoute
   '/restoration': typeof RestorationRoute
@@ -167,6 +173,7 @@ export interface FileRoutesByTo {
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lookup/$token': typeof LookupTokenRoute
+  '/lookup': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
@@ -190,6 +197,7 @@ export interface FileRoutesById {
   '/_authenticated/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/lookup/$token': typeof LookupTokenRoute
+  '/lookup/': typeof LookupIndexRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/invites': typeof AuthenticatedAdminInvitesRoute
   '/_authenticated/chambers/$id': typeof AuthenticatedChambersIdRoute
@@ -213,6 +221,7 @@ export interface FileRouteTypes {
     | '/chambers'
     | '/dashboard'
     | '/lookup/$token'
+    | '/lookup/'
     | '/admin/audit'
     | '/admin/invites'
     | '/chambers/$id'
@@ -225,7 +234,6 @@ export interface FileRouteTypes {
     | '/confess'
     | '/counsel'
     | '/giving'
-    | '/lookup'
     | '/partners'
     | '/prayer'
     | '/restoration'
@@ -234,6 +242,7 @@ export interface FileRouteTypes {
     | '/chambers'
     | '/dashboard'
     | '/lookup/$token'
+    | '/lookup'
     | '/admin/audit'
     | '/admin/invites'
     | '/chambers/$id'
@@ -256,6 +265,7 @@ export interface FileRouteTypes {
     | '/_authenticated/chambers'
     | '/_authenticated/dashboard'
     | '/lookup/$token'
+    | '/lookup/'
     | '/_authenticated/admin/audit'
     | '/_authenticated/admin/invites'
     | '/_authenticated/chambers/$id'
@@ -364,6 +374,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lookup/': {
+      id: '/lookup/'
+      path: '/'
+      fullPath: '/lookup/'
+      preLoaderRoute: typeof LookupIndexRouteImport
+      parentRoute: typeof LookupRoute
+    }
     '/lookup/$token': {
       id: '/lookup/$token'
       path: '/$token'
@@ -459,10 +476,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface LookupRouteChildren {
   LookupTokenRoute: typeof LookupTokenRoute
+  LookupIndexRoute: typeof LookupIndexRoute
 }
 
 const LookupRouteChildren: LookupRouteChildren = {
   LookupTokenRoute: LookupTokenRoute,
+  LookupIndexRoute: LookupIndexRoute,
 }
 
 const LookupRouteWithChildren =
