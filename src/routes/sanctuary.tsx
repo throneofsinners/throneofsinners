@@ -46,12 +46,19 @@ type Room = {
 };
 
 const ROOMS: Room[] = [
-  { to: "/confess", title: "The Confession", verse: "1 John 1:9", icon: ScrollText, bg: bgConfess, body: "Lay it down anonymously. Receive a sealed token for the pastoral response." },
-  { to: "/prayer", title: "The Prayer Altar", verse: "James 5:16", icon: HandHeart, bg: bgPrayer, body: "A trusted prayer team will carry your request before the throne." },
-  { to: "/counsel", title: "The Counsel", verse: "Proverbs 11:14", icon: MessagesSquare, bg: bgCounsel, body: "Pastor-led conversations for marriage, grief, vocation and the long roads." },
-  { to: "/testimony", title: "The Testimony", verse: "Revelation 12:11", icon: BookOpenText, bg: bgTestimony, body: "Tell of what grace has done. Reviewed by pastoral leadership before it speaks." },
-  { to: "/restoration", title: "Restoration Chambers", verse: "Galatians 6:1", icon: UsersRound, bg: bgRestoration, body: "Small shepherded circles for healing, addiction recovery and faithfulness." },
-  { to: "/partners", title: "Prayer Partners", verse: "Matthew 18:20", icon: Flame, bg: bgPartners, body: "Anonymous, covenantal, pastor-supervised one-to-one prayer." },
+  { to: "/confess", 
+    title: "The Confession", 
+    verse: "  ", 
+    icon: ScrollText, 
+    bg: bgConfess, 
+    body: "Lay it down anonymously. Receive a sealed token for the pastoral response." 
+  },
+    
+  { to: "/prayer", title: "The Wishing Well", verse: "  ", icon: HandHeart, bg: bgPrayer, body: "A pervert nun will carry your request before the throne." },
+  { to: "/counsel", title: "The Counsel of Sinners", verse: "  ", icon: MessagesSquare, bg: bgCounsel, body: "Pastor-led conversations for marriage, grief, vocation and the long roads." },
+  { to: "/testimony", title: "The Testimony", verse: "  ", icon: BookOpenText, bg: bgTestimony, body: "Tells of your lustful escapades ans how we helped. Reviewed by pastoral leadership before it speaks." },
+  { to: "/restoration", title: "Restoration Chambers", verse: "  ", icon: UsersRound, bg: bgRestoration, body: "Small shepherded circles for healing, addiction encouragements and lewdness." },
+  { to: "/partners", title: "Lusty Partners", verse: "  ", icon: Flame, bg: bgPartners, body: "Anonymous, covenantal, pastor-supervised one-to-one matching." },
 ];
 
 function SanctuaryPage() {
