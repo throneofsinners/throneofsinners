@@ -51,7 +51,7 @@ export function SiteHeader() {
           <span className="flex flex-col leading-tight">
             <span className="font-serif text-lg text-ivory">THRONE OF SINNERS</span>
             <span className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
-              Sanctuary · Grace · Restoration
+              Lust · Lewdness · Perversion
             </span>
           </span>
         </Link>
