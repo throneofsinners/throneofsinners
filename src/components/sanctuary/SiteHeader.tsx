@@ -3,7 +3,11 @@ import { Crown, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
+
 const NAV = [
+  { to: "/sanctuary", label: "Sanctuary" },
+  { to: "/voices", label: "Voices" },
+  { to: "/pastors", label: "Pastors" },
   { to: "/confess", label: "Confession" },
   { to: "/prayer", label: "Prayer Altar" },
   { to: "/lookup", label: "My Scroll" },
@@ -39,6 +43,7 @@ export function SiteHeader() {
       }
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-5">
+
         <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gold bg-background/40 candle-flicker">
             <Crown aria-hidden className="h-4 w-4 text-gold" />

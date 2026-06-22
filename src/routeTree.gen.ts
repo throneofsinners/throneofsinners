@@ -9,10 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VoicesRouteImport } from './routes/voices'
 import { Route as TestimonyRouteImport } from './routes/testimony'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SanctuaryRouteImport } from './routes/sanctuary'
 import { Route as RestorationRouteImport } from './routes/restoration'
 import { Route as PrayerRouteImport } from './routes/prayer'
+import { Route as PastorsRouteImport } from './routes/pastors'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as LookupRouteImport } from './routes/lookup'
 import { Route as GivingRouteImport } from './routes/giving'
@@ -24,13 +27,22 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LookupIndexRouteImport } from './routes/lookup.index'
 import { Route as LookupTokenRouteImport } from './routes/lookup.$token'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedContactPastorsRouteImport } from './routes/_authenticated/contact-pastors'
 import { Route as AuthenticatedChambersRouteImport } from './routes/_authenticated/chambers'
+import { Route as AuthenticatedAnonymousFeedRouteImport } from './routes/_authenticated/anonymous-feed'
 import { Route as AuthenticatedInboxIndexRouteImport } from './routes/_authenticated/inbox.index'
 import { Route as AuthenticatedInboxIdRouteImport } from './routes/_authenticated/inbox.$id'
 import { Route as AuthenticatedChambersIdRouteImport } from './routes/_authenticated/chambers.$id'
+import { Route as AuthenticatedAdminVoicesQueueRouteImport } from './routes/_authenticated/admin.voices-queue'
+import { Route as AuthenticatedAdminMembersRouteImport } from './routes/_authenticated/admin.members'
 import { Route as AuthenticatedAdminInvitesRouteImport } from './routes/_authenticated/admin.invites'
 import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
 
+const VoicesRoute = VoicesRouteImport.update({
+  id: '/voices',
+  path: '/voices',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TestimonyRoute = TestimonyRouteImport.update({
   id: '/testimony',
   path: '/testimony',
@@ -41,6 +53,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SanctuaryRoute = SanctuaryRouteImport.update({
+  id: '/sanctuary',
+  path: '/sanctuary',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RestorationRoute = RestorationRouteImport.update({
   id: '/restoration',
   path: '/restoration',
@@ -49,6 +66,11 @@ const RestorationRoute = RestorationRouteImport.update({
 const PrayerRoute = PrayerRouteImport.update({
   id: '/prayer',
   path: '/prayer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PastorsRoute = PastorsRouteImport.update({
+  id: '/pastors',
+  path: '/pastors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnersRoute = PartnersRouteImport.update({
@@ -105,11 +127,23 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedContactPastorsRoute =
+  AuthenticatedContactPastorsRouteImport.update({
+    id: '/contact-pastors',
+    path: '/contact-pastors',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedChambersRoute = AuthenticatedChambersRouteImport.update({
   id: '/chambers',
   path: '/chambers',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAnonymousFeedRoute =
+  AuthenticatedAnonymousFeedRouteImport.update({
+    id: '/anonymous-feed',
+    path: '/anonymous-feed',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInboxIndexRoute = AuthenticatedInboxIndexRouteImport.update({
   id: '/inbox/',
   path: '/inbox/',
@@ -125,6 +159,18 @@ const AuthenticatedChambersIdRoute = AuthenticatedChambersIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AuthenticatedChambersRoute,
 } as any)
+const AuthenticatedAdminVoicesQueueRoute =
+  AuthenticatedAdminVoicesQueueRouteImport.update({
+    id: '/admin/voices-queue',
+    path: '/admin/voices-queue',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminMembersRoute =
+  AuthenticatedAdminMembersRouteImport.update({
+    id: '/admin/members',
+    path: '/admin/members',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminInvitesRoute =
   AuthenticatedAdminInvitesRouteImport.update({
     id: '/admin/invites',
@@ -145,16 +191,23 @@ export interface FileRoutesByFullPath {
   '/giving': typeof GivingRoute
   '/lookup': typeof LookupRouteWithChildren
   '/partners': typeof PartnersRoute
+  '/pastors': typeof PastorsRoute
   '/prayer': typeof PrayerRoute
   '/restoration': typeof RestorationRoute
+  '/sanctuary': typeof SanctuaryRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimony': typeof TestimonyRoute
+  '/voices': typeof VoicesRoute
+  '/anonymous-feed': typeof AuthenticatedAnonymousFeedRoute
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
+  '/contact-pastors': typeof AuthenticatedContactPastorsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lookup/$token': typeof LookupTokenRoute
   '/lookup/': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
+  '/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/admin/voices-queue': typeof AuthenticatedAdminVoicesQueueRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
   '/inbox/$id': typeof AuthenticatedInboxIdRoute
   '/inbox/': typeof AuthenticatedInboxIndexRoute
@@ -166,16 +219,23 @@ export interface FileRoutesByTo {
   '/counsel': typeof CounselRoute
   '/giving': typeof GivingRoute
   '/partners': typeof PartnersRoute
+  '/pastors': typeof PastorsRoute
   '/prayer': typeof PrayerRoute
   '/restoration': typeof RestorationRoute
+  '/sanctuary': typeof SanctuaryRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimony': typeof TestimonyRoute
+  '/voices': typeof VoicesRoute
+  '/anonymous-feed': typeof AuthenticatedAnonymousFeedRoute
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
+  '/contact-pastors': typeof AuthenticatedContactPastorsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/lookup/$token': typeof LookupTokenRoute
   '/lookup': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
+  '/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/admin/voices-queue': typeof AuthenticatedAdminVoicesQueueRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
   '/inbox/$id': typeof AuthenticatedInboxIdRoute
   '/inbox': typeof AuthenticatedInboxIndexRoute
@@ -190,16 +250,23 @@ export interface FileRoutesById {
   '/giving': typeof GivingRoute
   '/lookup': typeof LookupRouteWithChildren
   '/partners': typeof PartnersRoute
+  '/pastors': typeof PastorsRoute
   '/prayer': typeof PrayerRoute
   '/restoration': typeof RestorationRoute
+  '/sanctuary': typeof SanctuaryRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimony': typeof TestimonyRoute
+  '/voices': typeof VoicesRoute
+  '/_authenticated/anonymous-feed': typeof AuthenticatedAnonymousFeedRoute
   '/_authenticated/chambers': typeof AuthenticatedChambersRouteWithChildren
+  '/_authenticated/contact-pastors': typeof AuthenticatedContactPastorsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/lookup/$token': typeof LookupTokenRoute
   '/lookup/': typeof LookupIndexRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/invites': typeof AuthenticatedAdminInvitesRoute
+  '/_authenticated/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/_authenticated/admin/voices-queue': typeof AuthenticatedAdminVoicesQueueRoute
   '/_authenticated/chambers/$id': typeof AuthenticatedChambersIdRoute
   '/_authenticated/inbox/$id': typeof AuthenticatedInboxIdRoute
   '/_authenticated/inbox/': typeof AuthenticatedInboxIndexRoute
@@ -214,16 +281,23 @@ export interface FileRouteTypes {
     | '/giving'
     | '/lookup'
     | '/partners'
+    | '/pastors'
     | '/prayer'
     | '/restoration'
+    | '/sanctuary'
     | '/sitemap.xml'
     | '/testimony'
+    | '/voices'
+    | '/anonymous-feed'
     | '/chambers'
+    | '/contact-pastors'
     | '/dashboard'
     | '/lookup/$token'
     | '/lookup/'
     | '/admin/audit'
     | '/admin/invites'
+    | '/admin/members'
+    | '/admin/voices-queue'
     | '/chambers/$id'
     | '/inbox/$id'
     | '/inbox/'
@@ -235,16 +309,23 @@ export interface FileRouteTypes {
     | '/counsel'
     | '/giving'
     | '/partners'
+    | '/pastors'
     | '/prayer'
     | '/restoration'
+    | '/sanctuary'
     | '/sitemap.xml'
     | '/testimony'
+    | '/voices'
+    | '/anonymous-feed'
     | '/chambers'
+    | '/contact-pastors'
     | '/dashboard'
     | '/lookup/$token'
     | '/lookup'
     | '/admin/audit'
     | '/admin/invites'
+    | '/admin/members'
+    | '/admin/voices-queue'
     | '/chambers/$id'
     | '/inbox/$id'
     | '/inbox'
@@ -258,16 +339,23 @@ export interface FileRouteTypes {
     | '/giving'
     | '/lookup'
     | '/partners'
+    | '/pastors'
     | '/prayer'
     | '/restoration'
+    | '/sanctuary'
     | '/sitemap.xml'
     | '/testimony'
+    | '/voices'
+    | '/_authenticated/anonymous-feed'
     | '/_authenticated/chambers'
+    | '/_authenticated/contact-pastors'
     | '/_authenticated/dashboard'
     | '/lookup/$token'
     | '/lookup/'
     | '/_authenticated/admin/audit'
     | '/_authenticated/admin/invites'
+    | '/_authenticated/admin/members'
+    | '/_authenticated/admin/voices-queue'
     | '/_authenticated/chambers/$id'
     | '/_authenticated/inbox/$id'
     | '/_authenticated/inbox/'
@@ -282,14 +370,24 @@ export interface RootRouteChildren {
   GivingRoute: typeof GivingRoute
   LookupRoute: typeof LookupRouteWithChildren
   PartnersRoute: typeof PartnersRoute
+  PastorsRoute: typeof PastorsRoute
   PrayerRoute: typeof PrayerRoute
   RestorationRoute: typeof RestorationRoute
+  SanctuaryRoute: typeof SanctuaryRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestimonyRoute: typeof TestimonyRoute
+  VoicesRoute: typeof VoicesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/voices': {
+      id: '/voices'
+      path: '/voices'
+      fullPath: '/voices'
+      preLoaderRoute: typeof VoicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/testimony': {
       id: '/testimony'
       path: '/testimony'
@@ -304,6 +402,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sanctuary': {
+      id: '/sanctuary'
+      path: '/sanctuary'
+      fullPath: '/sanctuary'
+      preLoaderRoute: typeof SanctuaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/restoration': {
       id: '/restoration'
       path: '/restoration'
@@ -316,6 +421,13 @@ declare module '@tanstack/react-router' {
       path: '/prayer'
       fullPath: '/prayer'
       preLoaderRoute: typeof PrayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pastors': {
+      id: '/pastors'
+      path: '/pastors'
+      fullPath: '/pastors'
+      preLoaderRoute: typeof PastorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partners': {
@@ -395,11 +507,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/contact-pastors': {
+      id: '/_authenticated/contact-pastors'
+      path: '/contact-pastors'
+      fullPath: '/contact-pastors'
+      preLoaderRoute: typeof AuthenticatedContactPastorsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/chambers': {
       id: '/_authenticated/chambers'
       path: '/chambers'
       fullPath: '/chambers'
       preLoaderRoute: typeof AuthenticatedChambersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/anonymous-feed': {
+      id: '/_authenticated/anonymous-feed'
+      path: '/anonymous-feed'
+      fullPath: '/anonymous-feed'
+      preLoaderRoute: typeof AuthenticatedAnonymousFeedRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/inbox/': {
@@ -422,6 +548,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/chambers/$id'
       preLoaderRoute: typeof AuthenticatedChambersIdRouteImport
       parentRoute: typeof AuthenticatedChambersRoute
+    }
+    '/_authenticated/admin/voices-queue': {
+      id: '/_authenticated/admin/voices-queue'
+      path: '/admin/voices-queue'
+      fullPath: '/admin/voices-queue'
+      preLoaderRoute: typeof AuthenticatedAdminVoicesQueueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/members': {
+      id: '/_authenticated/admin/members'
+      path: '/admin/members'
+      fullPath: '/admin/members'
+      preLoaderRoute: typeof AuthenticatedAdminMembersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/invites': {
       id: '/_authenticated/admin/invites'
@@ -454,19 +594,27 @@ const AuthenticatedChambersRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAnonymousFeedRoute: typeof AuthenticatedAnonymousFeedRoute
   AuthenticatedChambersRoute: typeof AuthenticatedChambersRouteWithChildren
+  AuthenticatedContactPastorsRoute: typeof AuthenticatedContactPastorsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
   AuthenticatedAdminInvitesRoute: typeof AuthenticatedAdminInvitesRoute
+  AuthenticatedAdminMembersRoute: typeof AuthenticatedAdminMembersRoute
+  AuthenticatedAdminVoicesQueueRoute: typeof AuthenticatedAdminVoicesQueueRoute
   AuthenticatedInboxIdRoute: typeof AuthenticatedInboxIdRoute
   AuthenticatedInboxIndexRoute: typeof AuthenticatedInboxIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAnonymousFeedRoute: AuthenticatedAnonymousFeedRoute,
   AuthenticatedChambersRoute: AuthenticatedChambersRouteWithChildren,
+  AuthenticatedContactPastorsRoute: AuthenticatedContactPastorsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
   AuthenticatedAdminInvitesRoute: AuthenticatedAdminInvitesRoute,
+  AuthenticatedAdminMembersRoute: AuthenticatedAdminMembersRoute,
+  AuthenticatedAdminVoicesQueueRoute: AuthenticatedAdminVoicesQueueRoute,
   AuthenticatedInboxIdRoute: AuthenticatedInboxIdRoute,
   AuthenticatedInboxIndexRoute: AuthenticatedInboxIndexRoute,
 }
@@ -496,21 +644,14 @@ const rootRouteChildren: RootRouteChildren = {
   GivingRoute: GivingRoute,
   LookupRoute: LookupRouteWithChildren,
   PartnersRoute: PartnersRoute,
+  PastorsRoute: PastorsRoute,
   PrayerRoute: PrayerRoute,
   RestorationRoute: RestorationRoute,
+  SanctuaryRoute: SanctuaryRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestimonyRoute: TestimonyRoute,
+  VoicesRoute: VoicesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

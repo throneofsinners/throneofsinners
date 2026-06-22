@@ -71,14 +71,21 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "crisis_alerts_submission_id_fkey";
-            columns: ["submission_id"];
-            isOneToOne: false;
-            referencedRelation: "submissions";
-            referencedColumns: ["id"];
+            foreignKeyName: "crisis_alerts_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "public_voices"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+          {
+            foreignKeyName: "crisis_alerts_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "submissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pastor_invitations: {
         Row: {
           accepted_at: string | null;
@@ -97,15 +104,53 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"];
         };
         Update: {
-          accepted_at?: string | null;
-          created_at?: string;
-          email?: string;
-          id?: string;
-          invited_by?: string | null;
-          role?: Database["public"]["Enums"]["app_role"];
-        };
-        Relationships: [];
-      };
+          accepted_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          invited_by?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: []
+      }
+      pastor_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          pastor_id: string
+          read_at: string | null
+          sender_id: string
+          subject: string | null
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          pastor_id: string
+          read_at?: string | null
+          sender_id: string
+          subject?: string | null
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          pastor_id?: string
+          read_at?: string | null
+          sender_id?: string
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pastor_messages_pastor_id_fkey"
+            columns: ["pastor_id"]
+            isOneToOne: false
+            referencedRelation: "pastors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pastoral_responses: {
         Row: {
           author_display_name: string | null;
@@ -142,14 +187,75 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "pastoral_responses_submission_id_fkey";
-            columns: ["submission_id"];
-            isOneToOne: false;
-            referencedRelation: "submissions";
-            referencedColumns: ["id"];
+            foreignKeyName: "pastoral_responses_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "public_voices"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+          {
+            foreignKeyName: "pastoral_responses_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "submissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pastors: {
+        Row: {
+          bio: string | null
+          created_at: string
+          display_name: string
+          email: string | null
+          facebook: string | null
+          id: string
+          instagram: string | null
+          is_visible: boolean
+          phone: string | null
+          photo_url: string | null
+          sort_order: number
+          title: string | null
+          twitter: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          display_name: string
+          email?: string | null
+          facebook?: string | null
+          id?: string
+          instagram?: string | null
+          is_visible?: boolean
+          phone?: string | null
+          photo_url?: string | null
+          sort_order?: number
+          title?: string | null
+          twitter?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          email?: string | null
+          facebook?: string | null
+          id?: string
+          instagram?: string | null
+          is_visible?: boolean
+          phone?: string | null
+          photo_url?: string | null
+          sort_order?: number
+          title?: string | null
+          twitter?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       peer_chamber_members: {
         Row: {
           chamber_id: string;
@@ -261,85 +367,103 @@ export type Database = {
       };
       profiles: {
         Row: {
-          created_at: string;
-          display_name: string | null;
-          email: string;
-          id: string;
-          title: string | null;
-          updated_at: string;
-        };
+          created_at: string
+          display_name: string | null
+          email: string
+          id: string
+          membership_tier: Database["public"]["Enums"]["membership_tier"]
+          title: string | null
+          updated_at: string
+        }
         Insert: {
-          created_at?: string;
-          display_name?: string | null;
-          email: string;
-          id: string;
-          title?: string | null;
-          updated_at?: string;
-        };
+          created_at?: string
+          display_name?: string | null
+          email: string
+          id: string
+          membership_tier?: Database["public"]["Enums"]["membership_tier"]
+          title?: string | null
+          updated_at?: string
+        }
         Update: {
-          created_at?: string;
-          display_name?: string | null;
-          email?: string;
-          id?: string;
-          title?: string | null;
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          display_name?: string | null
+          email?: string
+          id?: string
+          membership_tier?: Database["public"]["Enums"]["membership_tier"]
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       submissions: {
         Row: {
-          category: string | null;
-          contact_email: string | null;
-          contact_name: string | null;
-          content: string;
-          created_at: string;
-          id: string;
-          is_anonymous: boolean;
-          pastoral_response: string | null;
-          responded_at: string | null;
-          risk_flagged: boolean;
-          risk_keywords: string[] | null;
-          status: Database["public"]["Enums"]["submission_status"];
-          tracking_token: string;
-          type: Database["public"]["Enums"]["submission_type"];
-          updated_at: string;
-        };
+          category: string | null
+          contact_email: string | null
+          contact_name: string | null
+          content: string
+          created_at: string
+          display_publicly: boolean
+          id: string
+          is_anonymous: boolean
+          pastoral_response: string | null
+          public_approved_at: string | null
+          public_approved_by: string | null
+          public_excerpt: string | null
+          public_title: string | null
+          responded_at: string | null
+          risk_flagged: boolean
+          risk_keywords: string[] | null
+          status: Database["public"]["Enums"]["submission_status"]
+          tracking_token: string
+          type: Database["public"]["Enums"]["submission_type"]
+          updated_at: string
+        }
         Insert: {
-          category?: string | null;
-          contact_email?: string | null;
-          contact_name?: string | null;
-          content: string;
-          created_at?: string;
-          id?: string;
-          is_anonymous?: boolean;
-          pastoral_response?: string | null;
-          responded_at?: string | null;
-          risk_flagged?: boolean;
-          risk_keywords?: string[] | null;
-          status?: Database["public"]["Enums"]["submission_status"];
-          tracking_token: string;
-          type: Database["public"]["Enums"]["submission_type"];
-          updated_at?: string;
-        };
+          category?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          content: string
+          created_at?: string
+          display_publicly?: boolean
+          id?: string
+          is_anonymous?: boolean
+          pastoral_response?: string | null
+          public_approved_at?: string | null
+          public_approved_by?: string | null
+          public_excerpt?: string | null
+          public_title?: string | null
+          responded_at?: string | null
+          risk_flagged?: boolean
+          risk_keywords?: string[] | null
+          status?: Database["public"]["Enums"]["submission_status"]
+          tracking_token: string
+          type: Database["public"]["Enums"]["submission_type"]
+          updated_at?: string
+        }
         Update: {
-          category?: string | null;
-          contact_email?: string | null;
-          contact_name?: string | null;
-          content?: string;
-          created_at?: string;
-          id?: string;
-          is_anonymous?: boolean;
-          pastoral_response?: string | null;
-          responded_at?: string | null;
-          risk_flagged?: boolean;
-          risk_keywords?: string[] | null;
-          status?: Database["public"]["Enums"]["submission_status"];
-          tracking_token?: string;
-          type?: Database["public"]["Enums"]["submission_type"];
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
+          category?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          content?: string
+          created_at?: string
+          display_publicly?: boolean
+          id?: string
+          is_anonymous?: boolean
+          pastoral_response?: string | null
+          public_approved_at?: string | null
+          public_approved_by?: string | null
+          public_excerpt?: string | null
+          public_title?: string | null
+          responded_at?: string | null
+          risk_flagged?: boolean
+          risk_keywords?: string[] | null
+          status?: Database["public"]["Enums"]["submission_status"]
+          tracking_token?: string
+          type?: Database["public"]["Enums"]["submission_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string;
@@ -366,9 +490,42 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
-    };
+      public_voices: {
+        Row: {
+          approved_at: string | null
+          category: string | null
+          created_at: string | null
+          excerpt: string | null
+          id: string | null
+          title: string | null
+          type: Database["public"]["Enums"]["submission_type"] | null
+        }
+        Insert: {
+          approved_at?: string | null
+          category?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          id?: string | null
+          title?: never
+          type?: Database["public"]["Enums"]["submission_type"] | null
+        }
+        Update: {
+          approved_at?: string | null
+          category?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          id?: string | null
+          title?: never
+          type?: Database["public"]["Enums"]["submission_type"] | null
+        }
+        Relationships: []
+      }
+    }
     Functions: {
+      get_membership_tier: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["membership_tier"]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"];
@@ -382,8 +539,9 @@ export type Database = {
       };
     };
     Enums: {
-      app_role: "admin" | "pastor" | "peer_mentor" | "member";
-      chamber_status: "open" | "closed" | "archived";
+      app_role: "admin" | "pastor" | "peer_mentor" | "member"
+      chamber_status: "open" | "closed" | "archived"
+      membership_tier: "free" | "regular" | "premium"
       submission_status:
         | "received"
         | "in_review"
@@ -519,6 +677,7 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "pastor", "peer_mentor", "member"],
       chamber_status: ["open", "closed", "archived"],
+      membership_tier: ["free", "regular", "premium"],
       submission_status: [
         "received",
         "in_review",

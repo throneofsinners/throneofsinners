@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/sanctuary/PageShell";
 import { SubmissionForm } from "@/components/sanctuary/SubmissionForm";
+import bg from "@/assets/bg-partners.jpg";
 
 export const Route = createFileRoute("/partners")({
   head: () => ({
@@ -34,6 +35,7 @@ const CATEGORIES = [
 function PartnersPage() {
   return (
     <PageShell
+      background={bg}
       eyebrow="Prayer Partners"
       title={<>Two souls. One altar.</>}
       subtitle="Anonymous, covenantal, and pastor-supervised. You will not be matched with anyone outside the sanctuary's covenant."

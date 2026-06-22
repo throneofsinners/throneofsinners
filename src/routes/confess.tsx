@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/sanctuary/PageShell";
 import { SubmissionForm } from "@/components/sanctuary/SubmissionForm";
+import bg from "@/assets/bg-confess.jpg";
 
 export const Route = createFileRoute("/confess")({
   head: () => ({
@@ -36,12 +37,14 @@ const CATEGORIES = [
 function ConfessPage() {
   return (
     <PageShell
+      background={bg}
       eyebrow="The Confessional"
       title={<>Lay it down.</>}
       subtitle="What is spoken here is held in trust. Only pastoral staff will read it. You may stay completely anonymous."
     >
       <SubmissionForm
         type="confession"
+        publicVoiceType="confession"
         categories={CATEGORIES}
         intro="There is no rush, and no template. Say it the way you need to say it."
         contentLabel="Your confession"

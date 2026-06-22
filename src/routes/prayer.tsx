@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/sanctuary/PageShell";
 import { SubmissionForm } from "@/components/sanctuary/SubmissionForm";
+import bg from "@/assets/bg-prayer.jpg";
 
 export const Route = createFileRoute("/prayer")({
   head: () => ({
@@ -34,6 +35,7 @@ const CATEGORIES = [
 function PrayerPage() {
   return (
     <PageShell
+      background={bg}
       eyebrow="The Prayer Altar"
       title={<>Let us pray with you.</>}
       subtitle="Tell us what to pray for. A pastoral prayer team will carry your request to the throne and respond to you in time."

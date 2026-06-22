@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { PageShell } from "@/components/sanctuary/PageShell";
 import { isValidToken, normalizeToken } from "@/lib/token";
+import bg from "@/assets/bg-testimony.jpg";
 
 export const Route = createFileRoute("/lookup/")({
   head: () => ({
@@ -34,6 +35,7 @@ function LookupPage() {
 
   return (
     <PageShell
+      background={bg}
       eyebrow="Return to your message"
       title={<>Check the status.</>}
       subtitle="Enter the sacred tracking code you received when you submitted, to read any pastoral response."
