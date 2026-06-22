@@ -80,6 +80,13 @@ export type Database = {
             foreignKeyName: "crisis_alerts_submission_id_fkey"
             columns: ["submission_id"]
             isOneToOne: false
+            referencedRelation: "public_voices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crisis_alerts_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
             referencedRelation: "submissions"
             referencedColumns: ["id"]
           },
@@ -111,6 +118,44 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
         }
         Relationships: []
+      }
+      pastor_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          pastor_id: string
+          read_at: string | null
+          sender_id: string
+          subject: string | null
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          pastor_id: string
+          read_at?: string | null
+          sender_id: string
+          subject?: string | null
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          pastor_id?: string
+          read_at?: string | null
+          sender_id?: string
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pastor_messages_pastor_id_fkey"
+            columns: ["pastor_id"]
+            isOneToOne: false
+            referencedRelation: "pastors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       pastoral_responses: {
         Row: {
@@ -151,10 +196,71 @@ export type Database = {
             foreignKeyName: "pastoral_responses_submission_id_fkey"
             columns: ["submission_id"]
             isOneToOne: false
+            referencedRelation: "public_voices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pastoral_responses_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
             referencedRelation: "submissions"
             referencedColumns: ["id"]
           },
         ]
+      }
+      pastors: {
+        Row: {
+          bio: string | null
+          created_at: string
+          display_name: string
+          email: string | null
+          facebook: string | null
+          id: string
+          instagram: string | null
+          is_visible: boolean
+          phone: string | null
+          photo_url: string | null
+          sort_order: number
+          title: string | null
+          twitter: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          display_name: string
+          email?: string | null
+          facebook?: string | null
+          id?: string
+          instagram?: string | null
+          is_visible?: boolean
+          phone?: string | null
+          photo_url?: string | null
+          sort_order?: number
+          title?: string | null
+          twitter?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          email?: string | null
+          facebook?: string | null
+          id?: string
+          instagram?: string | null
+          is_visible?: boolean
+          phone?: string | null
+          photo_url?: string | null
+          sort_order?: number
+          title?: string | null
+          twitter?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
       }
       peer_chamber_members: {
         Row: {
@@ -271,6 +377,7 @@ export type Database = {
           display_name: string | null
           email: string
           id: string
+          membership_tier: Database["public"]["Enums"]["membership_tier"]
           title: string | null
           updated_at: string
         }
@@ -279,6 +386,7 @@ export type Database = {
           display_name?: string | null
           email: string
           id: string
+          membership_tier?: Database["public"]["Enums"]["membership_tier"]
           title?: string | null
           updated_at?: string
         }
@@ -287,6 +395,7 @@ export type Database = {
           display_name?: string | null
           email?: string
           id?: string
+          membership_tier?: Database["public"]["Enums"]["membership_tier"]
           title?: string | null
           updated_at?: string
         }
@@ -299,9 +408,14 @@ export type Database = {
           contact_name: string | null
           content: string
           created_at: string
+          display_publicly: boolean
           id: string
           is_anonymous: boolean
           pastoral_response: string | null
+          public_approved_at: string | null
+          public_approved_by: string | null
+          public_excerpt: string | null
+          public_title: string | null
           responded_at: string | null
           risk_flagged: boolean
           risk_keywords: string[] | null
@@ -316,9 +430,14 @@ export type Database = {
           contact_name?: string | null
           content: string
           created_at?: string
+          display_publicly?: boolean
           id?: string
           is_anonymous?: boolean
           pastoral_response?: string | null
+          public_approved_at?: string | null
+          public_approved_by?: string | null
+          public_excerpt?: string | null
+          public_title?: string | null
           responded_at?: string | null
           risk_flagged?: boolean
           risk_keywords?: string[] | null
@@ -333,9 +452,14 @@ export type Database = {
           contact_name?: string | null
           content?: string
           created_at?: string
+          display_publicly?: boolean
           id?: string
           is_anonymous?: boolean
           pastoral_response?: string | null
+          public_approved_at?: string | null
+          public_approved_by?: string | null
+          public_excerpt?: string | null
+          public_title?: string | null
           responded_at?: string | null
           risk_flagged?: boolean
           risk_keywords?: string[] | null
@@ -372,9 +496,42 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_voices: {
+        Row: {
+          approved_at: string | null
+          category: string | null
+          created_at: string | null
+          excerpt: string | null
+          id: string | null
+          title: string | null
+          type: Database["public"]["Enums"]["submission_type"] | null
+        }
+        Insert: {
+          approved_at?: string | null
+          category?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          id?: string | null
+          title?: never
+          type?: Database["public"]["Enums"]["submission_type"] | null
+        }
+        Update: {
+          approved_at?: string | null
+          category?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          id?: string | null
+          title?: never
+          type?: Database["public"]["Enums"]["submission_type"] | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
+      get_membership_tier: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["membership_tier"]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -390,6 +547,7 @@ export type Database = {
     Enums: {
       app_role: "admin" | "pastor" | "peer_mentor" | "member"
       chamber_status: "open" | "closed" | "archived"
+      membership_tier: "free" | "regular" | "premium"
       submission_status:
         | "received"
         | "in_review"
@@ -527,6 +685,7 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "pastor", "peer_mentor", "member"],
       chamber_status: ["open", "closed", "archived"],
+      membership_tier: ["free", "regular", "premium"],
       submission_status: [
         "received",
         "in_review",
