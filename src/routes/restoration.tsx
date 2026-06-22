@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/sanctuary/PageShell";
 import { SubmissionForm } from "@/components/sanctuary/SubmissionForm";
 import { UsersRound, ShieldCheck, Flame } from "lucide-react";
+import bg from "@/assets/bg-restoration.jpg";
 
 export const Route = createFileRoute("/restoration")({
   head: () => ({
@@ -57,6 +58,7 @@ const CATEGORIES = [
 function RestorationPage() {
   return (
     <PageShell
+      background={bg}
       eyebrow="Restoration Chambers"
       title={<>Walk it together.</>}
       subtitle="Small, shepherded circles — never anonymous public forums. Every chamber is held by a pastor and bound by covenant."
