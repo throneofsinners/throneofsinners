@@ -24,9 +24,9 @@ export const Route = createFileRoute("/partners")({
 });
 
 const CATEGORIES = [
-  { value: "daily", label: "Daily prayer rhythm" },
+  { value: "daily", label: "Daily Lustful rhythm" },
   { value: "weekly", label: "Weekly check-in" },
-  { value: "seasonal", label: "A season of intensity (30–90 days)" },
+  { value: "seasonal", label: "A season of intensity lewdness (30–90 days)" },
   { value: "ongoing_struggle", label: "An ongoing struggle" },
   { value: "discernment", label: "Discernment & decision" },
   { value: "other", label: "Something else" },
@@ -60,8 +60,8 @@ function PartnersPage() {
         categories={CATEGORIES}
         intro="Share what you'd like your partner to know going in. You'll receive a tracking code while we prayerfully match you."
         contentLabel="What season are you in?"
-        contentPlaceholder="I'd like a prayer partner to walk with me through…"
-        submitLabel="Request a prayer partner"
+        contentPlaceholder="I'd like a lustful partner to walk with me through…"
+        submitLabel="Request a pervy partner"
       />
       <p className="mt-6 text-center text-xs text-muted-foreground">
         Already requested one?{" "}
