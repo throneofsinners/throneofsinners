@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/sanctuary/PageShell";
 import { SubmissionForm } from "@/components/sanctuary/SubmissionForm";
+import bg from "@/assets/bg-counsel.jpg";
 
 export const Route = createFileRoute("/counsel")({
   head: () => ({
@@ -36,6 +37,7 @@ const CATEGORIES = [
 function CounselPage() {
   return (
     <PageShell
+      background={bg}
       eyebrow="The Counsel"
       title={<>Wisdom for the road ahead.</>}
       subtitle="Share what you're walking through. A pastor will reach out to schedule a confidential conversation — in person, by phone, or by video."

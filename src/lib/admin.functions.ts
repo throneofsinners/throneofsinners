@@ -37,7 +37,7 @@ export const getMyRoles = createServerFn({ method: "GET" })
     const { data: roles } = await supabaseAdmin
       .from("user_roles").select("role").eq("user_id", context.userId);
     const { data: profile } = await supabaseAdmin
-      .from("profiles").select("display_name, email, title").eq("id", context.userId).maybeSingle();
+      .from("profiles").select("display_name, email, title, membership_tier").eq("id", context.userId).maybeSingle();
     return {
       userId: context.userId,
       roles: (roles ?? []).map((r) => r.role),

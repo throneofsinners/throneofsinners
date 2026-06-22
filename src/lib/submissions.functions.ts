@@ -16,6 +16,9 @@ const submissionInput = z.object({
     .or(z.literal("")),
   contact_name: z.string().trim().max(120).optional().or(z.literal("")),
   is_anonymous: z.boolean().default(true),
+  display_publicly: z.boolean().default(false),
+  public_title: z.string().trim().max(120).optional().or(z.literal("")),
+  public_excerpt: z.string().trim().max(600).optional().or(z.literal("")),
 });
 
 export type SubmissionInput = z.infer<typeof submissionInput>;
@@ -40,6 +43,11 @@ export const createSubmission = createServerFn({ method: "POST" })
         contact_email: data.contact_email ? data.contact_email : null,
         contact_name: data.contact_name ? data.contact_name : null,
         is_anonymous: data.is_anonymous,
+        display_publicly: data.display_publicly,
+        public_title:
+          data.display_publicly && data.public_title ? data.public_title : null,
+        public_excerpt:
+          data.display_publicly && data.public_excerpt ? data.public_excerpt : null,
         risk_flagged: risk.flagged,
         risk_keywords: risk.matched.length ? risk.matched : null,
       })
