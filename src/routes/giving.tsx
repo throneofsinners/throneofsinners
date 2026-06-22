@@ -35,21 +35,27 @@ type GivingMethod = {
 const METHODS: GivingMethod[] = [
   {
     label: "PayPal",
-    value: "throneofsinners@gmail.com",
-    href: "https://www.paypal.com/donate?business=throneofsinners@gmail.com&item_name=Tithes+%26+Offerings&currency_code=USD",
+    //value: "throneofsinners@gmail.com",//
+    //href: "https://www.paypal.com/donate?business=throneofsinners@gmail.com&item_name=Tithes+%26+Offerings&currency_code=USD",
     note: "Send as Friends & Family to avoid fees.",
   },
   {
     label: "Cash App",
-    value: "$ThroneOfSinners",
-    href: "https://cash.app/$ThroneOfSinners",
+    //value: "$ThroneOfSinners",
+    //href: "https://cash.app/$ThroneOfSinners",
     note: "Note your gift as 'Tithe' or 'Offering'.",
   },
   {
     label: "Zelle",
-    value: "throneofsinners@gmail.com",
+    //value: "throneofsinners@gmail.com",
     href: null,
     note: "Use your bank's Zelle directory.",
+  },
+  {
+    label: "Tipp.ng",
+    //value: "throneofsinners@gmail.com",//
+    //href: "https://www.paypal.com/donate?business=throneofsinners@gmail.com&item_name=Tithes+%26+Offerings&currency_code=USD",
+    note: "Send with local bank transfer.",
   },
 ];
 
@@ -72,7 +78,7 @@ function GivingPage() {
     <PageShell
       eyebrow="Tithes & Offerings"
       title={<>Give as worship.</>}
-      subtitle="Bring the whole tithe into the storehouse — that there may be food in My house. Test Me in this, says the LORD Almighty. — Malachi 3:10"
+      subtitle="Bring the whole tithe into the storehouse — that there may be food in your house."
     >
       <div className="space-y-8">
         <section className="altar-card p-6">
@@ -81,10 +87,10 @@ function GivingPage() {
             <div>
               <h2 className="font-serif text-xl text-ivory">Where your gift goes</h2>
               <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-                <li>• Pastoral care &amp; crisis response for those who confess and pray here</li>
-                <li>• Quiet support for members in spiritual or material need</li>
-                <li>• Hosting, security, and the prayer team's resources</li>
-                <li>• Outreach &amp; restoration ministry beyond these walls</li>
+                <li>• Pastoral care &amp; workers</li>
+                <li>• Sanctuary maintenance and continous service</li>
+                <li>• Hosting, security, and resources</li>
+                <li>• Outreach &amp; spreading our community beyond these walls</li>
               </ul>
             </div>
           </div>
@@ -200,9 +206,9 @@ function GivingPage() {
           <div className="gold-rule my-3" />
           <p className="font-serif text-base leading-relaxed text-ivory/90">
             "Each of you should give what you have decided in your heart to give, not reluctantly or
-            under compulsion, for God loves a cheerful giver."
+            under compulsion, for we love a cheerful giver."
           </p>
-          <p className="mt-2 text-sm text-gold">— 2 Corinthians 9:7</p>
+          <p className="mt-2 text-sm text-gold"> </p>
           <p className="mt-4 text-sm text-muted-foreground">
             We never sell your information and we never share donor lists. If you need a giving
             record for tax purposes, contact the stewards and we will provide a written
