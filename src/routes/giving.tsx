@@ -116,7 +116,9 @@ function GivingPage() {
               min={1}
               step={1}
               value={amount}
-              onChange={(e) => setAmount(e.target.value === "" ? "" : Math.max(1, Number(e.target.value)))}
+              onChange={(e) =>
+                setAmount(e.target.value === "" ? "" : Math.max(1, Number(e.target.value)))
+              }
               className="w-32 rounded-md border border-border bg-background px-3 py-2 font-serif text-2xl text-ivory focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40"
               aria-label="Gift amount"
             />
@@ -131,8 +133,8 @@ function GivingPage() {
             </label>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            Select your amount, then choose a giving method below. Your selection
-            will be remembered when you open PayPal or Cash App.
+            Select your amount, then choose a giving method below. Your selection will be remembered
+            when you open PayPal or Cash App.
           </p>
         </section>
 
@@ -168,7 +170,11 @@ function GivingPage() {
                       onClick={() => copy(m.value)}
                       className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-1.5 text-xs text-ivory hover:border-gold/40 hover:bg-gold/10"
                     >
-                      {copied === m.value ? <Check className="h-3.5 w-3.5 text-gold" /> : <Copy className="h-3.5 w-3.5" />}
+                      {copied === m.value ? (
+                        <Check className="h-3.5 w-3.5 text-gold" />
+                      ) : (
+                        <Copy className="h-3.5 w-3.5" />
+                      )}
                       {copied === m.value ? "Copied" : "Copy"}
                     </button>
                     {url && (
@@ -193,14 +199,14 @@ function GivingPage() {
           <h2 className="font-serif text-xl text-ivory">A word on giving</h2>
           <div className="gold-rule my-3" />
           <p className="font-serif text-base leading-relaxed text-ivory/90">
-            "Each of you should give what you have decided in your heart to give,
-            not reluctantly or under compulsion, for God loves a cheerful giver."
+            "Each of you should give what you have decided in your heart to give, not reluctantly or
+            under compulsion, for God loves a cheerful giver."
           </p>
           <p className="mt-2 text-sm text-gold">— 2 Corinthians 9:7</p>
           <p className="mt-4 text-sm text-muted-foreground">
-            We never sell your information and we never share donor lists. If you
-            need a giving record for tax purposes, contact the stewards and we
-            will provide a written acknowledgment.
+            We never sell your information and we never share donor lists. If you need a giving
+            record for tax purposes, contact the stewards and we will provide a written
+            acknowledgment.
           </p>
         </section>
       </div>

@@ -45,8 +45,8 @@ export function TokenDisplay({ token }: { token: string }) {
         </Link>
       </div>
       <p className="mt-5 text-xs text-muted-foreground">
-        Keep this somewhere safe. It is the only way to view pastoral responses
-        without creating an account.
+        Keep this somewhere safe. It is the only way to view pastoral responses without creating an
+        account.
       </p>
     </div>
   );

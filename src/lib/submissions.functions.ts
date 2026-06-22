@@ -23,9 +23,7 @@ export type SubmissionInput = z.infer<typeof submissionInput>;
 export const createSubmission = createServerFn({ method: "POST" })
   .inputValidator((input) => submissionInput.parse(input))
   .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import(
-      "@/integrations/supabase/client.server"
-    );
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const risk = scanForRisk(data.content);
     const token = generateTrackingToken();
@@ -74,13 +72,11 @@ const lookupInput = z.object({
 export const getSubmissionByToken = createServerFn({ method: "POST" })
   .inputValidator((input) => lookupInput.parse(input))
   .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import(
-      "@/integrations/supabase/client.server"
-    );
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: row, error } = await supabaseAdmin
       .from("submissions")
       .select(
-        "id, tracking_token, type, category, status, content, pastoral_response, responded_at, created_at"
+        "id, tracking_token, type, category, status, content, pastoral_response, responded_at, created_at",
       )
       .eq("tracking_token", data.token)
       .maybeSingle();

@@ -5,20 +5,26 @@ import { scanForRisk } from "./risk-keywords";
 
 async function assertPastor(userId: string) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data } = await supabaseAdmin
-    .from("user_roles")
-    .select("role")
-    .eq("user_id", userId);
+  const { data } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", userId);
   const roles = (data ?? []).map((r) => r.role);
   const isPastor = roles.includes("pastor") || roles.includes("admin");
   if (!isPastor) throw new Error("Forbidden: pastoral access required.");
   return { roles, isAdmin: roles.includes("admin") };
 }
 
-async function writeAudit(actorId: string, action: string, entityType: string, entityId: string | null, metadata: Record<string, unknown> = {}) {
+async function writeAudit(
+  actorId: string,
+  action: string,
+  entityType: string,
+  entityId: string | null,
+  metadata: Record<string, unknown> = {},
+) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data: profile } = await supabaseAdmin
-    .from("profiles").select("email").eq("id", actorId).maybeSingle();
+    .from("profiles")
+    .select("email")
+    .eq("id", actorId)
+    .maybeSingle();
   await supabaseAdmin.from("audit_log").insert({
     actor_id: actorId,
     actor_email: profile?.email ?? null,
@@ -35,9 +41,14 @@ export const getMyRoles = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: roles } = await supabaseAdmin
-      .from("user_roles").select("role").eq("user_id", context.userId);
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", context.userId);
     const { data: profile } = await supabaseAdmin
-      .from("profiles").select("display_name, email, title").eq("id", context.userId).maybeSingle();
+      .from("profiles")
+      .select("display_name, email, title")
+      .eq("id", context.userId)
+      .maybeSingle();
     return {
       userId: context.userId,
       roles: (roles ?? []).map((r) => r.role),
@@ -46,13 +57,25 @@ export const getMyRoles = createServerFn({ method: "GET" })
   });
 
 // ---- Inbox ----
-const inboxFilter = z.object({
-  status: z.enum(["received","in_review","being_prayed_for","pastor_assigned","responded","resolved","all"]).default("all"),
-  type: z.enum(["confession","prayer","all"]).default("all"),
-  category: z.string().trim().max(80).default("all"),
-  risk_only: z.boolean().default(false),
-  q: z.string().trim().max(200).optional().default(""),
-}).default({ status: "all", type: "all", category: "all", risk_only: false, q: "" });
+const inboxFilter = z
+  .object({
+    status: z
+      .enum([
+        "received",
+        "in_review",
+        "being_prayed_for",
+        "pastor_assigned",
+        "responded",
+        "resolved",
+        "all",
+      ])
+      .default("all"),
+    type: z.enum(["confession", "prayer", "all"]).default("all"),
+    category: z.string().trim().max(80).default("all"),
+    risk_only: z.boolean().default(false),
+    q: z.string().trim().max(200).optional().default(""),
+  })
+  .default({ status: "all", type: "all", category: "all", risk_only: false, q: "" });
 
 export const listSubmissions = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -62,7 +85,9 @@ export const listSubmissions = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     let q = supabaseAdmin
       .from("submissions")
-      .select("id, tracking_token, type, category, status, risk_flagged, contact_name, created_at, updated_at")
+      .select(
+        "id, tracking_token, type, category, status, risk_flagged, contact_name, created_at, updated_at",
+      )
       .order("risk_flagged", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(200);
@@ -94,7 +119,7 @@ export const listCategories = createServerFn({ method: "GET" })
       if (existing) existing.count += 1;
       else map.set(key, { value: r.category, type: r.type as string, count: 1 });
     }
-    return Array.from(map.values()).sort((a,b) => b.count - a.count);
+    return Array.from(map.values()).sort((a, b) => b.count - a.count);
   });
 
 export const getSubmissionDetail = createServerFn({ method: "POST" })
@@ -105,14 +130,29 @@ export const getSubmissionDetail = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const [{ data: submission }, { data: responses }, { data: alerts }] = await Promise.all([
       supabaseAdmin.from("submissions").select("*").eq("id", data.id).maybeSingle(),
-      supabaseAdmin.from("pastoral_responses").select("*").eq("submission_id", data.id).order("created_at"),
-      supabaseAdmin.from("crisis_alerts").select("*").eq("submission_id", data.id).order("created_at", { ascending: false }),
+      supabaseAdmin
+        .from("pastoral_responses")
+        .select("*")
+        .eq("submission_id", data.id)
+        .order("created_at"),
+      supabaseAdmin
+        .from("crisis_alerts")
+        .select("*")
+        .eq("submission_id", data.id)
+        .order("created_at", { ascending: false }),
     ]);
     if (!submission) throw new Error("Not found");
     return { submission, responses: responses ?? [], alerts: alerts ?? [] };
   });
 
-const statusEnum = z.enum(["received","in_review","being_prayed_for","pastor_assigned","responded","resolved"]);
+const statusEnum = z.enum([
+  "received",
+  "in_review",
+  "being_prayed_for",
+  "pastor_assigned",
+  "responded",
+  "resolved",
+]);
 
 export const updateSubmissionStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -120,11 +160,14 @@ export const updateSubmissionStatus = createServerFn({ method: "POST" })
   .handler(async ({ context, data }) => {
     await assertPastor(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("submissions")
+    const { error } = await supabaseAdmin
+      .from("submissions")
       .update({ status: data.status })
       .eq("id", data.id);
     if (error) throw new Error(error.message);
-    await writeAudit(context.userId, "submission.status_changed", "submission", data.id, { status: data.status });
+    await writeAudit(context.userId, "submission.status_changed", "submission", data.id, {
+      status: data.status,
+    });
     return { ok: true };
   });
 
@@ -142,32 +185,46 @@ export const createPastoralResponse = createServerFn({ method: "POST" })
     await assertPastor(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: profile } = await supabaseAdmin
-      .from("profiles").select("display_name, title").eq("id", context.userId).maybeSingle();
+      .from("profiles")
+      .select("display_name, title")
+      .eq("id", context.userId)
+      .maybeSingle();
     const display = profile?.title
       ? `${profile.title} ${profile.display_name ?? ""}`.trim()
-      : profile?.display_name ?? "A pastor";
+      : (profile?.display_name ?? "A pastor");
 
-    const { data: row, error } = await supabaseAdmin.from("pastoral_responses").insert({
-      submission_id: data.submission_id,
-      author_id: context.userId,
-      author_display_name: display,
-      body: data.body,
-      scripture_reference: data.scripture_reference || null,
-      is_internal_note: data.is_internal_note,
-    }).select("id").single();
+    const { data: row, error } = await supabaseAdmin
+      .from("pastoral_responses")
+      .insert({
+        submission_id: data.submission_id,
+        author_id: context.userId,
+        author_display_name: display,
+        body: data.body,
+        scripture_reference: data.scripture_reference || null,
+        is_internal_note: data.is_internal_note,
+      })
+      .select("id")
+      .single();
     if (error) throw new Error(error.message);
 
     if (!data.is_internal_note) {
-      await supabaseAdmin.from("submissions").update({
-        status: "responded",
-        pastoral_response: data.body,
-        responded_at: new Date().toISOString(),
-      }).eq("id", data.submission_id);
+      await supabaseAdmin
+        .from("submissions")
+        .update({
+          status: "responded",
+          pastoral_response: data.body,
+          responded_at: new Date().toISOString(),
+        })
+        .eq("id", data.submission_id);
     }
 
-    await writeAudit(context.userId,
+    await writeAudit(
+      context.userId,
       data.is_internal_note ? "submission.internal_note" : "submission.responded",
-      "submission", data.submission_id, { response_id: row?.id });
+      "submission",
+      data.submission_id,
+      { response_id: row?.id },
+    );
     return { id: row?.id };
   });
 
@@ -177,10 +234,13 @@ export const acknowledgeCrisisAlert = createServerFn({ method: "POST" })
   .handler(async ({ context, data }) => {
     await assertPastor(context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    await supabaseAdmin.from("crisis_alerts").update({
-      acknowledged_at: new Date().toISOString(),
-      acknowledged_by: context.userId,
-    }).eq("id", data.id);
+    await supabaseAdmin
+      .from("crisis_alerts")
+      .update({
+        acknowledged_at: new Date().toISOString(),
+        acknowledged_by: context.userId,
+      })
+      .eq("id", data.id);
     await writeAudit(context.userId, "crisis.acknowledged", "crisis_alert", data.id, {});
     return { ok: true };
   });
@@ -192,14 +252,16 @@ export const listInvitations = createServerFn({ method: "GET" })
     const { isAdmin } = await assertPastor(context.userId);
     if (!isAdmin) throw new Error("Admin only");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data } = await supabaseAdmin.from("pastor_invitations")
-      .select("*").order("created_at", { ascending: false });
+    const { data } = await supabaseAdmin
+      .from("pastor_invitations")
+      .select("*")
+      .order("created_at", { ascending: false });
     return data ?? [];
   });
 
 const inviteInput = z.object({
   email: z.string().trim().toLowerCase().email().max(255),
-  role: z.enum(["pastor","peer_mentor","admin"]).default("pastor"),
+  role: z.enum(["pastor", "peer_mentor", "admin"]).default("pastor"),
 });
 
 export const createInvitation = createServerFn({ method: "POST" })
@@ -209,11 +271,20 @@ export const createInvitation = createServerFn({ method: "POST" })
     const { isAdmin } = await assertPastor(context.userId);
     if (!isAdmin) throw new Error("Admin only");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("pastor_invitations").upsert({
-      email: data.email, role: data.role, invited_by: context.userId, accepted_at: null,
-    }, { onConflict: "email" });
+    const { error } = await supabaseAdmin.from("pastor_invitations").upsert(
+      {
+        email: data.email,
+        role: data.role,
+        invited_by: context.userId,
+        accepted_at: null,
+      },
+      { onConflict: "email" },
+    );
     if (error) throw new Error(error.message);
-    await writeAudit(context.userId, "invitation.created", "invitation", null, { email: data.email, role: data.role });
+    await writeAudit(context.userId, "invitation.created", "invitation", null, {
+      email: data.email,
+      role: data.role,
+    });
     return { ok: true };
   });
 
@@ -236,8 +307,11 @@ export const listAuditLog = createServerFn({ method: "GET" })
     const { isAdmin } = await assertPastor(context.userId);
     if (!isAdmin) throw new Error("Admin only");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data } = await supabaseAdmin.from("audit_log")
-      .select("*").order("created_at", { ascending: false }).limit(200);
+    const { data } = await supabaseAdmin
+      .from("audit_log")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(200);
     return data ?? [];
   });
 

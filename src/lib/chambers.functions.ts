@@ -19,7 +19,8 @@ export const listChambers = createServerFn({ method: "GET" })
       .neq("status", "archived")
       .order("created_at", { ascending: false });
     const { data: memberships } = await supabaseAdmin
-      .from("peer_chamber_members").select("chamber_id, user_id");
+      .from("peer_chamber_members")
+      .select("chamber_id, user_id");
     const counts = new Map<string, number>();
     const mine = new Set<string>();
     for (const m of memberships ?? []) {
@@ -48,12 +49,16 @@ export const createChamber = createServerFn({ method: "POST" })
       throw new Error("Only pastors can open new chambers.");
     }
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: row, error } = await supabaseAdmin.from("peer_chambers").insert({
-      topic: data.topic,
-      description: data.description || null,
-      capacity: data.capacity,
-      steward_id: context.userId,
-    }).select("id").single();
+    const { data: row, error } = await supabaseAdmin
+      .from("peer_chambers")
+      .insert({
+        topic: data.topic,
+        description: data.description || null,
+        capacity: data.capacity,
+        steward_id: context.userId,
+      })
+      .select("id")
+      .single();
     if (error) throw new Error(error.message);
     return { id: row!.id };
   });
@@ -69,18 +74,26 @@ export const joinChamber = createServerFn({ method: "POST" })
   .handler(async ({ context, data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: chamber } = await supabaseAdmin
-      .from("peer_chambers").select("capacity, status").eq("id", data.chamber_id).maybeSingle();
+      .from("peer_chambers")
+      .select("capacity, status")
+      .eq("id", data.chamber_id)
+      .maybeSingle();
     if (!chamber) throw new Error("Chamber not found.");
     if (chamber.status !== "open") throw new Error("This chamber is not open.");
-    const { count } = await supabaseAdmin.from("peer_chamber_members")
-      .select("id", { count: "exact", head: true }).eq("chamber_id", data.chamber_id);
+    const { count } = await supabaseAdmin
+      .from("peer_chamber_members")
+      .select("id", { count: "exact", head: true })
+      .eq("chamber_id", data.chamber_id);
     if ((count ?? 0) >= chamber.capacity) throw new Error("Chamber is full.");
 
-    const { error } = await supabaseAdmin.from("peer_chamber_members").upsert({
-      chamber_id: data.chamber_id,
-      user_id: context.userId,
-      pseudonym: data.pseudonym,
-    }, { onConflict: "chamber_id,user_id" });
+    const { error } = await supabaseAdmin.from("peer_chamber_members").upsert(
+      {
+        chamber_id: data.chamber_id,
+        user_id: context.userId,
+        pseudonym: data.pseudonym,
+      },
+      { onConflict: "chamber_id,user_id" },
+    );
     if (error) throw new Error(error.message);
     return { ok: true };
   });
@@ -90,8 +103,11 @@ export const leaveChamber = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ chamber_id: z.string().uuid() }).parse(d))
   .handler(async ({ context, data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    await supabaseAdmin.from("peer_chamber_members").delete()
-      .eq("chamber_id", data.chamber_id).eq("user_id", context.userId);
+    await supabaseAdmin
+      .from("peer_chamber_members")
+      .delete()
+      .eq("chamber_id", data.chamber_id)
+      .eq("user_id", context.userId);
     return { ok: true };
   });
 
@@ -104,37 +120,58 @@ export const getChamber = createServerFn({ method: "POST" })
     const isPastoral = roles.includes("pastor") || roles.includes("admin");
 
     const { data: chamber } = await supabaseAdmin
-      .from("peer_chambers").select("*").eq("id", data.id).maybeSingle();
+      .from("peer_chambers")
+      .select("*")
+      .eq("id", data.id)
+      .maybeSingle();
     if (!chamber) throw new Error("Chamber not found.");
 
     const { data: members } = await supabaseAdmin
-      .from("peer_chamber_members").select("id, pseudonym, role, user_id, joined_at")
-      .eq("chamber_id", data.id).order("joined_at");
+      .from("peer_chamber_members")
+      .select("id, pseudonym, role, user_id, joined_at")
+      .eq("chamber_id", data.id)
+      .order("joined_at");
     const me = (members ?? []).find((m) => m.user_id === context.userId);
     if (!me && !isPastoral) {
       return {
-        chamber, members: [], messages: [],
-        isMember: false, isPastoral, me: null,
+        chamber,
+        members: [],
+        messages: [],
+        isMember: false,
+        isPastoral,
+        me: null,
       };
     }
     const { data: messages } = await supabaseAdmin
       .from("peer_chamber_messages")
       .select("id, body, pseudonym, author_id, created_at, risk_flagged")
-      .eq("chamber_id", data.id).order("created_at").limit(200);
+      .eq("chamber_id", data.id)
+      .order("created_at")
+      .limit(200);
 
     // Strip author_id from response unless pastoral
     const sanitized = (messages ?? []).map((m) => ({
-      id: m.id, body: m.body, pseudonym: m.pseudonym,
-      created_at: m.created_at, risk_flagged: m.risk_flagged,
+      id: m.id,
+      body: m.body,
+      pseudonym: m.pseudonym,
+      created_at: m.created_at,
+      risk_flagged: m.risk_flagged,
       is_mine: m.author_id === context.userId,
     }));
     const sanitizedMembers = (members ?? []).map((m) => ({
-      id: m.id, pseudonym: m.pseudonym, role: m.role,
-      is_me: m.user_id === context.userId, joined_at: m.joined_at,
+      id: m.id,
+      pseudonym: m.pseudonym,
+      role: m.role,
+      is_me: m.user_id === context.userId,
+      joined_at: m.joined_at,
     }));
     return {
-      chamber, members: sanitizedMembers, messages: sanitized,
-      isMember: !!me, isPastoral, me: me ?? null,
+      chamber,
+      members: sanitizedMembers,
+      messages: sanitized,
+      isMember: !!me,
+      isPastoral,
+      me: me ?? null,
     };
   });
 
@@ -149,8 +186,11 @@ export const postChamberMessage = createServerFn({ method: "POST" })
   .handler(async ({ context, data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: me } = await supabaseAdmin
-      .from("peer_chamber_members").select("pseudonym")
-      .eq("chamber_id", data.chamber_id).eq("user_id", context.userId).maybeSingle();
+      .from("peer_chamber_members")
+      .select("pseudonym")
+      .eq("chamber_id", data.chamber_id)
+      .eq("user_id", context.userId)
+      .maybeSingle();
     if (!me) throw new Error("Join this chamber first.");
     const risk = scanForRisk(data.body);
     const { error } = await supabaseAdmin.from("peer_chamber_messages").insert({

@@ -25,9 +25,7 @@ export function SubmissionForm({
   const [isAnon, setIsAnon] = useState(true);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<{ token: string; flagged: boolean } | null>(
-    null,
-  );
+  const [result, setResult] = useState<{ token: string; flagged: boolean } | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -57,24 +55,14 @@ export function SubmissionForm({
       });
       setResult({ token: res.tracking_token, flagged: res.risk_flagged });
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong. Please try again.",
-      );
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setPending(false);
     }
   }
 
   if (result) {
-    return (
-      <ThroneReveal
-        type={type}
-        token={result.token}
-        flagged={result.flagged}
-      />
-    );
+    return <ThroneReveal type={type} token={result.token} flagged={result.flagged} />;
   }
 
   return (
@@ -137,8 +125,8 @@ export function SubmissionForm({
             <span>
               <span className="font-medium">Anonymously</span>
               <span className="block text-muted-foreground">
-                We will not know who you are. You'll receive a tracking code to
-                read pastoral responses.
+                We will not know who you are. You'll receive a tracking code to read pastoral
+                responses.
               </span>
             </span>
           </label>
@@ -162,7 +150,10 @@ export function SubmissionForm({
         {!isAnon && (
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="contact_name" className="block text-xs uppercase tracking-wide text-muted-foreground">
+              <label
+                htmlFor="contact_name"
+                className="block text-xs uppercase tracking-wide text-muted-foreground"
+              >
                 Name
               </label>
               <input
@@ -174,7 +165,10 @@ export function SubmissionForm({
               />
             </div>
             <div>
-              <label htmlFor="contact_email" className="block text-xs uppercase tracking-wide text-muted-foreground">
+              <label
+                htmlFor="contact_email"
+                className="block text-xs uppercase tracking-wide text-muted-foreground"
+              >
                 Email
               </label>
               <input

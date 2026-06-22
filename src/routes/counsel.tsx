@@ -14,8 +14,7 @@ export const Route = createFileRoute("/counsel")({
       { property: "og:title", content: "The Counsel — The Throne Room" },
       {
         property: "og:description",
-        content:
-          "Pastor-led counsel for the seasons that ask more than we can carry alone.",
+        content: "Pastor-led counsel for the seasons that ask more than we can carry alone.",
       },
     ],
   }),

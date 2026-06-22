@@ -10,10 +10,7 @@ export function Dust({ count = 36 }: DustProps) {
   });
 
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute inset-0 overflow-hidden"
-    >
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       {particles.map((p) => (
         <span
           key={p.key}

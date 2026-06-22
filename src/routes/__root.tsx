@@ -20,9 +20,7 @@ function NotFoundComponent() {
     <main className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center px-4 text-center">
       <p className="text-xs uppercase tracking-[0.3em] text-gold/80">Lost in the corridor</p>
       <h1 className="mt-3 font-serif text-5xl text-ivory">404</h1>
-      <p className="mt-2 text-muted-foreground">
-        That page is not part of the sanctuary.
-      </p>
+      <p className="mt-2 text-muted-foreground">That page is not part of the sanctuary.</p>
       <Link
         to="/"
         className="mt-6 inline-flex items-center justify-center rounded-md border border-gold/40 bg-secondary px-4 py-2 text-sm text-ivory hover:bg-gold/10"
@@ -42,12 +40,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center px-4 text-center">
-      <h1 className="font-serif text-3xl text-ivory">
-        Something interrupted the prayer.
-      </h1>
+      <h1 className="font-serif text-3xl text-ivory">Something interrupted the prayer.</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        Please try again. If this keeps happening, the sanctuary stewards have
-        been notified.
+        Please try again. If this keeps happening, the sanctuary stewards have been notified.
       </p>
       <div className="mt-6 flex flex-wrap justify-center gap-2">
         <button
@@ -83,20 +78,45 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "author", content: "The Throne Room" },
       { name: "theme-color", content: "#0A0A0A" },
-      { property: "og:title", content: "The Throne Room — A sanctuary for confession, prayer & pastoral care" },
+      {
+        property: "og:title",
+        content: "The Throne Room — A sanctuary for confession, prayer & pastoral care",
+      },
       {
         property: "og:description",
-        content:
-          "A sacred place to confess, request prayer, and approach the throne of grace.",
+        content: "A sacred place to confess, request prayer, and approach the throne of grace.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "The Throne Room — A sanctuary for confession, prayer & pastoral care" },
-      { name: "description", content: "The Throne Room is a secure digital sanctuary for confession, prayer, counseling, and pastoral care." },
-      { property: "og:description", content: "The Throne Room is a secure digital sanctuary for confession, prayer, counseling, and pastoral care." },
-      { name: "twitter:description", content: "The Throne Room is a secure digital sanctuary for confession, prayer, counseling, and pastoral care." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/yz1NU0ZfgUfPqw1WMfgqq0EFx5g2/social-images/social-1781815462236-ChatGPT_Image_Jun_18,_2026,_09_03_39_PM.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/yz1NU0ZfgUfPqw1WMfgqq0EFx5g2/social-images/social-1781815462236-ChatGPT_Image_Jun_18,_2026,_09_03_39_PM.webp" },
+      {
+        name: "twitter:title",
+        content: "The Throne Room — A sanctuary for confession, prayer & pastoral care",
+      },
+      {
+        name: "description",
+        content:
+          "The Throne Room is a secure digital sanctuary for confession, prayer, counseling, and pastoral care.",
+      },
+      {
+        property: "og:description",
+        content:
+          "The Throne Room is a secure digital sanctuary for confession, prayer, counseling, and pastoral care.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "The Throne Room is a secure digital sanctuary for confession, prayer, counseling, and pastoral care.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/yz1NU0ZfgUfPqw1WMfgqq0EFx5g2/social-images/social-1781815462236-ChatGPT_Image_Jun_18,_2026,_09_03_39_PM.webp",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/yz1NU0ZfgUfPqw1WMfgqq0EFx5g2/social-images/social-1781815462236-ChatGPT_Image_Jun_18,_2026,_09_03_39_PM.webp",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -136,7 +156,7 @@ function RootComponent() {
       >
         Skip to content
       </a>
-      
+
       <SiteHeader />
       <div id="main">
         <Outlet />

@@ -14,8 +14,7 @@ export const Route = createFileRoute("/prayer")({
       { property: "og:title", content: "Prayer Request — The Throne Room" },
       {
         property: "og:description",
-        content:
-          "A pastoral team will pray with you. Submit anonymously or share your name.",
+        content: "A pastoral team will pray with you. Submit anonymously or share your name.",
       },
     ],
   }),

@@ -14,8 +14,7 @@ export const Route = createFileRoute("/confess")({
       { property: "og:title", content: "Confession — The Throne Room" },
       {
         property: "og:description",
-        content:
-          "A confidential place to confess and be met with grace.",
+        content: "A confidential place to confess and be met with grace.",
       },
     ],
   }),

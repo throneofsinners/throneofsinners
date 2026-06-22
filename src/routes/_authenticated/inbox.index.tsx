@@ -4,8 +4,16 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { listSubmissions, listCategories } from "@/lib/admin.functions";
 
-const STATUSES = ["all","received","in_review","being_prayed_for","pastor_assigned","responded","resolved"] as const;
-const TYPES = ["all","confession","prayer"] as const;
+const STATUSES = [
+  "all",
+  "received",
+  "in_review",
+  "being_prayed_for",
+  "pastor_assigned",
+  "responded",
+  "resolved",
+] as const;
+const TYPES = ["all", "confession", "prayer"] as const;
 
 export const Route = createFileRoute("/_authenticated/inbox/")({
   head: () => ({ meta: [{ title: "Moderation Inbox" }, { name: "robots", content: "noindex" }] }),
@@ -36,39 +44,83 @@ function Inbox() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
-      <Link to="/dashboard" className="text-xs uppercase tracking-[0.3em] text-muted-foreground hover:text-ivory">← Dashboard</Link>
+      <Link
+        to="/dashboard"
+        className="text-xs uppercase tracking-[0.3em] text-muted-foreground hover:text-ivory"
+      >
+        ← Dashboard
+      </Link>
       <h1 className="mt-2 font-serif text-3xl text-ivory">Moderation Inbox</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Handle each submission with reverence. Crisis-flagged entries surface first.</p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Handle each submission with reverence. Crisis-flagged entries surface first.
+      </p>
 
       <div className="mt-6 flex flex-wrap items-end gap-3 rounded-lg border border-border bg-secondary/30 p-4">
         <Field label="Status">
-          <select value={status} onChange={(e) => setStatus(e.target.value as never)} className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-ivory">
-            {STATUSES.map((s) => <option key={s} value={s}>{s.replace(/_/g," ")}</option>)}
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value as never)}
+            className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-ivory"
+          >
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s.replace(/_/g, " ")}
+              </option>
+            ))}
           </select>
         </Field>
         <Field label="Type">
-          <select value={type} onChange={(e) => { setType(e.target.value as never); setCategory("all"); }} className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-ivory">
-            {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+          <select
+            value={type}
+            onChange={(e) => {
+              setType(e.target.value as never);
+              setCategory("all");
+            }}
+            className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-ivory"
+          >
+            {TYPES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
           </select>
         </Field>
         <Field label="Topic">
-          <select value={category} onChange={(e) => setCategory(e.target.value)} className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-ivory capitalize">
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-ivory capitalize"
+          >
             <option value="all">all topics</option>
             {visibleCats.map((c) => (
               <option key={`${c.type}:${c.value}`} value={c.value}>
-                {c.value.replace(/_/g," ")} ({c.count})
+                {c.value.replace(/_/g, " ")} ({c.count})
               </option>
             ))}
           </select>
         </Field>
         <label className="flex items-center gap-2 text-sm text-ivory">
-          <input type="checkbox" checked={riskOnly} onChange={(e) => setRiskOnly(e.target.checked)} />
+          <input
+            type="checkbox"
+            checked={riskOnly}
+            onChange={(e) => setRiskOnly(e.target.checked)}
+          />
           Crisis-flagged only
         </label>
         <Field label="Search content">
-          <input value={q} onChange={(e) => setQ(e.target.value)} className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-ivory" placeholder="keyword…" />
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-ivory"
+            placeholder="keyword…"
+          />
         </Field>
-        <button onClick={() => refetch()} className="rounded-md border border-border bg-secondary px-3 py-1.5 text-sm text-ivory hover:bg-gold/10">Refresh</button>
+        <button
+          onClick={() => refetch()}
+          className="rounded-md border border-border bg-secondary px-3 py-1.5 text-sm text-ivory hover:bg-gold/10"
+        >
+          Refresh
+        </button>
       </div>
 
       <div className="mt-6 overflow-hidden rounded-lg border border-border">
@@ -84,9 +136,19 @@ function Inbox() {
             </tr>
           </thead>
           <tbody>
-            {isLoading && <tr><td colSpan={6} className="px-3 py-6 text-muted-foreground">Loading…</td></tr>}
+            {isLoading && (
+              <tr>
+                <td colSpan={6} className="px-3 py-6 text-muted-foreground">
+                  Loading…
+                </td>
+              </tr>
+            )}
             {!isLoading && (data?.length ?? 0) === 0 && (
-              <tr><td colSpan={6} className="px-3 py-6 text-muted-foreground">No submissions match.</td></tr>
+              <tr>
+                <td colSpan={6} className="px-3 py-6 text-muted-foreground">
+                  No submissions match.
+                </td>
+              </tr>
             )}
             {data?.map((s) => (
               <tr
@@ -96,10 +158,26 @@ function Inbox() {
               >
                 <td className="px-3 py-2 font-mono text-xs text-gold">{s.tracking_token}</td>
                 <td className="px-3 py-2 capitalize">{s.type}</td>
-                <td className="px-3 py-2 capitalize text-ivory/90">{s.category ? s.category.replace(/_/g," ") : <span className="text-muted-foreground">—</span>}</td>
-                <td className="px-3 py-2 text-ivory">{s.status.replace(/_/g," ")}</td>
-                <td className="px-3 py-2">{s.risk_flagged ? <span className="rounded-full bg-red-500/20 px-2 py-0.5 text-xs text-red-300">FLAGGED</span> : <span className="text-muted-foreground">—</span>}</td>
-                <td className="px-3 py-2 text-muted-foreground">{new Date(s.created_at).toLocaleString()}</td>
+                <td className="px-3 py-2 capitalize text-ivory/90">
+                  {s.category ? (
+                    s.category.replace(/_/g, " ")
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </td>
+                <td className="px-3 py-2 text-ivory">{s.status.replace(/_/g, " ")}</td>
+                <td className="px-3 py-2">
+                  {s.risk_flagged ? (
+                    <span className="rounded-full bg-red-500/20 px-2 py-0.5 text-xs text-red-300">
+                      FLAGGED
+                    </span>
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </td>
+                <td className="px-3 py-2 text-muted-foreground">
+                  {new Date(s.created_at).toLocaleString()}
+                </td>
               </tr>
             ))}
           </tbody>

@@ -14,8 +14,7 @@ export const Route = createFileRoute("/testimony")({
       { property: "og:title", content: "The Testimony — The Throne Room" },
       {
         property: "og:description",
-        content:
-          "Tell of what grace has done. Your story may carry someone else home.",
+        content: "Tell of what grace has done. Your story may carry someone else home.",
       },
     ],
   }),

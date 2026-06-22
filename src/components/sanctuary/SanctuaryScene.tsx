@@ -23,12 +23,7 @@ type Props = {
   imageUrl?: string;
 };
 
-export function SanctuaryScene({
-  throne = true,
-  motes = 28,
-  lightIntensity = 1,
-  imageUrl,
-}: Props) {
+export function SanctuaryScene({ throne = true, motes = 28, lightIntensity = 1, imageUrl }: Props) {
   const dust = useMemo(
     () =>
       Array.from({ length: motes }).map((_, i) => ({
@@ -93,8 +88,7 @@ export function SanctuaryScene({
             style={{
               background:
                 "linear-gradient(180deg, transparent, color-mix(in oklab, var(--bronze) 22%, var(--obsidian)) 80%)",
-              maskImage:
-                "linear-gradient(180deg, transparent, black 40%)",
+              maskImage: "linear-gradient(180deg, transparent, black 40%)",
             }}
           />
 
@@ -111,17 +105,10 @@ export function SanctuaryScene({
                 <stop offset="1" stopColor="var(--gold)" stopOpacity="0" />
               </linearGradient>
             </defs>
-            <path
-              d="M0 12 H1200"
-              stroke="url(#filigree)"
-              strokeWidth="1"
-            />
+            <path d="M0 12 H1200" stroke="url(#filigree)" strokeWidth="1" />
             <g fill="none" stroke="url(#filigree)" strokeWidth="1">
               {Array.from({ length: 13 }).map((_, i) => (
-                <path
-                  key={i}
-                  d={`M${60 + i * 90} 12 c 10 -8 30 -8 40 0 c -10 8 -30 8 -40 0 z`}
-                />
+                <path key={i} d={`M${60 + i * 90} 12 c 10 -8 30 -8 40 0 c -10 8 -30 8 -40 0 z`} />
               ))}
             </g>
           </svg>
@@ -135,10 +122,7 @@ export function SanctuaryScene({
           <Pillar side="right" offset={22} height={70} width={4} dim />
 
           {/* Heavenly light shafts from above */}
-          <div
-            className="absolute inset-x-0 top-0 h-full"
-            style={{ opacity: lightIntensity }}
-          >
+          <div className="absolute inset-x-0 top-0 h-full" style={{ opacity: lightIntensity }}>
             <LightShaft x="38%" w="14%" tilt={-6} delay={0} />
             <LightShaft x="50%" w="18%" tilt={0} delay={1.4} strong />
             <LightShaft x="62%" w="12%" tilt={6} delay={2.6} />
@@ -171,8 +155,7 @@ export function SanctuaryScene({
             width: d.size,
             height: d.size,
             opacity: d.opacity,
-            boxShadow:
-              "0 0 6px color-mix(in oklab, var(--gold) 60%, transparent)",
+            boxShadow: "0 0 6px color-mix(in oklab, var(--gold) 60%, transparent)",
             animation: `dust-drift ${d.duration}s linear ${d.delay}s infinite`,
             ["--drift" as string]: `${d.drift}px`,
           }}
@@ -205,8 +188,7 @@ function Pillar({
   width: number;
   dim?: boolean;
 }) {
-  const horizontal =
-    side === "left" ? { left: `${offset}%` } : { right: `${offset}%` };
+  const horizontal = side === "left" ? { left: `${offset}%` } : { right: `${offset}%` };
   return (
     <div
       className="absolute bottom-0"
@@ -223,8 +205,7 @@ function Pillar({
         style={{
           background:
             "linear-gradient(180deg, color-mix(in oklab, var(--bronze) 60%, var(--midnight)), color-mix(in oklab, var(--obsidian) 70%, var(--bronze)))",
-          boxShadow:
-            "0 1px 0 color-mix(in oklab, var(--gold) 30%, transparent) inset",
+          boxShadow: "0 1px 0 color-mix(in oklab, var(--gold) 30%, transparent) inset",
         }}
       />
       {/* Shaft */}
@@ -233,8 +214,7 @@ function Pillar({
         style={{
           background:
             "linear-gradient(90deg, color-mix(in oklab, var(--obsidian) 80%, var(--bronze)) 0%, color-mix(in oklab, var(--bronze) 30%, var(--midnight)) 45%, color-mix(in oklab, var(--obsidian) 85%, var(--bronze)) 100%)",
-          boxShadow:
-            "inset 0 0 30px color-mix(in oklab, var(--obsidian) 80%, transparent)",
+          boxShadow: "inset 0 0 30px color-mix(in oklab, var(--obsidian) 80%, transparent)",
         }}
       />
       {/* Fluting lines */}
@@ -285,9 +265,7 @@ function LightShaft({
         }%, transparent) 50%, transparent 90%)`,
         filter: "blur(8px)",
         mixBlendMode: "screen",
-        animation: `shaft-breathe ${
-          10 + delay
-        }s ease-in-out ${delay}s infinite`,
+        animation: `shaft-breathe ${10 + delay}s ease-in-out ${delay}s infinite`,
       }}
     />
   );

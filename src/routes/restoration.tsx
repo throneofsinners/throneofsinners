@@ -15,8 +15,7 @@ export const Route = createFileRoute("/restoration")({
       { property: "og:title", content: "Restoration Chambers — The Throne Room" },
       {
         property: "og:description",
-        content:
-          "Small, shepherded circles where the wounded walk together toward wholeness.",
+        content: "Small, shepherded circles where the wounded walk together toward wholeness.",
       },
     ],
   }),
@@ -63,10 +62,7 @@ function RestorationPage() {
     >
       <div className="grid gap-4 sm:grid-cols-2">
         {CHAMBERS.map((c) => (
-          <article
-            key={c.name}
-            className="altar-card p-5"
-          >
+          <article key={c.name} className="altar-card p-5">
             <div className="flex items-center gap-3">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-gold bg-background/40 text-gold">
                 <UsersRound aria-hidden className="h-4 w-4" />
@@ -74,9 +70,7 @@ function RestorationPage() {
               <h2 className="font-serif text-xl text-ivory">{c.name}</h2>
             </div>
             <p className="mt-3 text-sm text-ivory/85">{c.focus}</p>
-            <p className="mt-1 text-xs uppercase tracking-[0.22em] text-gold/80">
-              {c.cadence}
-            </p>
+            <p className="mt-1 text-xs uppercase tracking-[0.22em] text-gold/80">{c.cadence}</p>
           </article>
         ))}
       </div>
@@ -84,18 +78,15 @@ function RestorationPage() {
       <div className="mt-10 flex items-start gap-3 rounded-lg border border-gold/20 bg-card/70 p-5 text-sm text-muted-foreground">
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-gold" aria-hidden />
         <p>
-          Each chamber is supervised by a pastor or trained steward. Membership
-          is by application and covenant — the sanctuary protects every soul in
-          the circle.
+          Each chamber is supervised by a pastor or trained steward. Membership is by application
+          and covenant — the sanctuary protects every soul in the circle.
         </p>
       </div>
 
       <div className="mt-12 border-t border-gold/15 pt-10">
         <div className="mb-6 flex items-center gap-2">
           <Flame className="h-4 w-4 text-gold candle-flicker" aria-hidden />
-          <h2 className="font-serif text-2xl text-ivory">
-            Apply to a chamber
-          </h2>
+          <h2 className="font-serif text-2xl text-ivory">Apply to a chamber</h2>
         </div>
         <SubmissionForm
           type="prayer"

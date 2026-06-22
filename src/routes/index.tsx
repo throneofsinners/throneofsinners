@@ -19,8 +19,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title:
-          "The Throne Of Sinners — A Sacred Sanctuary for Confession, Prayer & Restoration",
+        title: "The Throne Of Sinners — A Sacred Sanctuary for Confession, Prayer & Restoration",
       },
       {
         name: "description",
@@ -98,8 +97,8 @@ function Hero() {
 
         <p className="mx-auto mt-7 max-w-2xl text-base text-muted-foreground sm:text-lg">
           A confidential digital sanctuary for lustful confession, partner request, filthy pastoral
-          counsel and restoration. Come as you are — pervy, lustful, and
-          shepherded by ordained pastoral care.
+          counsel and restoration. Come as you are — pervy, lustful, and shepherded by ordained
+          pastoral care.
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -122,9 +121,7 @@ function Hero() {
           <p className="mx-auto max-w-xl font-serif italic text-lg text-ivory/80">
             “Let us then approach the throne of sin with confidence…”
           </p>
-          <p className="mt-3 text-[11px] uppercase tracking-[0.3em] text-gold">
-            
-          </p>
+          <p className="mt-3 text-[11px] uppercase tracking-[0.3em] text-gold"></p>
         </div>
       </div>
     </section>
@@ -190,15 +187,13 @@ function Chambers() {
     <section id="chambers" className="bg-altar relative py-28">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-[11px] uppercase tracking-[0.32em] text-gold">
-            The Sanctuary
-          </p>
+          <p className="text-[11px] uppercase tracking-[0.32em] text-gold">The Sanctuary</p>
           <h2 className="mt-4 font-serif text-4xl text-ivory sm:text-5xl">
             Six chambers. One quiet sanctuary.
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Each door opens onto a different kind of pastoral care. All are
-            held in the same covenant of confidence.
+            Each door opens onto a different kind of pastoral care. All are held in the same
+            covenant of confidence.
           </p>
         </div>
 
@@ -223,14 +218,10 @@ function ChamberCard({ chamber }: { chamber: Chamber }) {
         <div className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-gold bg-background/40 text-gold transition-transform group-hover:scale-105">
           <Icon aria-hidden className="h-5 w-5" />
         </div>
-        <span className="text-[10px] uppercase tracking-[0.28em] text-gold">
-          {chamber.verse}
-        </span>
+        <span className="text-[10px] uppercase tracking-[0.28em] text-gold">{chamber.verse}</span>
       </div>
       <h3 className="mt-6 font-serif text-2xl text-ivory">{chamber.title}</h3>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-        {chamber.body}
-      </p>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{chamber.body}</p>
       <p className="mt-5 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.28em] text-gold/80 transition-colors group-hover:text-gold">
         Enter the chamber →
       </p>
@@ -241,7 +232,6 @@ function ChamberCard({ chamber }: { chamber: Chamber }) {
     </Link>
   );
 }
-
 
 /* ---------- COVENANT ---------- */
 type Promise = { icon: LucideIcon; title: string; body: string };
@@ -276,16 +266,13 @@ function Covenant() {
       />
       <div className="mx-auto grid max-w-6xl gap-14 px-4 lg:grid-cols-[1fr_2fr]">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.32em] text-gold">
-            Our Covenant
-          </p>
+          <p className="text-[11px] uppercase tracking-[0.32em] text-gold">Our Covenant</p>
           <h2 className="mt-4 font-serif text-4xl text-ivory sm:text-5xl">
             Held in confidence. Shepherded in love.
           </h2>
           <p className="mt-5 text-muted-foreground">
-            The Throne Room is not a forum. It is not a social network. It is
-            not therapy. It is a ministry sanctuary built on three quiet
-            promises.
+            The Throne Room is not a forum. It is not a social network. It is not therapy. It is a
+            ministry sanctuary built on three quiet promises.
           </p>
         </div>
 
@@ -302,9 +289,7 @@ function Covenant() {
                 </div>
                 <div>
                   <h3 className="font-serif text-xl text-ivory">{p.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {p.body}
-                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
                 </div>
               </div>
             );
@@ -337,8 +322,8 @@ function Invitation() {
           <span className="block italic gold-text">another night.</span>
         </h2>
         <p className="mt-5 text-muted-foreground">
-          A chair is already waiting at the altar. Come quietly, come as you
-          are — a pastor will meet you here.
+          A chair is already waiting at the altar. Come quietly, come as you are — a pastor will
+          meet you here.
         </p>
         <Link
           to="/confess"

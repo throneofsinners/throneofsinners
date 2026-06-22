@@ -12,13 +12,23 @@ function Audit() {
   const fn = useServerFn(listAuditLog);
   const { data, isLoading, error } = useQuery({ queryKey: ["audit"], queryFn: () => fn() });
 
-  if (error) return <main className="mx-auto max-w-4xl px-4 py-10 text-red-300">{(error as Error).message}</main>;
+  if (error)
+    return (
+      <main className="mx-auto max-w-4xl px-4 py-10 text-red-300">{(error as Error).message}</main>
+    );
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-10">
-      <Link to="/dashboard" className="text-xs uppercase tracking-[0.3em] text-muted-foreground hover:text-ivory">← Dashboard</Link>
+      <Link
+        to="/dashboard"
+        className="text-xs uppercase tracking-[0.3em] text-muted-foreground hover:text-ivory"
+      >
+        ← Dashboard
+      </Link>
       <h1 className="mt-2 font-serif text-3xl text-ivory">Audit Log</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Immutable record of pastoral and admin actions. Last 200 events.</p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Immutable record of pastoral and admin actions. Last 200 events.
+      </p>
 
       <div className="mt-6 overflow-hidden rounded-lg border border-border">
         <table className="w-full text-left text-sm">
@@ -32,17 +42,36 @@ function Audit() {
             </tr>
           </thead>
           <tbody>
-            {isLoading && <tr><td colSpan={5} className="px-3 py-6 text-muted-foreground">Loading…</td></tr>}
+            {isLoading && (
+              <tr>
+                <td colSpan={5} className="px-3 py-6 text-muted-foreground">
+                  Loading…
+                </td>
+              </tr>
+            )}
             {data?.map((e) => (
               <tr key={e.id} className="border-t border-border/60 align-top">
-                <td className="px-3 py-2 text-muted-foreground whitespace-nowrap">{new Date(e.created_at).toLocaleString()}</td>
+                <td className="px-3 py-2 text-muted-foreground whitespace-nowrap">
+                  {new Date(e.created_at).toLocaleString()}
+                </td>
                 <td className="px-3 py-2 text-ivory">{e.actor_email ?? "system"}</td>
                 <td className="px-3 py-2 font-mono text-xs text-gold">{e.action}</td>
-                <td className="px-3 py-2 text-muted-foreground">{e.entity_type}{e.entity_id ? `:${e.entity_id.slice(0,8)}` : ""}</td>
-                <td className="px-3 py-2 text-xs text-muted-foreground"><code>{JSON.stringify(e.metadata)}</code></td>
+                <td className="px-3 py-2 text-muted-foreground">
+                  {e.entity_type}
+                  {e.entity_id ? `:${e.entity_id.slice(0, 8)}` : ""}
+                </td>
+                <td className="px-3 py-2 text-xs text-muted-foreground">
+                  <code>{JSON.stringify(e.metadata)}</code>
+                </td>
               </tr>
             ))}
-            {data?.length === 0 && <tr><td colSpan={5} className="px-3 py-6 text-muted-foreground">No events yet.</td></tr>}
+            {data?.length === 0 && (
+              <tr>
+                <td colSpan={5} className="px-3 py-6 text-muted-foreground">
+                  No events yet.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

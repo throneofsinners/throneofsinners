@@ -33,8 +33,8 @@ export function ThroneReveal({ type, token, flagged }: Props) {
           className="mx-auto mt-6 max-w-md font-serif text-lg italic leading-relaxed text-ivory/90 opacity-0"
           style={{ animation: "throne-fade 1.4s ease-out 1.3s forwards" }}
         >
-          “Let us then approach the throne of grace with confidence, so that we
-          may receive mercy and find grace to help us in our time of need.”
+          “Let us then approach the throne of grace with confidence, so that we may receive mercy
+          and find grace to help us in our time of need.”
         </p>
         <p
           className="mt-2 text-xs uppercase tracking-[0.3em] text-muted-foreground opacity-0"
@@ -70,9 +70,8 @@ export function ThroneReveal({ type, token, flagged }: Props) {
               We see you, and we want you safe.
             </p>
             <p className="mt-1 text-muted-foreground">
-              Your message has been routed for priority pastoral and
-              safeguarding review. A pastor will be reaching out as soon as
-              possible.
+              Your message has been routed for priority pastoral and safeguarding review. A pastor
+              will be reaching out as soon as possible.
             </p>
           </div>
         )}

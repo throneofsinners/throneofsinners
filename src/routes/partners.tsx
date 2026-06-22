@@ -40,19 +40,16 @@ function PartnersPage() {
     >
       <ul className="mb-8 grid gap-3 text-sm text-ivory/85">
         <li className="rounded-md border border-gold/20 bg-card/60 p-4">
-          <span className="text-gold">·</span>{" "}
-          We match you anonymously, by the season you're in and the rhythm you
-          can keep.
+          <span className="text-gold">·</span> We match you anonymously, by the season you're in and
+          the rhythm you can keep.
         </li>
         <li className="rounded-md border border-gold/20 bg-card/60 p-4">
-          <span className="text-gold">·</span>{" "}
-          Every partnership is reviewed by a pastor at 30 days, 60 days, and at
-          your request.
+          <span className="text-gold">·</span> Every partnership is reviewed by a pastor at 30 days,
+          60 days, and at your request.
         </li>
         <li className="rounded-md border border-gold/20 bg-card/60 p-4">
-          <span className="text-gold">·</span>{" "}
-          Either of you may quietly step out at any time. The sanctuary will
-          re-match you with grace.
+          <span className="text-gold">·</span> Either of you may quietly step out at any time. The
+          sanctuary will re-match you with grace.
         </li>
       </ul>
 
