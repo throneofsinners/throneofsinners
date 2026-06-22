@@ -33,6 +33,8 @@ import { Route as AuthenticatedAnonymousFeedRouteImport } from './routes/_authen
 import { Route as AuthenticatedInboxIndexRouteImport } from './routes/_authenticated/inbox.index'
 import { Route as AuthenticatedInboxIdRouteImport } from './routes/_authenticated/inbox.$id'
 import { Route as AuthenticatedChambersIdRouteImport } from './routes/_authenticated/chambers.$id'
+import { Route as AuthenticatedAdminVoicesQueueRouteImport } from './routes/_authenticated/admin.voices-queue'
+import { Route as AuthenticatedAdminMembersRouteImport } from './routes/_authenticated/admin.members'
 import { Route as AuthenticatedAdminInvitesRouteImport } from './routes/_authenticated/admin.invites'
 import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
 
@@ -157,6 +159,18 @@ const AuthenticatedChambersIdRoute = AuthenticatedChambersIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AuthenticatedChambersRoute,
 } as any)
+const AuthenticatedAdminVoicesQueueRoute =
+  AuthenticatedAdminVoicesQueueRouteImport.update({
+    id: '/admin/voices-queue',
+    path: '/admin/voices-queue',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminMembersRoute =
+  AuthenticatedAdminMembersRouteImport.update({
+    id: '/admin/members',
+    path: '/admin/members',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminInvitesRoute =
   AuthenticatedAdminInvitesRouteImport.update({
     id: '/admin/invites',
@@ -192,6 +206,8 @@ export interface FileRoutesByFullPath {
   '/lookup/': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
+  '/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/admin/voices-queue': typeof AuthenticatedAdminVoicesQueueRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
   '/inbox/$id': typeof AuthenticatedInboxIdRoute
   '/inbox/': typeof AuthenticatedInboxIndexRoute
@@ -218,6 +234,8 @@ export interface FileRoutesByTo {
   '/lookup': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/invites': typeof AuthenticatedAdminInvitesRoute
+  '/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/admin/voices-queue': typeof AuthenticatedAdminVoicesQueueRoute
   '/chambers/$id': typeof AuthenticatedChambersIdRoute
   '/inbox/$id': typeof AuthenticatedInboxIdRoute
   '/inbox': typeof AuthenticatedInboxIndexRoute
@@ -247,6 +265,8 @@ export interface FileRoutesById {
   '/lookup/': typeof LookupIndexRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/invites': typeof AuthenticatedAdminInvitesRoute
+  '/_authenticated/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/_authenticated/admin/voices-queue': typeof AuthenticatedAdminVoicesQueueRoute
   '/_authenticated/chambers/$id': typeof AuthenticatedChambersIdRoute
   '/_authenticated/inbox/$id': typeof AuthenticatedInboxIdRoute
   '/_authenticated/inbox/': typeof AuthenticatedInboxIndexRoute
@@ -276,6 +296,8 @@ export interface FileRouteTypes {
     | '/lookup/'
     | '/admin/audit'
     | '/admin/invites'
+    | '/admin/members'
+    | '/admin/voices-queue'
     | '/chambers/$id'
     | '/inbox/$id'
     | '/inbox/'
@@ -302,6 +324,8 @@ export interface FileRouteTypes {
     | '/lookup'
     | '/admin/audit'
     | '/admin/invites'
+    | '/admin/members'
+    | '/admin/voices-queue'
     | '/chambers/$id'
     | '/inbox/$id'
     | '/inbox'
@@ -330,6 +354,8 @@ export interface FileRouteTypes {
     | '/lookup/'
     | '/_authenticated/admin/audit'
     | '/_authenticated/admin/invites'
+    | '/_authenticated/admin/members'
+    | '/_authenticated/admin/voices-queue'
     | '/_authenticated/chambers/$id'
     | '/_authenticated/inbox/$id'
     | '/_authenticated/inbox/'
@@ -523,6 +549,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChambersIdRouteImport
       parentRoute: typeof AuthenticatedChambersRoute
     }
+    '/_authenticated/admin/voices-queue': {
+      id: '/_authenticated/admin/voices-queue'
+      path: '/admin/voices-queue'
+      fullPath: '/admin/voices-queue'
+      preLoaderRoute: typeof AuthenticatedAdminVoicesQueueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/members': {
+      id: '/_authenticated/admin/members'
+      path: '/admin/members'
+      fullPath: '/admin/members'
+      preLoaderRoute: typeof AuthenticatedAdminMembersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/invites': {
       id: '/_authenticated/admin/invites'
       path: '/admin/invites'
@@ -560,6 +600,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
   AuthenticatedAdminInvitesRoute: typeof AuthenticatedAdminInvitesRoute
+  AuthenticatedAdminMembersRoute: typeof AuthenticatedAdminMembersRoute
+  AuthenticatedAdminVoicesQueueRoute: typeof AuthenticatedAdminVoicesQueueRoute
   AuthenticatedInboxIdRoute: typeof AuthenticatedInboxIdRoute
   AuthenticatedInboxIndexRoute: typeof AuthenticatedInboxIndexRoute
 }
@@ -571,6 +613,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
   AuthenticatedAdminInvitesRoute: AuthenticatedAdminInvitesRoute,
+  AuthenticatedAdminMembersRoute: AuthenticatedAdminMembersRoute,
+  AuthenticatedAdminVoicesQueueRoute: AuthenticatedAdminVoicesQueueRoute,
   AuthenticatedInboxIdRoute: AuthenticatedInboxIdRoute,
   AuthenticatedInboxIndexRoute: AuthenticatedInboxIndexRoute,
 }
