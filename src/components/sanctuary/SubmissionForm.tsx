@@ -2,24 +2,29 @@ import { useState, type FormEvent } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { createSubmission } from "@/lib/submissions.functions";
 import { ThroneReveal } from "./ThroneReveal";
+import { PublicOptIn } from "./PublicOptIn";
 import { Loader2 } from "lucide-react";
 
 type Props = {
   type: "confession" | "prayer";
+  publicVoiceType?: "confession" | "testimony" | "prayer";
   categories: { value: string; label: string }[];
   intro: string;
   contentLabel: string;
   contentPlaceholder: string;
   submitLabel: string;
+  allowPublic?: boolean;
 };
 
 export function SubmissionForm({
   type,
+  publicVoiceType,
   categories,
   intro,
   contentLabel,
   contentPlaceholder,
   submitLabel,
+  allowPublic = true,
 }: Props) {
   const submit = useServerFn(createSubmission);
   const [isAnon, setIsAnon] = useState(true);
@@ -37,6 +42,9 @@ export function SubmissionForm({
     const category = String(form.get("category") ?? "");
     const contact_email = String(form.get("contact_email") ?? "");
     const contact_name = String(form.get("contact_name") ?? "");
+    const display_publicly = form.get("display_publicly") === "on";
+    const public_title = String(form.get("public_title") ?? "");
+    const public_excerpt = String(form.get("public_excerpt") ?? "");
 
     if (content.trim().length < 10) {
       setError("Please share a little more — at least a few sentences.");
@@ -53,6 +61,9 @@ export function SubmissionForm({
           contact_email: isAnon ? "" : contact_email,
           contact_name: isAnon ? "" : contact_name,
           is_anonymous: isAnon,
+          display_publicly,
+          public_title,
+          public_excerpt,
         },
       });
       setResult({ token: res.tracking_token, flagged: res.risk_flagged });
@@ -69,11 +80,7 @@ export function SubmissionForm({
 
   if (result) {
     return (
-      <ThroneReveal
-        type={type}
-        token={result.token}
-        flagged={result.flagged}
-      />
+      <ThroneReveal type={type} token={result.token} flagged={result.flagged} />
     );
   }
 
@@ -188,6 +195,8 @@ export function SubmissionForm({
           </div>
         )}
       </fieldset>
+
+      {allowPublic && <PublicOptIn type={publicVoiceType ?? type} />}
 
       {error && (
         <p role="alert" className="text-sm text-destructive-foreground">
