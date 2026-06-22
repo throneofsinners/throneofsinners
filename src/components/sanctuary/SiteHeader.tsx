@@ -5,8 +5,10 @@ import { supabase } from "@/integrations/supabase/client";
 
 
 const NAV = [
-  { to: "/confess", label: "Confession" },
-  { to: "/prayer", label: "Prayer Altar" },
+  { to: "/sanctuary", label: "Sanctuary" },
+  { to: "/voices", label: "Voices" },
+  { to: "/pastors", label: "Pastors" },
+  { to: "/confess", label: "Confess" },
   { to: "/lookup", label: "My Scroll" },
   { to: "/giving", label: "Giving" },
 ] as const;
