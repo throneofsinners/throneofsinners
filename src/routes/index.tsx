@@ -268,11 +268,11 @@ function Covenant() {
         <div>
           <p className="text-[11px] uppercase tracking-[0.32em] text-gold">Our Covenant</p>
           <h2 className="mt-4 font-serif text-4xl text-ivory sm:text-5xl">
-            Held in confidence. Shepherded in love.
+            Held in confidence. Shepherded in lust.
           </h2>
           <p className="mt-5 text-muted-foreground">
-            The Throne Room is not a forum. It is not a social network. It is not therapy. It is a
-            ministry sanctuary built on three quiet promises.
+            The Throne Of Sinners is not a forum. It is not a social network. It is not therapy. It is a
+            lewd sanctuary built on three quiet promises.
           </p>
         </div>
 
