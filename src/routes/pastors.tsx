@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Mail, Phone, Twitter, Instagram, Facebook, Globe } from "lucide-react";
+import { Twitter, Instagram, Facebook, Globe } from "lucide-react";
 import { PageShell } from "@/components/sanctuary/PageShell";
 import { listPastorsPublic } from "@/lib/voices.functions";
 import bg from "@/assets/bg-pastors.jpg";
@@ -67,20 +67,6 @@ function PastorsPage() {
               <p className="text-sm leading-relaxed text-muted-foreground">{p.bio}</p>
             )}
             <ul className="mt-auto flex flex-wrap items-center gap-3 text-xs text-ivory/80">
-              {p.email && (
-                <li>
-                  <a className="inline-flex items-center gap-1.5 hover:text-gold" href={`mailto:${p.email}`}>
-                    <Mail className="h-3.5 w-3.5" /> Email
-                  </a>
-                </li>
-              )}
-              {p.phone && (
-                <li>
-                  <a className="inline-flex items-center gap-1.5 hover:text-gold" href={`tel:${p.phone}`}>
-                    <Phone className="h-3.5 w-3.5" /> Call
-                  </a>
-                </li>
-              )}
               {p.twitter && (
                 <li>
                   <a className="inline-flex items-center gap-1.5 hover:text-gold" href={socialUrl("twitter", p.twitter)} target="_blank" rel="noreferrer">
