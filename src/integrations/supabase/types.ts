@@ -155,6 +155,13 @@ export type Database = {
             referencedRelation: "pastors"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "pastor_messages_pastor_id_fkey"
+            columns: ["pastor_id"]
+            isOneToOne: false
+            referencedRelation: "public_pastors"
+            referencedColumns: ["id"]
+          },
         ]
       }
       pastoral_responses: {
@@ -496,6 +503,48 @@ export type Database = {
       }
     }
     Views: {
+      public_pastors: {
+        Row: {
+          bio: string | null
+          display_name: string | null
+          facebook: string | null
+          id: string | null
+          instagram: string | null
+          is_visible: boolean | null
+          photo_url: string | null
+          sort_order: number | null
+          title: string | null
+          twitter: string | null
+          website: string | null
+        }
+        Insert: {
+          bio?: string | null
+          display_name?: string | null
+          facebook?: string | null
+          id?: string | null
+          instagram?: string | null
+          is_visible?: boolean | null
+          photo_url?: string | null
+          sort_order?: number | null
+          title?: string | null
+          twitter?: string | null
+          website?: string | null
+        }
+        Update: {
+          bio?: string | null
+          display_name?: string | null
+          facebook?: string | null
+          id?: string | null
+          instagram?: string | null
+          is_visible?: boolean | null
+          photo_url?: string | null
+          sort_order?: number | null
+          title?: string | null
+          twitter?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       public_voices: {
         Row: {
           approved_at: string | null
