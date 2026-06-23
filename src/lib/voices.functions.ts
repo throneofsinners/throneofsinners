@@ -32,12 +32,23 @@ export const listPublicVoices = createServerFn({ method: "GET" })
 export const listPastorsPublic = createServerFn({ method: "GET" }).handler(async () => {
   const supabase = publicClient();
   const { data, error } = await supabase
-    .from("pastors")
+    .from("public_pastors" as never)
     .select(
-      "id, display_name, title, bio, photo_url, email, phone, twitter, instagram, facebook, website",
+      "id, display_name, title, bio, photo_url, twitter, instagram, facebook, website",
     )
-    .eq("is_visible", true)
     .order("sort_order", { ascending: true });
-  if (error) return { items: [], error: error.message };
-  return { items: data ?? [], error: null as string | null };
+  if (error) return { items: [] as PastorPublic[], error: error.message };
+  return { items: (data ?? []) as PastorPublic[], error: null as string | null };
 });
+
+export type PastorPublic = {
+  id: string;
+  display_name: string;
+  title: string | null;
+  bio: string | null;
+  photo_url: string | null;
+  twitter: string | null;
+  instagram: string | null;
+  facebook: string | null;
+  website: string | null;
+};
