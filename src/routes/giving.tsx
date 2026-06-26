@@ -173,7 +173,7 @@ function GivingPage() {
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={() => copy(m.value)}
+                      onClick={() => m.value && copy(m.value)}
                       className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-1.5 text-xs text-ivory hover:border-gold/40 hover:bg-gold/10"
                     >
                       {copied === m.value ? (
