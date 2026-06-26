@@ -87,6 +87,13 @@
     "prettier": "^3.7.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
+    "typescript-eslint": "^8.46.4",
     "vite": "^8.0.16"
+  },
+  "overrides": {
+    "h3-v2": "npm:h3@2.0.1-rc.22"
+  },
+  "resolutions": {
+    "h3-v2": "npm:h3@2.0.1-rc.22"
   }
 }
