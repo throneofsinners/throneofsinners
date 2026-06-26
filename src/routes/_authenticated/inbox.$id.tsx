@@ -31,10 +31,18 @@ function Detail() {
   const statusFn = useServerFn(updateSubmissionStatus);
   const respondFn = useServerFn(createPastoralResponse);
   const ackFn = useServerFn(acknowledgeCrisisAlert);
+  const photoUrlsFn = useServerFn(getSubmissionPhotoUrls);
 
   const { data, isLoading } = useQuery({
     queryKey: ["submission", id],
     queryFn: () => detailFn({ data: { id } }),
+  });
+
+  const imagePaths = (data?.submission as { image_paths?: string[] } | undefined)?.image_paths ?? [];
+  const { data: photoUrls } = useQuery({
+    queryKey: ["submission-photos", id, imagePaths],
+    enabled: imagePaths.length > 0,
+    queryFn: () => photoUrlsFn({ data: { paths: imagePaths } }),
   });
 
   const invalidate = () => {
