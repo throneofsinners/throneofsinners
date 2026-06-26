@@ -245,6 +245,57 @@ export function SubmissionForm({
         )}
       </fieldset>
 
+      <fieldset className="rounded-md border border-border/70 p-4">
+        <legend className="px-2 text-sm text-muted-foreground">
+          Photos (optional, up to 5)
+        </legend>
+        <p className="text-xs text-muted-foreground">
+          Attach screenshots, prayer requests on paper, or images that help the
+          pastors understand. Only ordained pastoral staff will ever see these.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-3">
+          {photos.map((p) => (
+            <div
+              key={p.id}
+              className="relative h-24 w-24 overflow-hidden rounded-md border border-border bg-background"
+            >
+              <img src={p.preview} alt={p.name} className="h-full w-full object-cover" />
+              {p.uploading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                  <Loader2 className="h-5 w-5 animate-spin text-gold" />
+                </div>
+              )}
+              {p.error && (
+                <div className="absolute inset-x-0 bottom-0 bg-red-900/80 px-1 py-0.5 text-[10px] text-red-100">
+                  {p.error}
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => removePhoto(p.id)}
+                className="absolute right-1 top-1 rounded-full bg-black/70 p-1 text-ivory hover:bg-red-700"
+                aria-label="Remove photo"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          ))}
+          {photos.length < 5 && (
+            <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-md border border-dashed border-border bg-background/40 text-xs text-muted-foreground hover:border-gold/40 hover:text-gold">
+              <ImagePlus className="h-5 w-5" />
+              Add photo
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={onPhotoSelect}
+                className="hidden"
+              />
+            </label>
+          )}
+        </div>
+      </fieldset>
+
       {allowPublic && <PublicOptIn type={publicVoiceType ?? type} />}
 
       {error && (
