@@ -1,9 +1,9 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ChangeEvent } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { createSubmission } from "@/lib/submissions.functions";
+import { createSubmission, uploadSubmissionPhoto } from "@/lib/submissions.functions";
 import { ThroneReveal } from "./ThroneReveal";
 import { PublicOptIn } from "./PublicOptIn";
-import { Loader2 } from "lucide-react";
+import { Loader2, ImagePlus, X } from "lucide-react";
 
 type Props = {
   type: "confession" | "prayer";
@@ -27,12 +27,55 @@ export function SubmissionForm({
   allowPublic = true,
 }: Props) {
   const submit = useServerFn(createSubmission);
+  const uploadPhoto = useServerFn(uploadSubmissionPhoto);
   const [isAnon, setIsAnon] = useState(true);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [photos, setPhotos] = useState<
+    { id: string; name: string; preview: string; path?: string; uploading: boolean; error?: string }[]
+  >([]);
   const [result, setResult] = useState<{ token: string; flagged: boolean } | null>(
     null,
   );
+
+  async function onPhotoSelect(e: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = "";
+    for (const file of files) {
+      if (photos.length >= 5) break;
+      if (file.size > 6 * 1024 * 1024) {
+        setError(`"${file.name}" is over 6 MB — please pick a smaller image.`);
+        continue;
+      }
+      const id = crypto.randomUUID();
+      const preview = URL.createObjectURL(file);
+      setPhotos((p) => [...p, { id, name: file.name, preview, uploading: true }]);
+      try {
+        const buf = await file.arrayBuffer();
+        const b64 = btoa(
+          new Uint8Array(buf).reduce((s, b) => s + String.fromCharCode(b), ""),
+        );
+        const res = await uploadPhoto({
+          data: { filename: file.name, content_type: file.type || "image/jpeg", data_base64: b64 },
+        });
+        setPhotos((p) =>
+          p.map((x) => (x.id === id ? { ...x, path: res.path, uploading: false } : x)),
+        );
+      } catch (err) {
+        setPhotos((p) =>
+          p.map((x) =>
+            x.id === id
+              ? { ...x, uploading: false, error: err instanceof Error ? err.message : "Upload failed" }
+              : x,
+          ),
+        );
+      }
+    }
+  }
+
+  function removePhoto(id: string) {
+    setPhotos((p) => p.filter((x) => x.id !== id));
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -50,9 +93,14 @@ export function SubmissionForm({
       setError("Please share a little more — at least a few sentences.");
       return;
     }
+    if (photos.some((p) => p.uploading)) {
+      setError("Please wait — your photos are still uploading.");
+      return;
+    }
 
     setPending(true);
     try {
+      const image_paths = photos.map((p) => p.path).filter((p): p is string => !!p);
       const res = await submit({
         data: {
           type,
@@ -64,6 +112,7 @@ export function SubmissionForm({
           display_publicly,
           public_title,
           public_excerpt,
+          image_paths,
         },
       });
       setResult({ token: res.tracking_token, flagged: res.risk_flagged });
@@ -194,6 +243,57 @@ export function SubmissionForm({
             </div>
           </div>
         )}
+      </fieldset>
+
+      <fieldset className="rounded-md border border-border/70 p-4">
+        <legend className="px-2 text-sm text-muted-foreground">
+          Photos (optional, up to 5)
+        </legend>
+        <p className="text-xs text-muted-foreground">
+          Attach screenshots, prayer requests on paper, or images that help the
+          pastors understand. Only ordained pastoral staff will ever see these.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-3">
+          {photos.map((p) => (
+            <div
+              key={p.id}
+              className="relative h-24 w-24 overflow-hidden rounded-md border border-border bg-background"
+            >
+              <img src={p.preview} alt={p.name} className="h-full w-full object-cover" />
+              {p.uploading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                  <Loader2 className="h-5 w-5 animate-spin text-gold" />
+                </div>
+              )}
+              {p.error && (
+                <div className="absolute inset-x-0 bottom-0 bg-red-900/80 px-1 py-0.5 text-[10px] text-red-100">
+                  {p.error}
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => removePhoto(p.id)}
+                className="absolute right-1 top-1 rounded-full bg-black/70 p-1 text-ivory hover:bg-red-700"
+                aria-label="Remove photo"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          ))}
+          {photos.length < 5 && (
+            <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-md border border-dashed border-border bg-background/40 text-xs text-muted-foreground hover:border-gold/40 hover:text-gold">
+              <ImagePlus className="h-5 w-5" />
+              Add photo
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={onPhotoSelect}
+                className="hidden"
+              />
+            </label>
+          )}
+        </div>
       </fieldset>
 
       {allowPublic && <PublicOptIn type={publicVoiceType ?? type} />}

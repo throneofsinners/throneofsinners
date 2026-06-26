@@ -417,6 +417,7 @@ export type Database = {
           created_at: string
           display_publicly: boolean
           id: string
+          image_paths: string[]
           is_anonymous: boolean
           pastoral_response: string | null
           public_approved_at: string | null
@@ -439,6 +440,7 @@ export type Database = {
           created_at?: string
           display_publicly?: boolean
           id?: string
+          image_paths?: string[]
           is_anonymous?: boolean
           pastoral_response?: string | null
           public_approved_at?: string | null
@@ -461,6 +463,7 @@ export type Database = {
           created_at?: string
           display_publicly?: boolean
           id?: string
+          image_paths?: string[]
           is_anonymous?: boolean
           pastoral_response?: string | null
           public_approved_at?: string | null
