@@ -23,7 +23,7 @@ export function ThroneReveal({ type, token, flagged }: Props) {
           className="mt-3 font-serif text-3xl text-ivory opacity-0 sm:text-4xl"
           style={{ animation: "throne-fade 1.4s ease-out 0.5s forwards" }}
         >
-          <span className="gold-text">Your sins has been received.</span>
+          <span className="gold-text">Your sins have been received.</span>
         </h2>
         <div
           className="gold-rule mx-auto mt-6 max-w-[12rem] opacity-0"
@@ -33,7 +33,7 @@ export function ThroneReveal({ type, token, flagged }: Props) {
           className="mx-auto mt-6 max-w-md font-serif text-lg italic leading-relaxed text-ivory/90 opacity-0"
           style={{ animation: "throne-fade 1.4s ease-out 1.3s forwards" }}
         >
-          “Let us then approach the throne of sinners with confidence, so that we may receive lustful pleasures to help us in our time of need.”
+          “Let us then approach the throne of sinners with confidence, so that we may receive lustful pleasures to help us in our time of pervy needs.”
         </p>
         <p
           className="mt-2 text-xs uppercase tracking-[0.3em] text-muted-foreground opacity-0"
