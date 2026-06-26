@@ -7,6 +7,7 @@ import {
   updateSubmissionStatus,
   createPastoralResponse,
   acknowledgeCrisisAlert,
+  getSubmissionPhotoUrls,
 } from "@/lib/admin.functions";
 
 const STATUSES = [
