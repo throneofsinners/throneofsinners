@@ -132,6 +132,35 @@ function Detail() {
         </p>
       </section>
 
+      {imagePaths.length > 0 && (
+        <section className="mt-4 rounded-lg border border-border bg-secondary/30 p-5">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Attached photos ({imagePaths.length})
+          </p>
+          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+            {(photoUrls ?? []).map((p) => (
+              <a
+                key={p.path}
+                href={p.url}
+                target="_blank"
+                rel="noreferrer"
+                className="group block overflow-hidden rounded-md border border-border bg-background"
+              >
+                <img
+                  src={p.url}
+                  alt="Submission attachment"
+                  className="h-40 w-full object-cover transition-transform group-hover:scale-[1.02]"
+                />
+              </a>
+            ))}
+            {imagePaths.length > 0 && !photoUrls && (
+              <p className="col-span-full text-xs text-muted-foreground">Loading photos…</p>
+            )}
+          </div>
+        </section>
+      )}
+
+
       <section className="mt-6 rounded-lg border border-border bg-secondary/30 p-5">
         <p className="text-xs uppercase tracking-wider text-muted-foreground">Status</p>
         <div className="mt-2 flex flex-wrap gap-2">
