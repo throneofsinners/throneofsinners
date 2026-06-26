@@ -185,6 +185,26 @@ export const acknowledgeCrisisAlert = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+// Signed URLs so pastors can view photo attachments for a submission.
+export const getSubmissionPhotoUrls = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) =>
+    z.object({ paths: z.array(z.string().max(500)).max(20) }).parse(d),
+  )
+  .handler(async ({ context, data }) => {
+    await assertPastor(context.userId);
+    if (data.paths.length === 0) return [] as { path: string; url: string }[];
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: signed, error } = await supabaseAdmin.storage
+      .from("submission-photos")
+      .createSignedUrls(data.paths, 60 * 30);
+    if (error) throw new Error(error.message);
+    return (signed ?? []).map((s, i) => ({
+      path: data.paths[i],
+      url: s.signedUrl ?? "",
+    }));
+  });
+
 // ---- Invitations ----
 export const listInvitations = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
