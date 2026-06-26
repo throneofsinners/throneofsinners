@@ -27,12 +27,55 @@ export function SubmissionForm({
   allowPublic = true,
 }: Props) {
   const submit = useServerFn(createSubmission);
+  const uploadPhoto = useServerFn(uploadSubmissionPhoto);
   const [isAnon, setIsAnon] = useState(true);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [photos, setPhotos] = useState<
+    { id: string; name: string; preview: string; path?: string; uploading: boolean; error?: string }[]
+  >([]);
   const [result, setResult] = useState<{ token: string; flagged: boolean } | null>(
     null,
   );
+
+  async function onPhotoSelect(e: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = "";
+    for (const file of files) {
+      if (photos.length >= 5) break;
+      if (file.size > 6 * 1024 * 1024) {
+        setError(`"${file.name}" is over 6 MB — please pick a smaller image.`);
+        continue;
+      }
+      const id = crypto.randomUUID();
+      const preview = URL.createObjectURL(file);
+      setPhotos((p) => [...p, { id, name: file.name, preview, uploading: true }]);
+      try {
+        const buf = await file.arrayBuffer();
+        const b64 = btoa(
+          new Uint8Array(buf).reduce((s, b) => s + String.fromCharCode(b), ""),
+        );
+        const res = await uploadPhoto({
+          data: { filename: file.name, content_type: file.type || "image/jpeg", data_base64: b64 },
+        });
+        setPhotos((p) =>
+          p.map((x) => (x.id === id ? { ...x, path: res.path, uploading: false } : x)),
+        );
+      } catch (err) {
+        setPhotos((p) =>
+          p.map((x) =>
+            x.id === id
+              ? { ...x, uploading: false, error: err instanceof Error ? err.message : "Upload failed" }
+              : x,
+          ),
+        );
+      }
+    }
+  }
+
+  function removePhoto(id: string) {
+    setPhotos((p) => p.filter((x) => x.id !== id));
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -50,9 +93,14 @@ export function SubmissionForm({
       setError("Please share a little more — at least a few sentences.");
       return;
     }
+    if (photos.some((p) => p.uploading)) {
+      setError("Please wait — your photos are still uploading.");
+      return;
+    }
 
     setPending(true);
     try {
+      const image_paths = photos.map((p) => p.path).filter((p): p is string => !!p);
       const res = await submit({
         data: {
           type,
@@ -64,6 +112,7 @@ export function SubmissionForm({
           display_publicly,
           public_title,
           public_excerpt,
+          image_paths,
         },
       });
       setResult({ token: res.tracking_token, flagged: res.risk_flagged });
