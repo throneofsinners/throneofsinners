@@ -23,7 +23,7 @@ export function ThroneReveal({ type, token, flagged }: Props) {
           className="mt-3 font-serif text-3xl text-ivory opacity-0 sm:text-4xl"
           style={{ animation: "throne-fade 1.4s ease-out 0.5s forwards" }}
         >
-          <span className="gold-text">Your burden has been received.</span>
+          <span className="gold-text">Your sins has been received.</span>
         </h2>
         <div
           className="gold-rule mx-auto mt-6 max-w-[12rem] opacity-0"
@@ -33,21 +33,20 @@ export function ThroneReveal({ type, token, flagged }: Props) {
           className="mx-auto mt-6 max-w-md font-serif text-lg italic leading-relaxed text-ivory/90 opacity-0"
           style={{ animation: "throne-fade 1.4s ease-out 1.3s forwards" }}
         >
-          “Let us then approach the throne of grace with confidence, so that we may receive mercy
-          and find grace to help us in our time of need.”
+          “Let us then approach the throne of sinners with confidence, so that we may receive lustful pleasures to help us in our time of need.”
         </p>
         <p
           className="mt-2 text-xs uppercase tracking-[0.3em] text-muted-foreground opacity-0"
           style={{ animation: "throne-fade 1s ease-out 1.7s forwards" }}
         >
-          Hebrews 4:16
+          
         </p>
 
         <p
           className="mx-auto mt-10 max-w-md text-sm text-muted-foreground opacity-0"
           style={{ animation: "throne-fade 1.2s ease-out 2.1s forwards" }}
         >
-          A pastoral team will stand with you in prayer. You are not alone.
+          A pastoral team will take your prayers to The God of Sinners. You are not alone.
           {type === "confession"
             ? " What you laid down here is held in trust."
             : " Your request has been carried to the altar."}
