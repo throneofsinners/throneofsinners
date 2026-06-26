@@ -27,7 +27,7 @@ const PRESETS = [10, 25, 50, 100, 250, 500] as const;
 
 type GivingMethod = {
   label: string;
-  value: string;
+  value: string | null;
   href: string | null;
   note: string;
 };
@@ -35,26 +35,26 @@ type GivingMethod = {
 const METHODS: GivingMethod[] = [
   {
     label: "PayPal",
-    //value: "throneofsinners@gmail.com",//
-    //href: "https://www.paypal.com/donate?business=throneofsinners@gmail.com&item_name=Tithes+%26+Offerings&currency_code=USD",
+    value: "throneofsinners@gmail.com",
+    href: "https://www.paypal.com/donate?business=throneofsinners@gmail.com&item_name=Tithes+%26+Offerings&currency_code=USD",
     note: "Send as Friends & Family to avoid fees.",
   },
   {
     label: "Cash App",
-    //value: "$ThroneOfSinners",
-    //href: "https://cash.app/$ThroneOfSinners",
+    value: "$ThroneOfSinners",
+    href: "https://cash.app/$ThroneOfSinners",
     note: "Note your gift as 'Tithe' or 'Offering'.",
   },
   {
     label: "Zelle",
-    //value: "throneofsinners@gmail.com",
+    value: "throneofsinners@gmail.com",
     href: null,
     note: "Use your bank's Zelle directory.",
   },
   {
     label: "Tipp.ng",
-    //value: "throneofsinners@gmail.com",//
-    //href: "https://www.paypal.com/donate?business=throneofsinners@gmail.com&item_name=Tithes+%26+Offerings&currency_code=USD",
+    value: "throneofsinners",
+    href: "https://tipp.ng/throneofsinners",
     note: "Send with local bank transfer.",
   },
 ];
