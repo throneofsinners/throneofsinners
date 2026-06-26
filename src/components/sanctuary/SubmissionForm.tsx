@@ -1,9 +1,9 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ChangeEvent } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { createSubmission } from "@/lib/submissions.functions";
+import { createSubmission, uploadSubmissionPhoto } from "@/lib/submissions.functions";
 import { ThroneReveal } from "./ThroneReveal";
 import { PublicOptIn } from "./PublicOptIn";
-import { Loader2 } from "lucide-react";
+import { Loader2, ImagePlus, X } from "lucide-react";
 
 type Props = {
   type: "confession" | "prayer";
