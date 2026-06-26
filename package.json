@@ -10,7 +10,8 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "postinstall": "node -e \"const fs=require('fs'),p=require('path');const src=p.resolve('node_modules/h3');const dst=p.resolve('node_modules/h3-v2');if(fs.existsSync(src)&&!fs.existsSync(dst)){fs.cpSync(src,dst,{recursive:true});const pk=p.join(dst,'package.json');const j=JSON.parse(fs.readFileSync(pk,'utf8'));j.name='h3-v2';fs.writeFileSync(pk,JSON.stringify(j,null,2));console.log('aliased h3-v2 ->',j.version);}\""
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.11",
