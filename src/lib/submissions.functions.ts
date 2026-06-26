@@ -19,6 +19,7 @@ const submissionInput = z.object({
   display_publicly: z.boolean().default(false),
   public_title: z.string().trim().max(120).optional().or(z.literal("")),
   public_excerpt: z.string().trim().max(600).optional().or(z.literal("")),
+  image_paths: z.array(z.string().max(500)).max(5).default([]),
 });
 
 export type SubmissionInput = z.infer<typeof submissionInput>;
@@ -48,6 +49,7 @@ export const createSubmission = createServerFn({ method: "POST" })
           data.display_publicly && data.public_excerpt ? data.public_excerpt : null,
         risk_flagged: risk.flagged,
         risk_keywords: risk.matched.length ? risk.matched : null,
+        image_paths: data.image_paths ?? [],
       })
       .select("id, tracking_token, type, status, created_at")
       .single();
@@ -70,6 +72,36 @@ export const createSubmission = createServerFn({ method: "POST" })
       risk_flagged: risk.flagged,
     };
   });
+
+// Upload a photo attachment for a pending submission. Returns the storage path
+// which the client then sends along with createSubmission.
+const uploadPhotoInput = z.object({
+  filename: z.string().trim().min(1).max(160),
+  content_type: z.string().trim().min(3).max(80),
+  data_base64: z.string().min(4).max(8_500_000), // ~6MB binary
+});
+
+export const uploadSubmissionPhoto = createServerFn({ method: "POST" })
+  .inputValidator((input) => uploadPhotoInput.parse(input))
+  .handler(async ({ data }) => {
+    const allowed = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/gif"];
+    if (!allowed.includes(data.content_type)) {
+      throw new Error("Unsupported image type. Use JPG, PNG, WEBP, GIF or HEIC.");
+    }
+    const buf = Buffer.from(data.data_base64, "base64");
+    if (buf.byteLength > 6 * 1024 * 1024) {
+      throw new Error("Image is too large — please keep each photo under 6 MB.");
+    }
+    const ext = (data.filename.split(".").pop() ?? "jpg").toLowerCase().slice(0, 8);
+    const key = `incoming/${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.${ext}`;
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.storage
+      .from("submission-photos")
+      .upload(key, buf, { contentType: data.content_type, upsert: false });
+    if (error) throw new Error(error.message);
+    return { path: key };
+  });
+
 
 const lookupInput = z.object({
   token: z.string().transform(normalizeToken).refine(isValidToken, {
