@@ -8,10 +8,12 @@
     "dev": "vite dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
-    "preview": "vite preview",
+    "preview": "npm run build && wrangler dev",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "postinstall": "node -e \"const fs=require('fs'),p=require('path');const src=p.resolve('node_modules/h3');const dst=p.resolve('node_modules/h3-v2');if(fs.existsSync(src)&&!fs.existsSync(dst)){fs.cpSync(src,dst,{recursive:true});const pk=p.join(dst,'package.json');const j=JSON.parse(fs.readFileSync(pk,'utf8'));j.name='h3-v2';fs.writeFileSync(pk,JSON.stringify(j,null,2));console.log('aliased h3-v2 ->',j.version);}\""
+    "postinstall": "node -e \"const fs=require('fs'),p=require('path');const src=p.resolve('node_modules/h3');const dst=p.resolve('node_modules/h3-v2');if(fs.existsSync(src)&&!fs.existsSync(dst)){fs.cpSync(src,dst,{recursive:true});const pk=p.join(dst,'package.json');const j=JSON.parse(fs.readFileSync(pk,'utf8'));j.name='h3-v2';fs.writeFileSync(pk,JSON.stringify(j,null,2));console.log('aliased h3-v2 ->',j.version);}\"",
+    "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.11",
@@ -71,6 +73,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.42.3",
     "@eslint/js": "^9.32.0",
     "@lovable.dev/vite-tanstack-config": "2.5.3",
     "@types/node": "^22.16.5",
@@ -87,7 +90,8 @@
     "prettier": "^3.7.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
-    "vite": "^8.0.16"
+    "vite": "^8.0.16",
+    "wrangler": "^4.105.0"
   },
   "overrides": {
     "h3-v2": "npm:h3@2.0.1-rc.22"
