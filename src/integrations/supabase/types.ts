@@ -555,6 +555,7 @@ export type Database = {
           created_at: string | null
           excerpt: string | null
           id: string | null
+          image_paths: string[] | null
           title: string | null
           type: Database["public"]["Enums"]["submission_type"] | null
         }
@@ -564,6 +565,7 @@ export type Database = {
           created_at?: string | null
           excerpt?: string | null
           id?: string | null
+          image_paths?: string[] | null
           title?: never
           type?: Database["public"]["Enums"]["submission_type"] | null
         }
@@ -573,6 +575,7 @@ export type Database = {
           created_at?: string | null
           excerpt?: string | null
           id?: string | null
+          image_paths?: string[] | null
           title?: never
           type?: Database["public"]["Enums"]["submission_type"] | null
         }
