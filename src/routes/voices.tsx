@@ -76,6 +76,28 @@ function VoicesPage() {
               {v.category && <span className="text-muted-foreground">· {v.category}</span>}
             </div>
             <h2 className="font-serif text-xl text-ivory">{v.title}</h2>
+            {v.image_urls.length > 0 && (
+              <div
+                className={`grid gap-2 ${v.image_urls.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
+              >
+                {v.image_urls.slice(0, 4).map((url, i) => (
+                  <a
+                    key={url}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block overflow-hidden rounded-md border border-gold/20 bg-background"
+                  >
+                    <img
+                      src={url}
+                      alt={`${v.title} — attached image ${i + 1}`}
+                      loading="lazy"
+                      className="h-40 w-full object-cover transition-transform hover:scale-[1.02]"
+                    />
+                  </a>
+                ))}
+              </div>
+            )}
             <p className="font-serif italic leading-relaxed text-ivory/85">
               "{v.excerpt}"
             </p>
