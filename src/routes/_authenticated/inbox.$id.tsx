@@ -9,6 +9,10 @@ import {
   acknowledgeCrisisAlert,
   getSubmissionPhotoUrls,
 } from "@/lib/admin.functions";
+import {
+  publishSubmissionPublic,
+  unpublishSubmissionPublic,
+} from "@/lib/members.functions";
 
 const STATUSES = [
   "received",
