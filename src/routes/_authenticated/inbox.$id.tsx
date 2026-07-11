@@ -84,6 +84,18 @@ function Detail() {
     },
   });
 
+  const publishFn = useServerFn(publishSubmissionPublic);
+  const unpublishFn = useServerFn(unpublishSubmissionPublic);
+  const publish = useMutation({
+    mutationFn: (v: { public_title: string; public_excerpt: string }) =>
+      publishFn({ data: { id, ...v } }),
+    onSuccess: invalidate,
+  });
+  const unpublish = useMutation({
+    mutationFn: () => unpublishFn({ data: { id } }),
+    onSuccess: invalidate,
+  });
+
   if (isLoading)
     return <main className="mx-auto max-w-4xl px-4 py-10 text-muted-foreground">Loading…</main>;
   if (!data)
