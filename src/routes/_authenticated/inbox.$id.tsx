@@ -264,3 +264,100 @@ function Detail() {
     </main>
   );
 }
+
+type PublishSubmission = {
+  content: string;
+  display_publicly: boolean | null;
+  public_title: string | null;
+  public_excerpt: string | null;
+  public_approved_at: string | null;
+};
+
+function PublishPanel({
+  submission,
+  onPublish,
+  onUnpublish,
+  publishing,
+  error,
+}: {
+  submission: PublishSubmission;
+  onPublish: (title: string, excerpt: string) => void;
+  onUnpublish: () => void;
+  publishing: boolean;
+  error: string | null;
+}) {
+  const isPublished = !!submission.public_approved_at && !!submission.display_publicly;
+  const [title, setTitle] = useState(submission.public_title ?? "");
+  const [excerpt, setExcerpt] = useState(
+    submission.public_excerpt ?? submission.content.slice(0, 280),
+  );
+
+  return (
+    <section className="mt-6 rounded-lg border border-gold/30 bg-secondary/40 p-5">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="font-serif text-xl text-ivory">Public Voices</h2>
+          <p className="text-xs text-muted-foreground">
+            Publish a pastor-edited excerpt to <span className="text-gold">/voices</span>. The
+            submitter's identity and full text are never shown.
+          </p>
+        </div>
+        <span
+          className={`rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.22em] ${
+            isPublished
+              ? "border-emerald-500/50 bg-emerald-900/20 text-emerald-200"
+              : "border-border bg-background text-muted-foreground"
+          }`}
+        >
+          {isPublished ? "Live on Voices" : "Not public"}
+        </span>
+      </div>
+
+      <div className="mt-4 space-y-3">
+        <div>
+          <label className="block text-xs uppercase tracking-wide text-muted-foreground">
+            Public title (optional)
+          </label>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            maxLength={120}
+            className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-ivory focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40"
+          />
+        </div>
+        <div>
+          <label className="block text-xs uppercase tracking-wide text-muted-foreground">
+            Public excerpt
+          </label>
+          <textarea
+            value={excerpt}
+            onChange={(e) => setExcerpt(e.target.value)}
+            maxLength={600}
+            rows={4}
+            className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-ivory focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40"
+          />
+        </div>
+        {error && <p className="text-sm text-red-400">{error}</p>}
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => onPublish(title.trim(), excerpt.trim())}
+            disabled={publishing || excerpt.trim().length < 5}
+            className="candle-glow inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60"
+          >
+            {isPublished ? "Update public excerpt" : "Publish to Voices"}
+          </button>
+          {isPublished && (
+            <button
+              onClick={onUnpublish}
+              disabled={publishing}
+              className="rounded-md border border-border bg-secondary px-4 py-2 text-sm text-ivory hover:bg-destructive/20"
+            >
+              Unpublish
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
