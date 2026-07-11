@@ -6,47 +6,49 @@ import bg from "@/assets/bg-prayer.jpg";
 export const Route = createFileRoute("/prayer")({
   head: () => ({
     meta: [
-      { title: "Prayer Request — The Throne Room" },
+      { title: "Partner Request — The Throne Room" },
       {
         name: "description",
         content:
-          "Submit a prayer request. A trusted prayer team will carry it before the throne with you.",
+          "Request a prayer or accountability partner. Submit anonymously; pastoral leadership reviews and approves each partner request before it is shared publicly.",
       },
-      { property: "og:title", content: "Prayer Request — The Throne Room" },
+      { property: "og:title", content: "Partner Request — The Throne Room" },
       {
         property: "og:description",
-        content: "A pastoral team will pray with you. Submit anonymously or share your name.",
+        content:
+          "Ask for a covenant partner in prayer or accountability. Pastor-reviewed, optionally public.",
       },
     ],
   }),
-  component: PrayerPage,
+  component: PartnerRequestPage,
 });
 
 const CATEGORIES = [
-  { value: "personal", label: "Personal" },
-  { value: "family", label: "Family" },
-  { value: "health", label: "Health" },
-  { value: "financial", label: "Financial" },
-  { value: "spiritual_growth", label: "Spiritual growth" },
-  { value: "relationship", label: "Relationship" },
-  { value: "emergency", label: "Emergency" },
+  { value: "prayer_partner", label: "Prayer partner" },
+  { value: "accountability", label: "Accountability partner" },
+  { value: "discipleship", label: "Discipleship / mentoring" },
+  { value: "recovery", label: "Recovery walk" },
+  { value: "marriage", label: "Marriage support" },
+  { value: "youth", label: "Youth / young adult" },
+  { value: "other", label: "Something else" },
 ];
 
-function PrayerPage() {
+function PartnerRequestPage() {
   return (
     <PageShell
       background={bg}
-      eyebrow="The Prayer Altar"
-      title={<>Let us pray with you.</>}
-      subtitle="Tell us what to pray for. A pastoral prayer team will carry your request to the throne and respond to you in time."
+      eyebrow="Partner Requests"
+      title={<>Ask for a partner to walk with you.</>}
+      subtitle="Request a prayer or accountability partner — anonymously if you wish. Pastoral leadership reviews each request; approved ones may be shared publicly so a willing brother or sister can reach back."
     >
       <SubmissionForm
         type="prayer"
+        publicVoiceType="partner_request"
         categories={CATEGORIES}
-        intro="Share as much or as little as you need. Even a sentence is enough."
-        contentLabel="What would you like prayer for?"
-        contentPlaceholder="Please pray for…"
-        submitLabel="Send it to the prayer altar"
+        intro="Tell us what kind of partner you're hoping for and what season you're in. Only what a pastor approves — and what you consent to — is ever shown publicly."
+        contentLabel="What kind of partner are you looking for?"
+        contentPlaceholder="I'm looking for a partner who…"
+        submitLabel="Send my partner request"
       />
     </PageShell>
   );

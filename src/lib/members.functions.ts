@@ -123,7 +123,78 @@ export const rejectPublicSubmission = createServerFn({ method: "POST" })
       throw new Error("Pastoral access required.");
     await supabaseAdmin
       .from("submissions")
-      .update({ display_publicly: false })
+      .update({ display_publicly: false, public_approved_at: null, public_approved_by: null })
       .eq("id", data.id);
+    return { ok: true };
+  });
+
+// Pastor/admin action from the inbox detail: force-publish a submission
+// to /voices, even if the submitter did not opt in. Requires an excerpt
+// so no raw content is ever leaked; optional title.
+export const publishSubmissionPublic = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        public_title: z.string().trim().max(120).optional(),
+        public_excerpt: z.string().trim().min(5).max(600),
+      })
+      .parse(d),
+  )
+  .handler(async ({ context, data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: roles } = await supabaseAdmin
+      .from("user_roles").select("role").eq("user_id", context.userId);
+    const list = (roles ?? []).map((r) => r.role);
+    if (!list.includes("pastor") && !list.includes("admin"))
+      throw new Error("Pastoral access required.");
+    const { error } = await supabaseAdmin
+      .from("submissions")
+      .update({
+        display_publicly: true,
+        public_title: data.public_title || null,
+        public_excerpt: data.public_excerpt,
+        public_approved_at: new Date().toISOString(),
+        public_approved_by: context.userId,
+      })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    await supabaseAdmin.from("audit_log").insert({
+      actor_id: context.userId,
+      action: "public.published_by_pastor",
+      entity_type: "submission",
+      entity_id: data.id,
+      metadata: {} as never,
+    });
+    return { ok: true };
+  });
+
+export const unpublishSubmissionPublic = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ context, data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: roles } = await supabaseAdmin
+      .from("user_roles").select("role").eq("user_id", context.userId);
+    const list = (roles ?? []).map((r) => r.role);
+    if (!list.includes("pastor") && !list.includes("admin"))
+      throw new Error("Pastoral access required.");
+    const { error } = await supabaseAdmin
+      .from("submissions")
+      .update({
+        display_publicly: false,
+        public_approved_at: null,
+        public_approved_by: null,
+      })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    await supabaseAdmin.from("audit_log").insert({
+      actor_id: context.userId,
+      action: "public.unpublished",
+      entity_type: "submission",
+      entity_id: data.id,
+      metadata: {} as never,
+    });
     return { ok: true };
   });
