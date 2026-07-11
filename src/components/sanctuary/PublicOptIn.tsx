@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 type Props = {
-  type: "confession" | "testimony" | "prayer";
+  type: "confession" | "testimony" | "prayer" | "partner_request";
 };
 
 export function PublicOptIn({ type }: Props) {
@@ -11,6 +11,8 @@ export function PublicOptIn({ type }: Props) {
       ? "I'd like my testimony to be considered for public display"
       : type === "confession"
       ? "I'd like my confession to be considered for public display (anonymously)"
+      : type === "partner_request"
+      ? "I'd like my partner request shared publicly so a willing partner can respond"
       : "I'd like this request shared on the public prayer wall";
 
   return (

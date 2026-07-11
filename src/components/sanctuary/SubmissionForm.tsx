@@ -7,7 +7,7 @@ import { Loader2, ImagePlus, X } from "lucide-react";
 
 type Props = {
   type: "confession" | "prayer";
-  publicVoiceType?: "confession" | "testimony" | "prayer";
+  publicVoiceType?: "confession" | "testimony" | "prayer" | "partner_request";
   categories: { value: string; label: string }[];
   intro: string;
   contentLabel: string;

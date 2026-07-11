@@ -147,9 +147,9 @@ const CHAMBERS: Chamber[] = [
   },
   {
     icon: HandHeart,
-    title: "The Wishing Well",
+    title: "Partner Requests",
     verse: "  ",
-    body: "Bring petitions for health, family, finances, or your lustful walk. Each request is received by a filthy nun, placed at the altar and shepherded to resolution.",
+    body: "Ask for a prayer or accountability partner — anonymously if you wish. Pastoral leadership reviews each request; approved ones are shared publicly so a willing brother or sister can reach back.",
     to: "/prayer",
   },
   {

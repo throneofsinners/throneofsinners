@@ -9,7 +9,7 @@ const NAV = [
   { to: "/voices", label: "Voices" },
   { to: "/pastors", label: "Pastors" },
   { to: "/confess", label: "Confession" },
-  { to: "/prayer", label: "Prayer Altar" },
+  { to: "/prayer", label: "Partner Requests" },
   { to: "/lookup", label: "My Scroll" },
   { to: "/giving", label: "Giving" },
 ] as const;
