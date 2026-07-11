@@ -197,6 +197,16 @@ function Detail() {
         </div>
       </section>
 
+      <PublishPanel
+        submission={submission}
+        onPublish={(title, excerpt) => publish.mutate({ public_title: title, public_excerpt: excerpt })}
+        onUnpublish={() => unpublish.mutate()}
+        publishing={publish.isPending || unpublish.isPending}
+        error={(publish.error as Error | null)?.message ?? null}
+      />
+
+
+
       <section className="mt-6 space-y-3">
         <h2 className="font-serif text-xl text-ivory">Response thread</h2>
         {responses.length === 0 && (
