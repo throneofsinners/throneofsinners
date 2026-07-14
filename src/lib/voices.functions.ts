@@ -70,6 +70,8 @@ export const listPublicVoices = createServerFn({ method: "GET" })
         image_urls: paths
           .map((p) => signedMap.get(p))
           .filter((u): u is string => !!u),
+        pastoral_response:
+          ((r as { pastoral_response?: string | null }).pastoral_response ?? null) as string | null,
       };
     });
     return { items, error: null as string | null };
