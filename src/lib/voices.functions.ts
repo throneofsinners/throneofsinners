@@ -19,6 +19,7 @@ export type PublicVoice = {
   excerpt: string;
   approved_at: string | null;
   image_urls: string[];
+  pastoral_response: string | null;
 };
 
 export const listPublicVoices = createServerFn({ method: "GET" })
@@ -32,7 +33,7 @@ export const listPublicVoices = createServerFn({ method: "GET" })
     const supabase = publicClient();
     const { data: rows, error } = await supabase
       .from("public_voices")
-      .select("id, type, category, title, excerpt, image_paths, approved_at")
+      .select("id, type, category, title, excerpt, image_paths, approved_at, pastoral_response")
       .order("approved_at", { ascending: false })
       .limit(data.limit);
     if (error) return { items: [] as PublicVoice[], error: error.message };
@@ -69,6 +70,8 @@ export const listPublicVoices = createServerFn({ method: "GET" })
         image_urls: paths
           .map((p) => signedMap.get(p))
           .filter((u): u is string => !!u),
+        pastoral_response:
+          ((r as { pastoral_response?: string | null }).pastoral_response ?? null) as string | null,
       };
     });
     return { items, error: null as string | null };
