@@ -139,6 +139,7 @@ export const publishSubmissionPublic = createServerFn({ method: "POST" })
         id: z.string().uuid(),
         public_title: z.string().trim().max(120).optional(),
         public_excerpt: z.string().trim().min(5).max(600),
+        include_pastoral_response: z.boolean().optional().default(false),
       })
       .parse(d),
   )
@@ -155,6 +156,7 @@ export const publishSubmissionPublic = createServerFn({ method: "POST" })
         display_publicly: true,
         public_title: data.public_title || null,
         public_excerpt: data.public_excerpt,
+        include_pastoral_response: data.include_pastoral_response,
         public_approved_at: new Date().toISOString(),
         public_approved_by: context.userId,
       })
@@ -165,7 +167,7 @@ export const publishSubmissionPublic = createServerFn({ method: "POST" })
       action: "public.published_by_pastor",
       entity_type: "submission",
       entity_id: data.id,
-      metadata: {} as never,
+      metadata: { include_pastoral_response: data.include_pastoral_response } as never,
     });
     return { ok: true };
   });
