@@ -19,6 +19,7 @@ export type PublicVoice = {
   excerpt: string;
   approved_at: string | null;
   image_urls: string[];
+  pastoral_response: string | null;
 };
 
 export const listPublicVoices = createServerFn({ method: "GET" })
