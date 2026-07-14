@@ -418,6 +418,7 @@ export type Database = {
           display_publicly: boolean
           id: string
           image_paths: string[]
+          include_pastoral_response: boolean
           is_anonymous: boolean
           pastoral_response: string | null
           public_approved_at: string | null
@@ -441,6 +442,7 @@ export type Database = {
           display_publicly?: boolean
           id?: string
           image_paths?: string[]
+          include_pastoral_response?: boolean
           is_anonymous?: boolean
           pastoral_response?: string | null
           public_approved_at?: string | null
@@ -464,6 +466,7 @@ export type Database = {
           display_publicly?: boolean
           id?: string
           image_paths?: string[]
+          include_pastoral_response?: boolean
           is_anonymous?: boolean
           pastoral_response?: string | null
           public_approved_at?: string | null
@@ -556,6 +559,7 @@ export type Database = {
           excerpt: string | null
           id: string | null
           image_paths: string[] | null
+          pastoral_response: string | null
           title: string | null
           type: Database["public"]["Enums"]["submission_type"] | null
         }
@@ -566,6 +570,7 @@ export type Database = {
           excerpt?: string | null
           id?: string | null
           image_paths?: string[] | null
+          pastoral_response?: never
           title?: never
           type?: Database["public"]["Enums"]["submission_type"] | null
         }
@@ -576,6 +581,7 @@ export type Database = {
           excerpt?: string | null
           id?: string | null
           image_paths?: string[] | null
+          pastoral_response?: never
           title?: never
           type?: Database["public"]["Enums"]["submission_type"] | null
         }
