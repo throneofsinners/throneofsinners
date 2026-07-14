@@ -280,6 +280,8 @@ type PublishSubmission = {
   public_title: string | null;
   public_excerpt: string | null;
   public_approved_at: string | null;
+  include_pastoral_response?: boolean | null;
+  pastoral_response?: string | null;
 };
 
 function PublishPanel({
@@ -290,7 +292,7 @@ function PublishPanel({
   error,
 }: {
   submission: PublishSubmission;
-  onPublish: (title: string, excerpt: string) => void;
+  onPublish: (title: string, excerpt: string, includeResponse: boolean) => void;
   onUnpublish: () => void;
   publishing: boolean;
   error: string | null;
@@ -300,6 +302,10 @@ function PublishPanel({
   const [excerpt, setExcerpt] = useState(
     submission.public_excerpt ?? submission.content.slice(0, 280),
   );
+  const [includeResponse, setIncludeResponse] = useState(
+    !!submission.include_pastoral_response,
+  );
+  const hasResponse = !!submission.pastoral_response?.trim();
 
   return (
     <section className="mt-6 rounded-lg border border-gold/30 bg-secondary/40 p-5">
@@ -346,10 +352,31 @@ function PublishPanel({
             className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-ivory focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40"
           />
         </div>
+        <label
+          className={`flex items-start gap-2 rounded-md border border-border/60 bg-background/40 p-3 text-sm text-ivory ${
+            hasResponse ? "" : "opacity-60"
+          }`}
+        >
+          <input
+            type="checkbox"
+            checked={includeResponse && hasResponse}
+            disabled={!hasResponse}
+            onChange={(e) => setIncludeResponse(e.target.checked)}
+            className="mt-1"
+          />
+          <span>
+            Publish with pastoral response
+            <span className="mt-0.5 block text-xs text-muted-foreground">
+              {hasResponse
+                ? "The most recent pastoral reply will appear alongside the excerpt on /voices."
+                : "Send a pastoral reply first to enable this option — or publish without one."}
+            </span>
+          </span>
+        </label>
         {error && <p className="text-sm text-red-400">{error}</p>}
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => onPublish(title.trim(), excerpt.trim())}
+            onClick={() => onPublish(title.trim(), excerpt.trim(), includeResponse && hasResponse)}
             disabled={publishing || excerpt.trim().length < 5}
             className="candle-glow inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60"
           >
