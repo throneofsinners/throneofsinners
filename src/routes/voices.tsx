@@ -101,6 +101,16 @@ function VoicesPage() {
             <p className="font-serif italic leading-relaxed text-ivory/85">
               "{v.excerpt}"
             </p>
+            {v.pastoral_response && (
+              <div className="mt-2 rounded-md border-l-2 border-gold/60 bg-background/30 px-4 py-3">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-gold/80">
+                  Pastoral response
+                </p>
+                <p className="mt-1 whitespace-pre-wrap font-serif text-sm leading-relaxed text-ivory/80">
+                  {v.pastoral_response}
+                </p>
+              </div>
+            )}
           </article>
         ))}
       </div>
