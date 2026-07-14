@@ -33,7 +33,7 @@ export const listPublicVoices = createServerFn({ method: "GET" })
     const supabase = publicClient();
     const { data: rows, error } = await supabase
       .from("public_voices")
-      .select("id, type, category, title, excerpt, image_paths, approved_at")
+      .select("id, type, category, title, excerpt, image_paths, approved_at, pastoral_response")
       .order("approved_at", { ascending: false })
       .limit(data.limit);
     if (error) return { items: [] as PublicVoice[], error: error.message };
