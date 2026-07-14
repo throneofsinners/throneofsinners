@@ -87,8 +87,11 @@ function Detail() {
   const publishFn = useServerFn(publishSubmissionPublic);
   const unpublishFn = useServerFn(unpublishSubmissionPublic);
   const publish = useMutation({
-    mutationFn: (v: { public_title: string; public_excerpt: string }) =>
-      publishFn({ data: { id, ...v } }),
+    mutationFn: (v: {
+      public_title: string;
+      public_excerpt: string;
+      include_pastoral_response: boolean;
+    }) => publishFn({ data: { id, ...v } }),
     onSuccess: invalidate,
   });
   const unpublish = useMutation({
