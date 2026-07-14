@@ -202,7 +202,13 @@ function Detail() {
 
       <PublishPanel
         submission={submission}
-        onPublish={(title, excerpt) => publish.mutate({ public_title: title, public_excerpt: excerpt })}
+        onPublish={(title, excerpt, includeResponse) =>
+          publish.mutate({
+            public_title: title,
+            public_excerpt: excerpt,
+            include_pastoral_response: includeResponse,
+          })
+        }
         onUnpublish={() => unpublish.mutate()}
         publishing={publish.isPending || unpublish.isPending}
         error={(publish.error as Error | null)?.message ?? null}
