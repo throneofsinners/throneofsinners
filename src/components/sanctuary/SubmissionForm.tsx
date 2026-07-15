@@ -96,9 +96,14 @@ export function SubmissionForm({
     const display_publicly = form.get("display_publicly") === "on";
     const public_title = String(form.get("public_title") ?? "");
     const public_excerpt = String(form.get("public_excerpt") ?? "");
+    const location = String(form.get("location") ?? "").trim();
 
     if (content.trim().length < 10) {
       setError("Please share a little more — at least a few sentences.");
+      return;
+    }
+    if (showLocation && locationRequired && location.length < 2) {
+      setError("Please add a location so we can match you well.");
       return;
     }
     if (photos.some((p) => p.uploading)) {
