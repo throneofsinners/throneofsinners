@@ -45,11 +45,18 @@ function PartnerRequestPage() {
         type="prayer"
         publicVoiceType="partner_request"
         categories={CATEGORIES}
-        intro="Tell us what kind of partner you're hoping for and what season you're in. Only what a pastor approves — and what you consent to — is ever shown publicly."
-        contentLabel="What kind of partner are you looking for?"
-        contentPlaceholder="I'm looking for a partner who…"
+        intro="Tell us what kind of partner you're hoping for and what season you're in. The more detail you share, the better a pastor can match you. Only what a pastor approves — and what you consent to — is ever shown publicly."
+        contentLabel="Describe the partner you're looking for and why"
+        contentPlaceholder={
+          "Share the essentials so a pastor can match you well:\n\n• What kind of partner? (prayer / accountability / discipleship / recovery / marriage)\n• What season are you in and what are you walking through?\n• How often would you like to connect, and how (text, call, in-person)?\n• Any preferences on gender, age range, or life stage of your partner?\n• Anything else that would help us find the right brother or sister for you."
+        }
         submitLabel="Send my partner request"
+        showLocation
+        locationRequired
+        locationLabel="Your location (city, state / country, or region)"
+        locationPlaceholder="e.g. Nairobi, Kenya · or Pacific Northwest, USA"
       />
+
     </PageShell>
   );
 }
