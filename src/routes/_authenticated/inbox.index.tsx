@@ -41,6 +41,11 @@ function Inbox() {
   });
 
   const visibleCats = (cats ?? []).filter((c) => type === "all" || c.type === type);
+  const typeCounts = (cats ?? []).reduce<Record<string, number>>((acc, c) => {
+    acc[c.type] = (acc[c.type] ?? 0) + c.count;
+    acc.all = (acc.all ?? 0) + c.count;
+    return acc;
+  }, {});
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
