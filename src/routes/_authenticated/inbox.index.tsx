@@ -60,6 +60,32 @@ function Inbox() {
         Handle each submission with reverence. Crisis-flagged entries surface first.
       </p>
 
+      {/* Quick type tabs with live counts */}
+      <div className="mt-5 flex flex-wrap gap-2">
+        {TYPES.map((t) => {
+          const count = typeCounts[t] ?? 0;
+          const active = type === t;
+          return (
+            <button
+              key={t}
+              onClick={() => {
+                setType(t);
+                setCategory("all");
+              }}
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs uppercase tracking-[0.2em] transition-colors ${
+                active
+                  ? "border-gold bg-gold/15 text-ivory"
+                  : "border-border bg-background/40 text-muted-foreground hover:border-gold/40 hover:text-ivory"
+              }`}
+            >
+              {t === "all" ? "All submissions" : t === "confession" ? "Confessions" : "Partner / prayer"}
+              <span className="opacity-70">· {count}</span>
+            </button>
+          );
+        })}
+      </div>
+
+
       <div className="mt-6 flex flex-wrap items-end gap-3 rounded-lg border border-border bg-secondary/30 p-4">
         <Field label="Status">
           <select
