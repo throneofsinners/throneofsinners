@@ -14,6 +14,10 @@ type Props = {
   contentPlaceholder: string;
   submitLabel: string;
   allowPublic?: boolean;
+  showLocation?: boolean;
+  locationRequired?: boolean;
+  locationLabel?: string;
+  locationPlaceholder?: string;
 };
 
 export function SubmissionForm({
@@ -25,6 +29,10 @@ export function SubmissionForm({
   contentPlaceholder,
   submitLabel,
   allowPublic = true,
+  showLocation = false,
+  locationRequired = false,
+  locationLabel = "Location (city, state / country)",
+  locationPlaceholder = "e.g. Austin, TX — or just 'Southeast USA'",
 }: Props) {
   const submit = useServerFn(createSubmission);
   const uploadPhoto = useServerFn(uploadSubmissionPhoto);
@@ -88,9 +96,14 @@ export function SubmissionForm({
     const display_publicly = form.get("display_publicly") === "on";
     const public_title = String(form.get("public_title") ?? "");
     const public_excerpt = String(form.get("public_excerpt") ?? "");
+    const location = String(form.get("location") ?? "").trim();
 
     if (content.trim().length < 10) {
       setError("Please share a little more — at least a few sentences.");
+      return;
+    }
+    if (showLocation && locationRequired && location.length < 2) {
+      setError("Please add a location so we can match you well.");
       return;
     }
     if (photos.some((p) => p.uploading)) {
@@ -113,6 +126,7 @@ export function SubmissionForm({
           public_title,
           public_excerpt,
           image_paths,
+          location,
         },
       });
       setResult({ token: res.tracking_token, flagged: res.risk_flagged });
@@ -176,6 +190,29 @@ export function SubmissionForm({
           Encrypted in transit. No one else sees this except pastoral staff.
         </p>
       </div>
+
+      {showLocation && (
+        <div>
+          <label htmlFor="location" className="block text-sm font-medium text-ivory">
+            {locationLabel}
+            {locationRequired && <span className="ml-1 text-gold">*</span>}
+          </label>
+          <input
+            id="location"
+            name="location"
+            type="text"
+            maxLength={160}
+            required={locationRequired}
+            placeholder={locationPlaceholder}
+            className="mt-2 w-full rounded-md border border-border bg-input px-3 py-2 text-ivory placeholder:text-muted-foreground focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40"
+          />
+          <p className="mt-1 text-xs text-muted-foreground">
+            Used to help pastors match you with a partner nearby or in a
+            similar time zone. Only a region is required — never an address.
+          </p>
+        </div>
+      )}
+
 
       <fieldset className="rounded-md border border-border/70 p-4">
         <legend className="px-2 text-sm text-muted-foreground">

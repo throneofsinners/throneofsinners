@@ -91,6 +91,7 @@ function Detail() {
       public_title: string;
       public_excerpt: string;
       include_pastoral_response: boolean;
+      free_visible: boolean;
     }) => publishFn({ data: { id, ...v } }),
     onSuccess: invalidate,
   });
@@ -202,11 +203,12 @@ function Detail() {
 
       <PublishPanel
         submission={submission}
-        onPublish={(title, excerpt, includeResponse) =>
+        onPublish={(title, excerpt, includeResponse, freeVisible) =>
           publish.mutate({
             public_title: title,
             public_excerpt: excerpt,
             include_pastoral_response: includeResponse,
+            free_visible: freeVisible,
           })
         }
         onUnpublish={() => unpublish.mutate()}
@@ -282,6 +284,7 @@ type PublishSubmission = {
   public_approved_at: string | null;
   include_pastoral_response?: boolean | null;
   pastoral_response?: string | null;
+  free_visible?: boolean | null;
 };
 
 function PublishPanel({
@@ -292,7 +295,12 @@ function PublishPanel({
   error,
 }: {
   submission: PublishSubmission;
-  onPublish: (title: string, excerpt: string, includeResponse: boolean) => void;
+  onPublish: (
+    title: string,
+    excerpt: string,
+    includeResponse: boolean,
+    freeVisible: boolean,
+  ) => void;
   onUnpublish: () => void;
   publishing: boolean;
   error: string | null;
@@ -304,6 +312,9 @@ function PublishPanel({
   );
   const [includeResponse, setIncludeResponse] = useState(
     !!submission.include_pastoral_response,
+  );
+  const [freeVisible, setFreeVisible] = useState(
+    submission.free_visible == null ? true : !!submission.free_visible,
   );
   const hasResponse = !!submission.pastoral_response?.trim();
 
@@ -373,10 +384,32 @@ function PublishPanel({
             </span>
           </span>
         </label>
+        <label className="flex items-start gap-2 rounded-md border border-border/60 bg-background/40 p-3 text-sm text-ivory">
+          <input
+            type="checkbox"
+            checked={freeVisible}
+            onChange={(e) => setFreeVisible(e.target.checked)}
+            className="mt-1"
+          />
+          <span>
+            Visible to free / guest members
+            <span className="mt-0.5 block text-xs text-muted-foreground">
+              Uncheck to reserve this voice for premium members only. Admins and
+              pastors always see everything.
+            </span>
+          </span>
+        </label>
         {error && <p className="text-sm text-red-400">{error}</p>}
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => onPublish(title.trim(), excerpt.trim(), includeResponse && hasResponse)}
+            onClick={() =>
+              onPublish(
+                title.trim(),
+                excerpt.trim(),
+                includeResponse && hasResponse,
+                freeVisible,
+              )
+            }
             disabled={publishing || excerpt.trim().length < 5}
             className="candle-glow inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60"
           >

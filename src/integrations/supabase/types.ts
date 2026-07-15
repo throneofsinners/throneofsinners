@@ -416,10 +416,12 @@ export type Database = {
           content: string
           created_at: string
           display_publicly: boolean
+          free_visible: boolean
           id: string
           image_paths: string[]
           include_pastoral_response: boolean
           is_anonymous: boolean
+          location: string | null
           pastoral_response: string | null
           public_approved_at: string | null
           public_approved_by: string | null
@@ -440,10 +442,12 @@ export type Database = {
           content: string
           created_at?: string
           display_publicly?: boolean
+          free_visible?: boolean
           id?: string
           image_paths?: string[]
           include_pastoral_response?: boolean
           is_anonymous?: boolean
+          location?: string | null
           pastoral_response?: string | null
           public_approved_at?: string | null
           public_approved_by?: string | null
@@ -464,10 +468,12 @@ export type Database = {
           content?: string
           created_at?: string
           display_publicly?: boolean
+          free_visible?: boolean
           id?: string
           image_paths?: string[]
           include_pastoral_response?: boolean
           is_anonymous?: boolean
+          location?: string | null
           pastoral_response?: string | null
           public_approved_at?: string | null
           public_approved_by?: string | null
@@ -557,8 +563,10 @@ export type Database = {
           category: string | null
           created_at: string | null
           excerpt: string | null
+          free_visible: boolean | null
           id: string | null
           image_paths: string[] | null
+          location: string | null
           pastoral_response: string | null
           title: string | null
           type: Database["public"]["Enums"]["submission_type"] | null
@@ -568,8 +576,10 @@ export type Database = {
           category?: string | null
           created_at?: string | null
           excerpt?: string | null
+          free_visible?: boolean | null
           id?: string | null
           image_paths?: string[] | null
+          location?: string | null
           pastoral_response?: never
           title?: never
           type?: Database["public"]["Enums"]["submission_type"] | null
@@ -579,8 +589,10 @@ export type Database = {
           category?: string | null
           created_at?: string | null
           excerpt?: string | null
+          free_visible?: boolean | null
           id?: string | null
           image_paths?: string[] | null
+          location?: string | null
           pastoral_response?: never
           title?: never
           type?: Database["public"]["Enums"]["submission_type"] | null

@@ -20,36 +20,52 @@ export type PublicVoice = {
   approved_at: string | null;
   image_urls: string[];
   pastoral_response: string | null;
+  location: string | null;
+  free_visible: boolean;
 };
 
 export const listPublicVoices = createServerFn({ method: "GET" })
   .inputValidator((d) =>
     z
-      .object({ limit: z.number().int().min(1).max(100).default(50) })
-      .default({ limit: 50 })
+      .object({ limit: z.number().int().min(1).max(200).default(100) })
+      .default({ limit: 100 })
       .parse(d ?? {}),
   )
   .handler(async ({ data }) => {
-    const supabase = publicClient();
-    const { data: rows, error } = await supabase
-      .from("public_voices")
-      .select("id, type, category, title, excerpt, image_paths, approved_at, pastoral_response")
+    // Read through the trusted server-only admin client. The public_voices
+    // view already filters to display_publicly=true + pastor-approved rows and
+    // only exposes safe columns (title, excerpt, category, image paths,
+    // optional pastoral response, location, free-tier flag).
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: rows, error } = await supabaseAdmin
+      .from("public_voices" as never)
+      .select(
+        "id, type, category, title, excerpt, image_paths, approved_at, pastoral_response, location, free_visible",
+      )
       .order("approved_at", { ascending: false })
       .limit(data.limit);
     if (error) return { items: [] as PublicVoice[], error: error.message };
 
-    // Sign photo URLs server-side (bucket is private). Rows come from the
-    // public_voices view which only exposes approved, opted-in submissions.
+    type Row = {
+      id: string;
+      type: string;
+      category: string | null;
+      title: string;
+      excerpt: string;
+      image_paths: string[] | null;
+      approved_at: string | null;
+      pastoral_response: string | null;
+      location: string | null;
+      free_visible: boolean | null;
+    };
+    const typed = (rows ?? []) as unknown as Row[];
+
+    // Sign photo URLs server-side (bucket is private).
     const allPaths = Array.from(
-      new Set(
-        (rows ?? []).flatMap(
-          (r) => ((r as { image_paths?: string[] | null }).image_paths ?? []) as string[],
-        ),
-      ),
+      new Set(typed.flatMap((r) => r.image_paths ?? [])),
     );
     const signedMap = new Map<string, string>();
     if (allPaths.length > 0) {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { data: signed } = await supabaseAdmin.storage
         .from("submission-photos")
         .createSignedUrls(allPaths, 60 * 60);
@@ -58,22 +74,20 @@ export const listPublicVoices = createServerFn({ method: "GET" })
       });
     }
 
-    const items: PublicVoice[] = (rows ?? []).map((r) => {
-      const paths = ((r as { image_paths?: string[] | null }).image_paths ?? []) as string[];
-      return {
-        id: r.id as string,
-        type: r.type as string,
-        category: (r.category as string | null) ?? null,
-        title: r.title as string,
-        excerpt: r.excerpt as string,
-        approved_at: (r.approved_at as string | null) ?? null,
-        image_urls: paths
-          .map((p) => signedMap.get(p))
-          .filter((u): u is string => !!u),
-        pastoral_response:
-          ((r as { pastoral_response?: string | null }).pastoral_response ?? null) as string | null,
-      };
-    });
+    const items: PublicVoice[] = typed.map((r) => ({
+      id: r.id,
+      type: r.type,
+      category: r.category,
+      title: r.title,
+      excerpt: r.excerpt,
+      approved_at: r.approved_at,
+      image_urls: (r.image_paths ?? [])
+        .map((p) => signedMap.get(p))
+        .filter((u): u is string => !!u),
+      pastoral_response: r.pastoral_response,
+      location: r.location,
+      free_visible: r.free_visible ?? true,
+    }));
     return { items, error: null as string | null };
   });
 

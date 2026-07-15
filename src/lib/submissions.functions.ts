@@ -20,6 +20,7 @@ const submissionInput = z.object({
   public_title: z.string().trim().max(120).optional().or(z.literal("")),
   public_excerpt: z.string().trim().max(600).optional().or(z.literal("")),
   image_paths: z.array(z.string().max(500)).max(5).default([]),
+  location: z.string().trim().max(160).optional().or(z.literal("")),
 });
 
 export type SubmissionInput = z.infer<typeof submissionInput>;
@@ -50,6 +51,7 @@ export const createSubmission = createServerFn({ method: "POST" })
         risk_flagged: risk.flagged,
         risk_keywords: risk.matched.length ? risk.matched : null,
         image_paths: data.image_paths ?? [],
+        location: data.location ? data.location : null,
       })
       .select("id, tracking_token, type, status, created_at")
       .single();
