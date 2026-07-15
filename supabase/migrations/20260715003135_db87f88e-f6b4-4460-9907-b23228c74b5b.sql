@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Anyone can read approved public submissions" ON public.submissions;
