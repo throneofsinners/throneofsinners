@@ -91,6 +91,7 @@ function Detail() {
       public_title: string;
       public_excerpt: string;
       include_pastoral_response: boolean;
+      free_visible: boolean;
     }) => publishFn({ data: { id, ...v } }),
     onSuccess: invalidate,
   });
