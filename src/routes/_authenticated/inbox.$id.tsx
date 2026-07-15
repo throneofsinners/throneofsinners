@@ -203,11 +203,12 @@ function Detail() {
 
       <PublishPanel
         submission={submission}
-        onPublish={(title, excerpt, includeResponse) =>
+        onPublish={(title, excerpt, includeResponse, freeVisible) =>
           publish.mutate({
             public_title: title,
             public_excerpt: excerpt,
             include_pastoral_response: includeResponse,
+            free_visible: freeVisible,
           })
         }
         onUnpublish={() => unpublish.mutate()}
