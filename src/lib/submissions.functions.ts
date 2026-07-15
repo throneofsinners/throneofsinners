@@ -51,6 +51,7 @@ export const createSubmission = createServerFn({ method: "POST" })
         risk_flagged: risk.flagged,
         risk_keywords: risk.matched.length ? risk.matched : null,
         image_paths: data.image_paths ?? [],
+        location: data.location ? data.location : null,
       })
       .select("id, tracking_token, type, status, created_at")
       .single();
