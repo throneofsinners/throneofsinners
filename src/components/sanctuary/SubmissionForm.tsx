@@ -126,6 +126,7 @@ export function SubmissionForm({
           public_title,
           public_excerpt,
           image_paths,
+          location,
         },
       });
       setResult({ token: res.tracking_token, flagged: res.risk_flagged });
