@@ -140,6 +140,7 @@ export const publishSubmissionPublic = createServerFn({ method: "POST" })
         public_title: z.string().trim().max(120).optional(),
         public_excerpt: z.string().trim().min(5).max(600),
         include_pastoral_response: z.boolean().optional().default(false),
+        free_visible: z.boolean().optional().default(true),
       })
       .parse(d),
   )
@@ -157,6 +158,7 @@ export const publishSubmissionPublic = createServerFn({ method: "POST" })
         public_title: data.public_title || null,
         public_excerpt: data.public_excerpt,
         include_pastoral_response: data.include_pastoral_response,
+        free_visible: data.free_visible,
         public_approved_at: new Date().toISOString(),
         public_approved_by: context.userId,
       })
@@ -167,7 +169,10 @@ export const publishSubmissionPublic = createServerFn({ method: "POST" })
       action: "public.published_by_pastor",
       entity_type: "submission",
       entity_id: data.id,
-      metadata: { include_pastoral_response: data.include_pastoral_response } as never,
+      metadata: {
+        include_pastoral_response: data.include_pastoral_response,
+        free_visible: data.free_visible,
+      } as never,
     });
     return { ok: true };
   });
