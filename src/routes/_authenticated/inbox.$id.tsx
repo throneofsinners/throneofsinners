@@ -384,10 +384,32 @@ function PublishPanel({
             </span>
           </span>
         </label>
+        <label className="flex items-start gap-2 rounded-md border border-border/60 bg-background/40 p-3 text-sm text-ivory">
+          <input
+            type="checkbox"
+            checked={freeVisible}
+            onChange={(e) => setFreeVisible(e.target.checked)}
+            className="mt-1"
+          />
+          <span>
+            Visible to free / guest members
+            <span className="mt-0.5 block text-xs text-muted-foreground">
+              Uncheck to reserve this voice for premium members only. Admins and
+              pastors always see everything.
+            </span>
+          </span>
+        </label>
         {error && <p className="text-sm text-red-400">{error}</p>}
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => onPublish(title.trim(), excerpt.trim(), includeResponse && hasResponse)}
+            onClick={() =>
+              onPublish(
+                title.trim(),
+                excerpt.trim(),
+                includeResponse && hasResponse,
+                freeVisible,
+              )
+            }
             disabled={publishing || excerpt.trim().length < 5}
             className="candle-glow inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60"
           >
