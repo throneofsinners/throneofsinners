@@ -284,6 +284,7 @@ type PublishSubmission = {
   public_approved_at: string | null;
   include_pastoral_response?: boolean | null;
   pastoral_response?: string | null;
+  free_visible?: boolean | null;
 };
 
 function PublishPanel({
@@ -294,7 +295,12 @@ function PublishPanel({
   error,
 }: {
   submission: PublishSubmission;
-  onPublish: (title: string, excerpt: string, includeResponse: boolean) => void;
+  onPublish: (
+    title: string,
+    excerpt: string,
+    includeResponse: boolean,
+    freeVisible: boolean,
+  ) => void;
   onUnpublish: () => void;
   publishing: boolean;
   error: string | null;
@@ -306,6 +312,9 @@ function PublishPanel({
   );
   const [includeResponse, setIncludeResponse] = useState(
     !!submission.include_pastoral_response,
+  );
+  const [freeVisible, setFreeVisible] = useState(
+    submission.free_visible == null ? true : !!submission.free_visible,
   );
   const hasResponse = !!submission.pastoral_response?.trim();
 
