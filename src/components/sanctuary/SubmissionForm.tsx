@@ -14,6 +14,10 @@ type Props = {
   contentPlaceholder: string;
   submitLabel: string;
   allowPublic?: boolean;
+  showLocation?: boolean;
+  locationRequired?: boolean;
+  locationLabel?: string;
+  locationPlaceholder?: string;
 };
 
 export function SubmissionForm({
