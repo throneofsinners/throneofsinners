@@ -29,6 +29,10 @@ export function SubmissionForm({
   contentPlaceholder,
   submitLabel,
   allowPublic = true,
+  showLocation = false,
+  locationRequired = false,
+  locationLabel = "Location (city, state / country)",
+  locationPlaceholder = "e.g. Austin, TX — or just 'Southeast USA'",
 }: Props) {
   const submit = useServerFn(createSubmission);
   const uploadPhoto = useServerFn(uploadSubmissionPhoto);
