@@ -241,6 +241,9 @@ function Detail() {
         ))}
       </section>
 
+      {submission.type === "prayer" && <PartnerMatches submissionId={id} />}
+
+
       <section className="mt-6 rounded-lg border border-gold/30 bg-secondary/40 p-5">
         <h2 className="font-serif text-xl text-ivory">Compose reply</h2>
         <textarea
