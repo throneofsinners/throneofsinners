@@ -225,12 +225,14 @@ export type Database = {
           id: string
           instagram: string | null
           is_visible: boolean
+          onboarding_completed_at: string | null
           phone: string | null
           photo_url: string | null
           sort_order: number
           title: string | null
           twitter: string | null
           updated_at: string
+          user_id: string | null
           website: string | null
         }
         Insert: {
@@ -242,12 +244,14 @@ export type Database = {
           id?: string
           instagram?: string | null
           is_visible?: boolean
+          onboarding_completed_at?: string | null
           phone?: string | null
           photo_url?: string | null
           sort_order?: number
           title?: string | null
           twitter?: string | null
           updated_at?: string
+          user_id?: string | null
           website?: string | null
         }
         Update: {
@@ -259,12 +263,14 @@ export type Database = {
           id?: string
           instagram?: string | null
           is_visible?: boolean
+          onboarding_completed_at?: string | null
           phone?: string | null
           photo_url?: string | null
           sort_order?: number
           title?: string | null
           twitter?: string | null
           updated_at?: string
+          user_id?: string | null
           website?: string | null
         }
         Relationships: []
@@ -615,6 +621,20 @@ export type Database = {
       is_chamber_member: {
         Args: { _chamber_id: string; _user_id: string }
         Returns: boolean
+      }
+      recommend_partner_matches: {
+        Args: { _limit?: number; _submission_id: string }
+        Returns: {
+          category: string
+          content: string
+          created_at: string
+          id: string
+          location: string
+          score: number
+          shared_location: string
+          status: Database["public"]["Enums"]["submission_status"]
+          tracking_token: string
+        }[]
       }
     }
     Enums: {
