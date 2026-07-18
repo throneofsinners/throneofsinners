@@ -86,6 +86,7 @@ function PastorView() {
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Tile to="/inbox" title="Moderation Inbox" body="Review confessions and prayer requests. Triage by status and risk." />
         <Tile to="/chambers" title="Peer Chambers" body="Restoration circles where members walk together under a steward." />
+        <Tile to="/pastor-onboarding" title="My Pastor Profile" body="Complete your bio, contact info, and visibility on the public Pastors page." />
       </div>
     </>
   );
