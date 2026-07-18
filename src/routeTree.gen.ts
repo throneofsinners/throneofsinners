@@ -26,6 +26,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LookupIndexRouteImport } from './routes/lookup.index'
 import { Route as LookupTokenRouteImport } from './routes/lookup.$token'
+import { Route as AuthenticatedPastorOnboardingRouteImport } from './routes/_authenticated/pastor-onboarding'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedContactPastorsRouteImport } from './routes/_authenticated/contact-pastors'
 import { Route as AuthenticatedChambersRouteImport } from './routes/_authenticated/chambers'
@@ -122,6 +123,12 @@ const LookupTokenRoute = LookupTokenRouteImport.update({
   path: '/$token',
   getParentRoute: () => LookupRoute,
 } as any)
+const AuthenticatedPastorOnboardingRoute =
+  AuthenticatedPastorOnboardingRouteImport.update({
+    id: '/pastor-onboarding',
+    path: '/pastor-onboarding',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -202,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/contact-pastors': typeof AuthenticatedContactPastorsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/pastor-onboarding': typeof AuthenticatedPastorOnboardingRoute
   '/lookup/$token': typeof LookupTokenRoute
   '/lookup/': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
@@ -230,6 +238,7 @@ export interface FileRoutesByTo {
   '/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/contact-pastors': typeof AuthenticatedContactPastorsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/pastor-onboarding': typeof AuthenticatedPastorOnboardingRoute
   '/lookup/$token': typeof LookupTokenRoute
   '/lookup': typeof LookupIndexRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
@@ -261,6 +270,7 @@ export interface FileRoutesById {
   '/_authenticated/chambers': typeof AuthenticatedChambersRouteWithChildren
   '/_authenticated/contact-pastors': typeof AuthenticatedContactPastorsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/pastor-onboarding': typeof AuthenticatedPastorOnboardingRoute
   '/lookup/$token': typeof LookupTokenRoute
   '/lookup/': typeof LookupIndexRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
@@ -292,6 +302,7 @@ export interface FileRouteTypes {
     | '/chambers'
     | '/contact-pastors'
     | '/dashboard'
+    | '/pastor-onboarding'
     | '/lookup/$token'
     | '/lookup/'
     | '/admin/audit'
@@ -320,6 +331,7 @@ export interface FileRouteTypes {
     | '/chambers'
     | '/contact-pastors'
     | '/dashboard'
+    | '/pastor-onboarding'
     | '/lookup/$token'
     | '/lookup'
     | '/admin/audit'
@@ -350,6 +362,7 @@ export interface FileRouteTypes {
     | '/_authenticated/chambers'
     | '/_authenticated/contact-pastors'
     | '/_authenticated/dashboard'
+    | '/_authenticated/pastor-onboarding'
     | '/lookup/$token'
     | '/lookup/'
     | '/_authenticated/admin/audit'
@@ -500,6 +513,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LookupTokenRouteImport
       parentRoute: typeof LookupRoute
     }
+    '/_authenticated/pastor-onboarding': {
+      id: '/_authenticated/pastor-onboarding'
+      path: '/pastor-onboarding'
+      fullPath: '/pastor-onboarding'
+      preLoaderRoute: typeof AuthenticatedPastorOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -598,6 +618,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedChambersRoute: typeof AuthenticatedChambersRouteWithChildren
   AuthenticatedContactPastorsRoute: typeof AuthenticatedContactPastorsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedPastorOnboardingRoute: typeof AuthenticatedPastorOnboardingRoute
   AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
   AuthenticatedAdminInvitesRoute: typeof AuthenticatedAdminInvitesRoute
   AuthenticatedAdminMembersRoute: typeof AuthenticatedAdminMembersRoute
@@ -611,6 +632,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChambersRoute: AuthenticatedChambersRouteWithChildren,
   AuthenticatedContactPastorsRoute: AuthenticatedContactPastorsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedPastorOnboardingRoute: AuthenticatedPastorOnboardingRoute,
   AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
   AuthenticatedAdminInvitesRoute: AuthenticatedAdminInvitesRoute,
   AuthenticatedAdminMembersRoute: AuthenticatedAdminMembersRoute,
