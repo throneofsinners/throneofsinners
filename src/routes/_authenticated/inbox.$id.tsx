@@ -13,6 +13,7 @@ import {
   publishSubmissionPublic,
   unpublishSubmissionPublic,
 } from "@/lib/members.functions";
+import { recommendPartnerMatches } from "@/lib/pastors.functions";
 
 const STATUSES = [
   "received",
