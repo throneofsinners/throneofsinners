@@ -13,6 +13,7 @@ import {
   publishSubmissionPublic,
   unpublishSubmissionPublic,
 } from "@/lib/members.functions";
+import { recommendPartnerMatches } from "@/lib/pastors.functions";
 
 const STATUSES = [
   "received",
@@ -240,6 +241,9 @@ function Detail() {
         ))}
       </section>
 
+      {submission.type === "prayer" && <PartnerMatches submissionId={id} />}
+
+
       <section className="mt-6 rounded-lg border border-gold/30 bg-secondary/40 p-5">
         <h2 className="font-serif text-xl text-ivory">Compose reply</h2>
         <textarea
@@ -273,6 +277,69 @@ function Detail() {
         </button>
       </section>
     </main>
+  );
+}
+
+function PartnerMatches({ submissionId }: { submissionId: string }) {
+  const fn = useServerFn(recommendPartnerMatches);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["partner-matches", submissionId],
+    queryFn: () => fn({ data: { submission_id: submissionId, limit: 8 } }),
+  });
+  const matches = (data ?? []).filter((m) => Number(m.score) > 0);
+
+  return (
+    <section className="mt-6 rounded-lg border border-gold/30 bg-secondary/40 p-5">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="font-serif text-xl text-ivory">Suggested partner matches</h2>
+          <p className="text-xs text-muted-foreground">
+            Ranked by shared topic and location tokens. Review before recommending a match.
+          </p>
+        </div>
+      </div>
+      {isLoading && <p className="mt-4 text-sm text-muted-foreground">Scoring candidates…</p>}
+      {error && <p className="mt-4 text-sm text-red-400">{(error as Error).message}</p>}
+      {!isLoading && matches.length === 0 && (
+        <p className="mt-4 text-sm text-muted-foreground">
+          No overlapping partner requests found yet.
+        </p>
+      )}
+      <ul className="mt-4 space-y-3">
+        {matches.map((m) => (
+          <li key={m.id} className="rounded-md border border-border bg-background/40 p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-xs">
+                <span className="rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 font-mono text-gold">
+                  score {Number(m.score).toFixed(0)}
+                </span>
+                {m.category && (
+                  <span className="rounded-full border border-border px-2 py-0.5 text-muted-foreground">
+                    {m.category}
+                  </span>
+                )}
+                {m.shared_location && (
+                  <span className="rounded-full border border-emerald-500/40 bg-emerald-900/20 px-2 py-0.5 text-emerald-200">
+                    shared: {m.shared_location}
+                  </span>
+                )}
+              </div>
+              <Link
+                to="/inbox/$id"
+                params={{ id: m.id }}
+                className="text-xs uppercase tracking-[0.2em] text-gold hover:underline"
+              >
+                Open →
+              </Link>
+            </div>
+            <p className="mt-2 line-clamp-3 text-sm text-ivory/90">{m.content}</p>
+            <p className="mt-2 text-[11px] text-muted-foreground">
+              {m.location || "—"} · {new Date(m.created_at).toLocaleDateString()} · {m.status}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
